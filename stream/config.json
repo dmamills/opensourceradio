@@ -1,0 +1,61 @@
+{
+  "stream_url": "rtmp://localhost/live/opensourceradio",
+  "stream_key": "opensourceradio",
+  "ffmpeg_path": "/usr/local/bin/ffmpeg",
+  "video_codec": "libx264",
+  "audio_codec": "aac",
+  "audio_bit_rate": "128k",
+  "audio_sample_rate": "44100",
+  "normalize_audio": true,
+  "video_height": "720",
+  "video_width": "1280",
+  "video_bit_rate": "2500k",
+  "video_fps": "25",
+  "bufsize": "2500k",
+  "crf": "28",
+  "preset": "superfast",
+  "threads": 2,
+  "max_gif_size": "720",
+  "api": {
+    "host": "localhost",
+    "port": "9000",
+    "key": "super-secret-api-key",
+    "number_of_history_items": 100
+  },
+  "radio": {
+    "audio_directory": "./audio",
+    "video_directory": "./video",
+    "overlay": {
+      "enabled": true,
+      "font_path": "./fonts/SourceCodePro.ttf",
+      "title": {
+        "enabled": true,
+        "text": "opensourceradio!",
+        "font_color": "#FFFFFF",
+        "font_border": "#000000",
+        "font_size": "12",
+        "position_x": "2",
+        "position_y": "5"
+      }
+    }
+  },
+  "interlude": {
+    "enabled": "true",
+    "frequency": "0.2",
+    "audio_directory": "./interludes/audio",
+    "video_directory": "./interludes/video",
+    "overlay": {
+      "enabled": true,
+      "font_path": "./fonts/SourceCodePro.ttf",
+      "title": {
+        "enabled": true,
+        "text": "Stream is getting ready!",
+        "font_color": "#FFFFFF",
+        "font_border": "#000000",
+        "font_size": "10",
+        "position_x": "2",
+        "position_y": "5"
+      }
+    }
+  }
+}
