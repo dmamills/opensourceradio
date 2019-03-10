@@ -3,16 +3,18 @@ import stylish from '@dmamills/stylish';
 import flvjs from 'flv.js';
 import Controls from './Controls';
 import cn from 'classnames';
-import styles from '../styles';
+import { flex, column } from '../styles';
 
-const { flexCenter, flexGrow, flex, column, alignItemsCenter } = styles;
-const STREAM_URL = 'http://localhost:8000/live/example.flv';
+const STREAM_URL = 'http://localhost:8000/live/opensourceradio.flv';
 
 const playerContainer = stylish({
   height: '400px',
 });
 
 class StreamPlayer extends Component {
+  state = {
+    playing: false
+  }
   componentDidMount() {
     this.flvPlayer = flvjs.createPlayer({ // eslint-disable-line no-undef
       type: 'flv',
@@ -23,55 +25,62 @@ class StreamPlayer extends Component {
     this.flvPlayer.attachMediaElement(this.videoElement);
 
     this.videoElement.addEventListener('ended', () => {
-      console.log('[StreamPlayer] reloading.');
-      setTimeout(this.start, 1);
+      this.setState({
+        playing: false
+      }, this.start);
     });
 
     this.start();
   }
 
   start = () => {
-    console.log('[StreamPlayer] start');
+    const { playing } = this.state;
+    if(playing) return;
+
     this.flvPlayer.unload();
     this.flvPlayer.load();
     this.flvPlayer.play();
+    this.setState({ playing: true });
   }
 
   componentWillUnmount() {
     this.flvPlayer.destroy();
   }
 
-  getVideoReference = (el) => {
+  getVideoReference = el => {
     this.videoElement = el;
   }
 
   onPlay = () => {
-    this.flvPlayer.play();
+    this.start();
   }
 
   onStop = () => {
+    if(!this.state.playing) return;
+
     this.flvPlayer.pause();
+    this.setState({ playing: false });
   }
 
-  onVolumeChange = (volume) => {
+  onVolumeChange = volume => {
     this.videoElement.volume = volume;
   }
 
   render() {
-    return <div className={cn(flex, flexCenter, flexGrow, column)}>
-      <div className={cn(flex, alignItemsCenter)}>
+    return (
+      <div className={cn(flex, column)}>
         <video
           ref={this.getVideoReference}
           className={playerContainer}
         >
         </video>
+        <Controls
+          onPlay={this.onPlay}
+          onStop={this.onStop}
+          onVolumeChange={this.onVolumeChange}
+        />
       </div>
-      <Controls
-        onPlay={this.onPlay}
-        onStop={this.onStop}
-        onVolumeChange={this.onVolumeChange}
-      />
-    </div>
+    );
   }
 }
 

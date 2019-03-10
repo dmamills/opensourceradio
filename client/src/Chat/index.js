@@ -2,14 +2,13 @@ import React, { Component } from 'react';
 import io from "socket.io-client";
 import cn from 'classnames';
 import stylish from '@dmamills/stylish';
-import styles from '../styles';
 import ChatInput from './ChatInput';
 import History from './History';
+import { listStyleNone, p1, flex2 } from '../styles';
 
 import { getName, setName, SERVER_URL, getHistory } from '../api';
 import { parseTime } from '../utils';
 
-const { listStyleNone, p1, flexGrow } = styles;
 const msgStyles = stylish({
   ':nth-child(odd)': {
     backgroundColor: '#eee'
@@ -73,16 +72,19 @@ class Chat extends Component {
     });
   }
 
-  renderMessage(m) {
-    
-    const { timestamp, name, message } = m;
+  renderMessage(msg) {
+    const { timestamp, name, message } = msg;
     return (
       <li
         className={cn(listStyleNone, p1, msgStyles)}
         key={`${name}-${timestamp}`}
       >
         <div>
-          <strong>[{parseTime(timestamp)}] {name}</strong>: <span>{message}</span>
+          <strong>[{parseTime(timestamp)}]</strong>
+          <span>{` <`}</span>
+          <strong>{name}</strong>
+          <span>{`> `}</span>
+          <span>{message}</span>
         </div>
       </li>
     );
@@ -91,12 +93,16 @@ class Chat extends Component {
   render() {
     const { messages, name } = this.state;
     return (
-      <div className={flexGrow}>
+      <div className={flex2}>
         <History
           messages={messages}
           renderMessage={this.renderMessage}
         />
-        <ChatInput name={name} sendName={this.sendName} sendMessage={this.sendMessage} />
+        <ChatInput
+          name={name}
+          sendName={this.sendName}
+          sendMessage={this.sendMessage}
+        />
       </div>
     );
   } 

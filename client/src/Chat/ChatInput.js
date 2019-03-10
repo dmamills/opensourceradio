@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import stylish from '@dmamills/stylish';
 import cn from 'classnames';
-import styles from '../styles';
-
-const { flex, p05, textCenter, flex2 } = styles;
+import { flex, p05, textCenter, flex2 } from '../styles';
 
 const nameField = stylish({
   width: '150px',
@@ -58,6 +56,7 @@ class ChatInput extends Component {
           {name || 'Enter Name:'}
         </span>
         <input
+          placeholder={name ? 'Enter Message' : 'Enter Name'}
           className={flex2}
           onKeyUp={this.onKeyUp}
           onChange={this.onChange}

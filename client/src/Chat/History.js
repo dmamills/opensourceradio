@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import cn from 'classnames';
 import stylish from '@dmamills/stylish';
-import styles from '../styles';
+import { m0, p0 } from '../styles';
 
-const { m0, p0 } = styles;
-
-const chatBox = stylish({
+const [ chatBox, h0 ] = stylish({
   maxHeight: '400px',
   overflowY: 'scroll'
+}, {
+  height: '0px'
 });
 
 class History extends Component {
@@ -22,8 +22,8 @@ class History extends Component {
         {messages.length ? messages.map(renderMessage) :
           <li>No Messages</li>
         }
-        <li 
-          style={{ height: '0px' }}
+        <li
+          className={h0}
           ref={(el) => { this.messagesEnd = el; }}
         >
         </li>

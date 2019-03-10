@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import styles from '../styles';
-const { flexGrow, p1 } = styles;
+import cn from 'classnames';
+import { flex, flexGrow, p1, alignItemsCenter } from '../styles';
 
 class Volume extends Component {
   state = {
@@ -16,7 +16,7 @@ class Volume extends Component {
   render() {
     const { volume } = this.state;
     return (
-      <div className={`${flexGrow} ${p1}`}>
+      <div className={cn(flex, flexGrow, p1, alignItemsCenter)}>
         <label htmlFor="volume">Volume</label>
         <input 
           type="range"

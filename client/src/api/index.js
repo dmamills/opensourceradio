@@ -1,5 +1,5 @@
 export const SERVER_URL = 'http://localhost:3000';
-const NAME_KEY = 'SAVED_NAMED';
+const NAME_KEY = 'OSR_CHAT_NAME';
 
 export function getName() {
   return localStorage.getItem(NAME_KEY);

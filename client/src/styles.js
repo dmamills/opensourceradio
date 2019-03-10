@@ -1,11 +1,13 @@
 import stylish from '@dmamills/stylish';
 
-const [ 
+export const [ 
   flex,
   alignItemsCenter,
   flexCenter,
   column,
   spacedEvenly,
+  spaceBetween,
+  justifyEnd,
   flexGrow,
   flex2,
   textCenter,
@@ -14,12 +16,15 @@ const [
   p05,
   p0,
   m0,
+  debugBox,
  ] = stylish(
   { display: 'flex' },
   { alignItems: 'center' },
   { alignItems: 'center', justifyContent: 'center' },
   { flexDirection: 'column' },
   { justifyContent: 'space-evenly' },
+  { justifyContent: 'space-between' },
+  { justifyContent: 'flex-end' },
   { flexGrow: '1' },
   { flex: '2' },
   { textAlign: 'center' },
@@ -28,6 +33,7 @@ const [
   { padding: '0.5rem' },
   { padding: '0' },
   { margin: '0' },
+  { border: '1px solid black' },
 );
 
 
@@ -37,6 +43,8 @@ export default {
   flexCenter,
   column,
   spacedEvenly,
+  spaceBetween,
+  justifyEnd,
   flexGrow,
   flex2,
   textCenter,
@@ -45,4 +53,5 @@ export default {
   m0,
   p0,
   listStyleNone,
+  debugBox,
 }

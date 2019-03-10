@@ -36,6 +36,33 @@
         "font_size": "12",
         "position_x": "2",
         "position_y": "5"
+      },
+      "artist": {
+        "enabled": true,
+        "label": "Artist: ",
+        "font_color": "#FFFFFF",
+        "font_border": "#000000",
+        "font_size": "10",
+        "position_x": "2",
+        "position_y": "15"
+      },
+      "album": {
+        "enabled": false,
+        "label": "Album: ",
+        "font_color": "#FFFFFF",
+        "font_border": "#000000",
+        "font_size": "10",
+        "position_x": "2",
+        "position_y": "25"
+      },
+      "song": {
+        "enabled": true,
+        "label": "Song: ",
+        "font_color": "#FFFFFF",
+        "font_border": "#000000",
+        "font_size": "10",
+        "position_x": "2",
+        "position_y": "25"
       }
     }
   },

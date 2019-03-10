@@ -1,20 +1,22 @@
 import React, { Component } from 'react';
-import styles from './styles';
+
 import Chat from './Chat';
 import StreamPlayer from './StreamPlayer';
-
-const { p1, textCenter, flex, column } = styles;
+import Header from './Header';
+import Footer from './Footer';
+import { flex } from './styles';
 
 class App extends Component {
   render() {
     return (
-      <div className={`App ${p1}`}>
-        <h1 className={textCenter}>open source radio</h1>
-        <div className={`${flex} ${column}`}>
+      <React.Fragment>
+        <Header />
+        <div className={flex}>
           <StreamPlayer />
           <Chat />
         </div>
-      </div>
+        <Footer />
+      </React.Fragment>
     );
   }
 }

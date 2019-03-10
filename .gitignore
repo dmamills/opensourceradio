@@ -1,3 +1,6 @@
 stream/audio/*
 stream/video/*
 stream/interludes/*
+
+.DS_Store
+**/.DS_Store
