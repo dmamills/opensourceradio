@@ -23,16 +23,23 @@ export const [
 );
 
 export const [
-  whiteText, 
+  whiteText,
+  lightGreyText,
   textCenter,
   listStyleNone,
   debugBox,
  ] = stylish(
   { color: 'white' },
+  { color: '#C8C8C8' },
   { textAlign: 'center' },
   { listStyleType: 'none' },
   { border: '1px solid black' },
 );
+
+export const link = stylish({
+  color: '#FFF', 
+  ':hover': { color: '#C8C8C8' }
+});
 
 export const [
   p0,

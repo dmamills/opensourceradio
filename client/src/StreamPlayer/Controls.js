@@ -15,7 +15,7 @@ const btn = stylish({
   transition: 'color 0.6s',
   cursor: 'pointer',
   ':hover': {
-    color: '#eaeaea'
+    color: '#C8C8C8'
   }
 });
 

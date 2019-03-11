@@ -2,8 +2,11 @@
 
 a proof of concept for self hosting streaming radio.
 
-## usage
+## example 
 
+![example stream](example.png)
+
+## usage
 
 ### stream
 

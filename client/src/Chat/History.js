@@ -31,7 +31,6 @@ class History extends Component {
       </ul>
     );
   }
-
 }
 
 export default History
