@@ -1,13 +1,13 @@
 import React from 'react';
 import cn from 'classnames';
-import { p1, flex, spaceBetween, m0 } from './styles';
+import { p1, flex, spaceBetween, m0, whiteText } from './styles';
 
 const Header = () => {
   return (
     <header className={cn(flex, p1, spaceBetween)}>
-      <h1 className={m0}>opensourceradio</h1>
+      <h1 className={cn(m0, whiteText)}>opensourceradio</h1>
       <div>
-        <p>Currently Serving Up: <a href="http://example.com">playlist</a></p>
+        <p className={whiteText}>Current selection from <a href="https://soundcloud.com/illfsresh/sets/jazz-hop">here</a></p>
       </div>
     </header>
   )

@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
 import stylish from '@dmamills/stylish';
 import cn from 'classnames';
-import { flex, p05, textCenter, flex2 } from '../styles';
+import { flex, flex2, p05, textCenter } from '../styles';
 
-const nameField = stylish({
+const [ nameField, container ] = stylish({
   width: '150px',
   backgroundColor: '#eee',
+}, {
+  borderTop: '1px solid black',
+  alignItems: 'center',
+  backgroundColor: '#eee'
 });
 
 class ChatInput extends Component {
@@ -50,21 +54,21 @@ class ChatInput extends Component {
     const { name } = this.props;
     const { message } = this.state;
     return (
-      <div className={flex}>
+      <div className={cn(flex, flex2, container)}>
         <span
           className={cn(p05, textCenter, nameField)}>
           {name || 'Enter Name:'}
         </span>
         <input
           placeholder={name ? 'Enter Message' : 'Enter Name'}
-          className={flex2}
+          className={cn(p05, flex2)}
           onKeyUp={this.onKeyUp}
           onChange={this.onChange}
           value={message}
           type="text"
         />
-        <button onClick={this.onMessage}>Submit</button>
-        { name && <button onClick={this.logout}>Logout</button> }
+        <button className={p05} onClick={this.onMessage}>Submit</button>
+        { name && <button className={p05} onClick={this.logout}>Logout</button> }
       </div>
     );
   }

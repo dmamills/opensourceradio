@@ -5,26 +5,29 @@ import Volume from './Volume';
 import { flex, p1 } from '../styles';
 
 const btn = stylish({
-  backgroundColor: 'blue',
-  border: '0',
+  backgroundColor: 'rgba(0,0,0,0)',
+  border:'0',
   margin: '0.5rem',
   padding: '0 2rem',
   borderRadius: '0.5rem',
   color: '#FFF',
-  fontSize: '1.3rem',
-  transition: 'color 0.5s ease-in',
+  fontSize: '2.5rem',
+  transition: 'color 0.6s',
   cursor: 'pointer',
   ':hover': {
-    backgroundColor: 'red'
+    color: '#eaeaea'
   }
 });
 
 const Controls = props => {
-  const { onPlay, onStop, onVolumeChange } = props;
+  const { onPlay, onStop, onVolumeChange, playing } = props;
+  const button = playing ?
+   <button className={btn} onClick={onStop}>■</button> :
+   <button className={btn} onClick={onPlay}>▶</button>;
+
   return (
     <div className={cn(flex, p1)}>
-      <button className={btn} onClick={onPlay}>▶</button>
-      <button className={btn} onClick={onStop}>■</button>
+      {button}   
       <Volume onVolumeChange={onVolumeChange} />
     </div>
   );

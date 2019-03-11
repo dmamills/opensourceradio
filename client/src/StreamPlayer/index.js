@@ -75,6 +75,7 @@ class StreamPlayer extends Component {
         >
         </video>
         <Controls
+          playing={this.state.playing}
           onPlay={this.onPlay}
           onStop={this.onStop}
           onVolumeChange={this.onVolumeChange}

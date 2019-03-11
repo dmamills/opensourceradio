@@ -4,7 +4,7 @@ import cn from 'classnames';
 import stylish from '@dmamills/stylish';
 import ChatInput from './ChatInput';
 import History from './History';
-import { listStyleNone, p1, flex2 } from '../styles';
+import { flex, column, listStyleNone, p1, flex2 } from '../styles';
 
 import { getName, setName, SERVER_URL, getHistory } from '../api';
 import { parseTime } from '../utils';
@@ -93,7 +93,7 @@ class Chat extends Component {
   render() {
     const { messages, name } = this.state;
     return (
-      <div className={flex2}>
+      <div className={cn(flex, flex2, column)}>
         <History
           messages={messages}
           renderMessage={this.renderMessage}
