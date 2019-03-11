@@ -10,6 +10,7 @@ export const [
   justifyEnd,
   flexGrow,
   flex2,
+  alignSelfCenter,
 ] = stylish(
   { display: 'flex' },
   { alignItems: 'center' },
@@ -20,6 +21,7 @@ export const [
   { justifyContent: 'flex-end' },
   { flexGrow: '1' },
   { flex: '2' },
+  { alignSelf: 'center' },
 );
 
 export const [
@@ -54,6 +56,20 @@ export const [
 );
 
 export const [
+  ph0,
+  ph05,
+  ph1,
+  ph2
+] = stylish(
+  { padding: '0 0' },
+  { padding: '0 0.5rem' },
+  { padding: '0 1rem' },
+  { padding: '0 2rem' },
+);
+
+
+
+export const [
   mr0,
   mr05,
   mr1,
@@ -63,6 +79,18 @@ export const [
   { marginRight: '0.5rem' },
   { marginRight: '1rem' },
   { marginRight: '2rem' },
+);
+
+export const [
+  ml0,
+  ml05,
+  ml1,
+  ml2
+] = stylish(
+  { marginLeft: '0' },
+  { marginLeft: '0.5rem' },
+  { marginLeft: '1rem' },
+  { marginLeft: '2rem' },
 );
 
 export const [

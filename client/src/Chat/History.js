@@ -6,7 +6,6 @@ import { m0, p0 } from '../styles';
 const [ chatBox, h0 ] = stylish({
   maxHeight: '425px',
   overflowY: 'scroll',
-  marginBottom: '-15px',
 }, {
   height: '0px'
 });

@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
 import stylish from '@dmamills/stylish';
 import cn from 'classnames';
-import { flex, flex2, p05, textCenter } from '../styles';
+import { flex, flex2, p05, textCenter, whiteText, mr1, spaceBetween } from '../styles';
 
 const [ nameField, container ] = stylish({
   width: '150px',
-  backgroundColor: '#eee',
 }, {
-  borderTop: '1px solid black',
   alignItems: 'center',
-  backgroundColor: '#eee'
+  backgroundColor: 'rgba(211,211,211, 0.2)',
 });
 
 class ChatInput extends Component {
@@ -56,19 +54,21 @@ class ChatInput extends Component {
     return (
       <div className={cn(flex, flex2, container)}>
         <span
-          className={cn(p05, textCenter, nameField)}>
+          className={cn(p05, textCenter, nameField, whiteText)}>
           {name || 'Enter Name:'}
         </span>
         <input
           placeholder={name ? 'Enter Message' : 'Enter Name'}
-          className={cn(p05, flex2)}
+          className={cn(p05, flex2, mr1)}
           onKeyUp={this.onKeyUp}
           onChange={this.onChange}
           value={message}
           type="text"
         />
-        <button className={p05} onClick={this.onMessage}>Submit</button>
-        { name && <button className={p05} onClick={this.logout}>Logout</button> }
+        <div className={cn(flex, spaceBetween, mr1)}>
+          <button className={p05} onClick={this.onMessage}>Submit</button>
+          { name && <button className={p05} onClick={this.logout}>Logout</button> }
+        </div>
       </div>
     );
   }

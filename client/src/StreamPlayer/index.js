@@ -3,7 +3,7 @@ import stylish from '@dmamills/stylish';
 import flvjs from 'flv.js';
 import Controls from './Controls';
 import cn from 'classnames';
-import { flex, column } from '../styles';
+import { flex, column, ml1 } from '../styles';
 
 const STREAM_URL = 'http://localhost:8000/live/opensourceradio.flv';
 
@@ -68,7 +68,7 @@ class StreamPlayer extends Component {
 
   render() {
     return (
-      <div className={cn(flex, column)}>
+      <div className={cn(ml1, flex, column)}>
         <video
           ref={this.getVideoReference}
           className={playerContainer}
