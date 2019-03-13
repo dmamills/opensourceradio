@@ -3,6 +3,7 @@ import stylish from '@dmamills/stylish';
 export const [
   flex,
   alignItemsCenter,
+  alignItemsEnd,
   flexCenter,
   column,
   spacedEvenly,
@@ -14,6 +15,7 @@ export const [
 ] = stylish(
   { display: 'flex' },
   { alignItems: 'center' },
+  { alignItems: 'flex-end' },
   { alignItems: 'center', justifyContent: 'center' },
   { flexDirection: 'column' },
   { justifyContent: 'space-evenly' },

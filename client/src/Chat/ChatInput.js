@@ -6,8 +6,9 @@ import { flex, flex2, p05, textCenter, whiteText, mr1, spaceBetween } from '../s
 const [ nameField, container ] = stylish({
   width: '150px',
 }, {
+  borderTop: '1px solid rgba(0, 0, 0, 0.4)',
   alignItems: 'center',
-  backgroundColor: 'rgba(211,211,211, 0.2)',
+  backgroundColor: 'rgba(211, 211, 211, 0.2)',
 });
 
 class ChatInput extends Component {

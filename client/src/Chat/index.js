@@ -5,18 +5,10 @@ import stylish from '@dmamills/stylish';
 
 import ChatInput from './ChatInput';
 import History from './History';
+import Message from './Message';
 import { flex, column, listStyleNone, p1, flex2, ph1, whiteText } from '../styles';
 import { getName, setName, SERVER_URL, getHistory } from '../api';
 import { parseTime } from '../utils';
-
-const msgStyles = stylish({
-  ':nth-child(odd)': {
-    backgroundColor: 'rgba(211,211,211, 0.2)'
-  },
-  ":nth-child(even)": {
-    backgroundColor: 'rgba(169,169,169, 0.2)'
-  }
-});
 
 class Chat extends Component {
   state = {
@@ -72,29 +64,13 @@ class Chat extends Component {
     });
   }
 
-  renderMessage(msg) {
-    const { timestamp, name, message } = msg;
-    return (
-      <li
-        className={cn(listStyleNone, p1, msgStyles)}
-        key={`${name}-${timestamp}`}
-      >
-        <div>
-          <strong className={whiteText}>[{parseTime(timestamp)}]</strong>
-          <strong className={whiteText}>{` <${name}> `}</strong>
-          <span className={whiteText}>{message}</span>
-        </div>
-      </li>
-    );
-  }
-
   render() {
     const { messages, name } = this.state;
     return (
       <div className={cn(flex, flex2, column, ph1)}>
         <History
           messages={messages}
-          renderMessage={this.renderMessage}
+          renderMessage={m => Message(m)}
         />
         <ChatInput
           name={name}

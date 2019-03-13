@@ -3,10 +3,11 @@ const http = require('http');
 const socketio = require('socket.io');
 const app = express();
 const cors = require('cors');
-const SERVER_PORT = 3000;
+const morgan = require('morgan')
 const { NodeMediaServer } = require('node-media-server');
+const knex = require('knex')(require('./knexfile').development);
 
-var knex = require('knex')(require('./knexfile').development);
+const SERVER_PORT = 3000;
 
 const mediaServerConfig = {
   rtmp: {
@@ -26,6 +27,7 @@ const mediaServerConfig = {
 const server = http.createServer(app);
 const io = socketio(server);
 
+app.use(morgan('combined'));
 app.use(cors());
 
 function getHistory() {

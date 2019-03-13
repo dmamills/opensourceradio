@@ -1,33 +1,31 @@
 import React, { Component } from 'react';
 import cn from 'classnames';
 import stylish from '@dmamills/stylish';
-import { m0, p0 } from '../styles';
+import { p0, m0, flex, justifyEnd, column } from '../styles';
 
-const [ chatBox, h0 ] = stylish({
-  maxHeight: '425px',
+const chatBox = stylish({
+  height: '425px',
   overflowY: 'scroll',
-}, {
-  height: '0px'
 });
 
 class History extends Component {
   componentDidUpdate() {
-    this.messagesEnd.scrollIntoView({  behavior: 'smooth' });
+    this.messagesEl.scrollTop = this.messagesEl.scrollHeight;
   }
 
   render() {
     const { messages, renderMessage } = this.props;
     return (
-      <ul className={cn(m0, p0, chatBox)}>
-        {messages.length ? messages.map(renderMessage) :
-          <li>No Messages</li>
-        }
-        <li
-          className={h0}
-          ref={(el) => { this.messagesEnd = el; }}
-        >
-        </li>
-      </ul>
+      <div 
+        className={chatBox}
+        ref={el => { this.messagesEl = el; }}
+      >
+        <ul className={cn(flex, column, justifyEnd, m0, p0)}>
+          { messages.length ? messages.map(renderMessage) :
+            renderMessage({ message: 'No Messages Yet!', name: 'Admin', timestamp: Date() })
+          }
+        </ul>
+      </div>
     );
   }
 }
