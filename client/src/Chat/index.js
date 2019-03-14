@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import io from "socket.io-client";
 import cn from 'classnames';
-import stylish from '@dmamills/stylish';
 
 import ChatInput from './ChatInput';
 import History from './History';
 import Message from './Message';
-import { flex, column, listStyleNone, p1, flex2, ph1, whiteText } from '../styles';
+import { flex, column, flex2, ph1 } from '../styles';
 import { getName, setName, SERVER_URL, getHistory } from '../api';
-import { parseTime } from '../utils';
 
 class Chat extends Component {
   state = {
