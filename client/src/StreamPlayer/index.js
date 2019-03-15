@@ -5,7 +5,7 @@ import Controls from './Controls';
 import cn from 'classnames';
 import { flex, column, ml1 } from '../styles';
 
-const STREAM_URL = 'http://localhost:8000/live/opensourceradio.flv';
+const STREAM_URL = process.env.REACT_APP_STREAM_URL;
 
 const playerContainer = stylish({
   height: '400px',
