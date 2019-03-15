@@ -1,5 +1,17 @@
 import stylish from '@dmamills/stylish';
 
+stylish.raw(`
+ .app-container {
+    flex-direction: row;
+  }
+
+  @media screen and (max-width: 800px){
+    .app-container {
+      flex-direction: column;
+    }
+  }
+`)
+
 export const [
   flex,
   alignItemsCenter,

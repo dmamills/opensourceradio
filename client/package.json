@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@dmamills/stylish": "^1.0.0",
+    "@dmamills/stylish": "^1.1.0",
     "classnames": "^2.2.6",
     "flv.js": "^1.5.0",
     "react": "^16.8.3",

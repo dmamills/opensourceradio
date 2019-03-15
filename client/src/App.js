@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import cn from 'classnames';
 
 import Chat from './Chat';
 import StreamPlayer from './StreamPlayer';
@@ -11,7 +12,7 @@ class App extends Component {
     return (
       <React.Fragment>
         <Header />
-        <div className={flex}>
+        <div className={cn(flex, 'app-container')}>
           <StreamPlayer />
           <Chat />
         </div>
