@@ -5,9 +5,9 @@ const app = express();
 const cors = require('cors');
 const morgan = require('morgan')
 const { NodeMediaServer } = require('node-media-server');
-const knex = require('knex')(require('./knexfile').development);
 
 const SERVER_PORT = 3000;
+const { getHistory, getPlaylist, saveMessage } = require('./util');
 
 const mediaServerConfig = {
   rtmp: {
@@ -27,25 +27,8 @@ const mediaServerConfig = {
 const server = http.createServer(app);
 const io = socketio(server);
 
-app.use(morgan('combined'));
+app.use(morgan('dev'));
 app.use(cors());
-
-function getHistory() {
-  return knex.select('name', 'message', knex.raw('created_at as timestamp'))
-    .from('messages')
-    .limit(100)
-    .orderBy('created_at');
-}
-
-function saveMessage(message) {
-  return knex('messages')
-    .insert({
-      name: message.name,
-      created_at: message.timestamp,
-      message: message.message
-    });
-}
-
 
 app.get('/history', (req, res) => {
     getHistory()
@@ -56,9 +39,22 @@ app.get('/history', (req, res) => {
     }).catch(error => {
       res.status(500).json({
         error
-      })
-    })
+      });
+    });
 })
+
+app.get('/playlist', (req, res) => {
+  getPlaylist()
+    .then(playlist => {
+      res.json({
+        playlist
+      });
+    }).catch(error => {
+      res.status(500).json({
+        error
+      });
+    });
+});
 
 io.on('connection', function(socket) {
   console.log('a user connected');
