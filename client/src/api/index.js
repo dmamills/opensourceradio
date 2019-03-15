@@ -18,3 +18,10 @@ export function getHistory() {
   .then(res => res.json())
   .then(res => res.history);
 }
+
+export function getPlaylist() {
+
+  return fetch(`${SERVER_URL}/playlist`)
+  .then(res => res.json())
+  .then(res => res.playlist)
+}
