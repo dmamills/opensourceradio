@@ -81,8 +81,6 @@ export const [
   { padding: '0 2rem' },
 );
 
-
-
 export const [
   mr0,
   mr05,

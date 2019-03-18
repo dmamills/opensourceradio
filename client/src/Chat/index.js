@@ -1,18 +1,61 @@
 import React, { Component } from 'react';
-import io from "socket.io-client";
 import cn from 'classnames';
 
 import ChatInput from './ChatInput';
 import History from './History';
 import Message from './Message';
 import { flex, column, flex2, ph1 } from '../styles';
-import { getName, setName, SERVER_URL, getHistory } from '../api';
+import { getName, setName, getHistory } from '../api';
 
 class Chat extends Component {
   state = {
     name: null,
     message: '',
-    messages: [],
+    messages: []
+  }
+
+  componentDidMount() {
+    const { socket } = this.props;
+    socket.on('message', this.addMessage);
+    socket.on('name-used', this.onNameInUse);
+
+    const name = getName();
+    if(name) {
+      socket.emit('name-set', { name });
+      socket.once('name-accepted', this.onNameAccepted);
+    }
+
+    this.loadHistory();
+  }
+
+  onNameAccepted = ({ name }) => {
+    setName(name);
+    this.setState({
+      name
+    });
+  }
+
+  onNameInUse = () => {
+    this.addMessage({
+      name: 'Admin',
+      message: 'Name already in use!',
+      timestamp: Date.now()
+    });
+  }
+
+  componentWillUnmount() {
+    const { socket } = this.props;
+    socket.off('message', this.addMessage);
+    socket.off('name-used', this.onNameInUse);
+  }
+
+  loadHistory = () => {
+    getHistory()
+    .then((messages) => {
+      this.setState({
+        messages
+      });
+    });
   }
 
   addMessage = (msg) => {
@@ -20,35 +63,12 @@ class Chat extends Component {
     messages.push(msg);
     this.setState({
       messages,
-    }) 
-  }
-
-  componentDidMount() {
-    this.socket = io.connect(SERVER_URL);
-    this.socket.on("message", this.addMessage);
-
-    const name = getName();
-    if(name) {
-      this.setState({
-        name
-      })
-    }
-
-    getHistory()
-    .then((messages) => {
-      this.setState({
-        messages
-      })
     });
-  }
-
-  componentWillUnmount() {
-    this.socket.close();
   }
 
   sendMessage = message => {
     const { name } = this.state;
-    this.socket.emit('message', {
+    this.props.socket.emit('message', {
       message,
       name,
       timestamp: Date.now()
@@ -56,10 +76,14 @@ class Chat extends Component {
   }
 
   sendName = name => {
-    setName(name);
-    this.setState({
-      name
-    });
+    const { socket } = this.props;
+    if(!name) {
+      socket.emit('name-unset', { name: this.state.name });
+      this.setState({ name });
+    } else {
+      socket.emit('name-set', { name });
+      socket.once('name-accepted', this.onNameAccepted);
+    }
   }
 
   render() {
