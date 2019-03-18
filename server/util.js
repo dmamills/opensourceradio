@@ -6,8 +6,8 @@ const API_KEY = require('../stream/config.json').api.key;
 function getHistory() {
   return knex.select('name', 'message', knex.raw('created_at as timestamp'))
     .from('messages')
-    .limit(100)
-    .orderBy('created_at');
+    .orderBy('created_at', 'DESC')
+    .limit(10);
 }
 
 function getPlaylist() {

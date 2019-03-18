@@ -6,7 +6,7 @@ const cors = require('cors');
 const morgan = require('morgan')
 const { NodeMediaServer } = require('node-media-server');
 
-const SERVER_PORT = 3000;
+const SERVER_PORT = 3001;
 const { getHistory, getPlaylist, saveMessage } = require('./util');
 
 const mediaServerConfig = {
@@ -23,7 +23,6 @@ const mediaServerConfig = {
   }
 };
 
-
 const server = http.createServer(app);
 const io = socketio(server);
 
@@ -33,13 +32,13 @@ app.use(cors());
 app.get('/history', (req, res) => {
     getHistory()
     .then((history) => {
+      history = history.reverse();
       res.json({
         history
       });
     }).catch(error => {
-      res.status(500).json({
-        error
-      });
+     console.log(error);
+      res.json({ history: [] });
     });
 })
 
@@ -56,11 +55,45 @@ app.get('/playlist', (req, res) => {
     });
 });
 
+const connectedUsers = {};
+
+function emitUsers(key) {
+  const users = Object.keys(connectedUsers);
+  console.log(`sending ${key}`, users);
+  io.emit(key, { users });
+}
+
 io.on('connection', function(socket) {
-  console.log('a user connected');
+  console.log('socket#connection');
+
+  let socketName = null;
+
+  socket.on('name-set', ({ name }) => {
+    console.log('socket#name-set', name);
+
+    if(connectedUsers[name]) {
+      console.log('emitting socket#name-used', name);
+      socket.emit('name-used', { error: 'name already set'});
+      return;
+    }
+
+    socketName = name;
+    console.log('emitting socket#name-accepted');
+    socket.emit('name-accepted', { name });
+
+    connectedUsers[name] = true;
+    emitUsers('user-joined');
+  });
+
+  socket.on('name-unset', () => {
+    delete connectedUsers[socketName];
+    emitUsers('user-left');
+  })
 
   socket.on('message', msg => {
     console.log('server got message', msg);
+
+    if(msg.name)
     saveMessage(msg)
       .then(result => {
         console.log('save successful, sending message');
@@ -71,8 +104,10 @@ io.on('connection', function(socket) {
   });
 
   socket.on('disconnect', () => {
-    console.log('user disconnected');
-  })
+    console.log('socket#disconnected', socketName);
+    delete connectedUsers[socketName];
+    emitUsers('user-left');
+  });
 });
 
 server.listen(SERVER_PORT, () => {
