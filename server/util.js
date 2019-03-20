@@ -7,7 +7,7 @@ function getHistory() {
   return knex.select('name', 'message', knex.raw('created_at as timestamp'))
     .from('messages')
     .orderBy('created_at', 'DESC')
-    .limit(10);
+    .limit(50);
 }
 
 function getPlaylist() {

@@ -9,7 +9,7 @@ const modalContainer = stylish({
   top: '50px',
   right: '0',
   height: '600px',
-  width: '400px',
+  width: '200px',
   backgroundColor: 'white',
   overflowY: 'scroll',
   padding: '1rem',
