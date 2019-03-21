@@ -7,7 +7,8 @@ const morgan = require('morgan')
 const { NodeMediaServer } = require('node-media-server');
 
 const SERVER_PORT = 3001;
-const { getHistory, getPlaylist, saveMessage } = require('./util');
+const api = require('./routes/api');
+const { saveMessage } = require('./util');
 
 const mediaServerConfig = {
   rtmp: {
@@ -28,32 +29,7 @@ const io = socketio(server);
 
 app.use(morgan('dev'));
 app.use(cors());
-
-app.get('/history', (req, res) => {
-    getHistory()
-    .then((history) => {
-      history = history.reverse();
-      res.json({
-        history
-      });
-    }).catch(error => {
-     console.log(error);
-      res.json({ history: [] });
-    });
-})
-
-app.get('/playlist', (req, res) => {
-  getPlaylist()
-    .then(playlist => {
-      res.json({
-        playlist
-      });
-    }).catch(error => {
-      res.status(500).json({
-        error
-      });
-    });
-});
+app.use('/api', api);
 
 const connectedUsers = {};
 
