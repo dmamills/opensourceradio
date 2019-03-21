@@ -116,3 +116,9 @@ export const [
   { margin: '1rem' },
   { margin: '2rem' },
 );
+
+export const [ mainTheme, mainTheme08 ] = stylish(
+  { backgroundColor: 'rgb(107,127,149)' },
+  { backgroundColor: 'rgba(107,127,149, 0.8)' },
+);
+

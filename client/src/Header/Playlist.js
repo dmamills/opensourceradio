@@ -2,7 +2,7 @@ import React from 'react';
 import cn from 'classnames';
 import stylish from '@dmamills/stylish';
 
-import { flex, spaceBetween } from '../styles';
+import { flex, spaceBetween, mainTheme08, whiteText } from '../styles';
 
 const modalContainer = stylish({
   position: 'absolute',
@@ -10,14 +10,13 @@ const modalContainer = stylish({
   right: '0',
   height: '600px',
   width: '400px',
-  backgroundColor: 'white',
   overflowY: 'scroll',
   padding: '1rem',
 });
 
 const Playlist = ({ playlist }) => {
   return (
-    <div className={modalContainer}>
+    <div className={cn(modalContainer, mainTheme08, whiteText)}>
       <div className={cn(flex, spaceBetween)}>
         <h1>Playlist</h1>
       </div>
