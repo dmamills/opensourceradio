@@ -2,5 +2,10 @@ stream/audio/*
 stream/video/*
 stream/interludes/*
 
+stream2/node_modules/*
+stream2/audio/*.mp3
+stream2/audio/*.wav
+stream2/video/*.mp4
+
 .DS_Store
 **/.DS_Store
