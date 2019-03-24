@@ -31,10 +31,17 @@ const printSchedule = schedule => {
   console.log('');
   console.log(chalk.yellow(`\tPlaying Schedule: ${schedule.name}`));
   console.log(chalk.yellow(`\tStart Time: ${schedule.startTime.format(TIME_FORMAT)}`));
-  console.log(chalk.yellow(`\tEnd Time: ${schedule.startTime.clone().add(schedule.length, 'h').format(TIME_FORMAT)}`));
+  console.log(chalk.yellow(`\tEnd Time: ${schedule.endTime().format(TIME_FORMAT)}`));
   console.log(chalk.yellow(`\tPlaying for: ${schedule.length} hour${schedule.length > 1 ? 's' : ''}`));
   console.log('');
 }
+
+const printFfmpegHeader = command => {
+  console.log(' ');
+  console.log(`${chalk.blue('Spawned ffmpeg with command:')}`);
+  console.log(command);
+  console.log(' ');
+} 
 
 const getNextSong = (playlist, lastSongPlayed) => {
   let n = lastSongPlayed + 1;
@@ -60,6 +67,8 @@ module.exports = {
   printHeader,
   printMetadata,
   printSchedule,
+  printFfmpegHeader,
   getNextSong,
   shuffleArray,
+  TIME_FORMAT,
 };

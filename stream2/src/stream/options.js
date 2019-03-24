@@ -21,19 +21,12 @@ const addOptions = (metadata) => {
   const streamDuration = delayInSeconds * 2 + Math.ceil(metadata.format.duration);
 
   let outputOptions = [
-    /* `-map [videooutput]`, */
-    /* `-map [audiooutput]`, */
-    // Our fps from earlier
+     `-map [videooutput]`,
+     `-map [audiooutput]`,
     `-r ${FRAMES_PER_SECOND}`,
-    // Group of pictures, want to set to 2 seconds
-    // https://trac.ffmpeg.org/wiki/EncodingForStreamingSites
-    // https://www.addictivetips.com/ubuntu-linux-tips/stream-to-twitch-command-line-linux/
-    // Best Explanation: https://superuser.com/questions/908280/what-is-the-correct-way-to-fix-keyframes-in-ffmpeg-for-dash
     `-g ${parseInt(FRAMES_PER_SECOND, 10) * 2}`,
     `-keyint_min ${FRAMES_PER_SECOND}`,
-    // Stop audio once we hit the specified duration
     `-t ${streamDuration}`,
-    // https://trac.ffmpeg.org/wiki/EncodingForStreamingSites
     `-pix_fmt yuv420p`
   ];
 

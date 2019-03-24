@@ -2,6 +2,7 @@ const ffmpeg = require('fluent-ffmpeg');
 const progress = require('cli-progress');
 const chalk = require('chalk');
 
+const { printFfmpegHeader } = require('../utils');
 const addOptions = require('./options');
 const addFilters = require('./filters');
 
@@ -32,15 +33,12 @@ const runStream = (outputPath, videoPath, audioPath, metadata) => {
       `-f flv`
     ]);
 
-    //command = command.complexFilter(addFilters(metadata));
+    command = command.complexFilter(addFilters(metadata));
     const progressBar = makeProgressBar();
     
     command
       .on('start', commandString => {
-        console.log(' ');
-        console.log(`${chalk.blue('Spawned ffmpeg with command:')}`);
-        console.log(commandString);
-        console.log(' ');
+        printFfmpegHeader(commandString);
         progressBar.start(Math.floor(metadata.format.duration), 0);        
       })
       .on('end', () => {
