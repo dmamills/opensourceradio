@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { getHistory, getPlaylist } = require('../util');
+const { getHistory, getSchedules } = require('../util');
 
 router.get('/history', (req, res) => {
   getHistory()
@@ -15,13 +15,14 @@ router.get('/history', (req, res) => {
   });
 });
 
-router.get('/playlist', (req, res) => {
-  getPlaylist()
-    .then(playlist => {
+router.get('/schedules', (req, res) => {
+  getSchedules()
+    .then(schedules => {
       res.json({
-        playlist
+        schedules
       });
     }).catch(error => {
+      console.log(error);
       res.status(500).json({
         error
       });

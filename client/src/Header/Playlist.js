@@ -14,16 +14,16 @@ const modalContainer = stylish({
   padding: '1rem',
 });
 
-const Playlist = ({ playlist }) => {
+const Playlist = ({ schedules }) => {
   return (
     <div className={cn(modalContainer, mainTheme08, whiteText)}>
       <div className={cn(flex, spaceBetween)}>
-        <h1>Playlist</h1>
+        <h1>Schedules</h1>
       </div>
-      <p>Stream currently randomly selecting from:</p>
+      <p>Upcoming Schedules:</p>
       <ul>
-        {playlist.map(({ artist, title }) => {
-          const val = `${artist} - ${title}`;
+        {schedules.map(({ name, start_time }) => {
+          const val = `${name} - ${start_time}`;
           return <li key={val}>{val}</li>
         })}
       </ul>

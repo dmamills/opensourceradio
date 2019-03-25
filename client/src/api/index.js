@@ -19,9 +19,9 @@ export function getHistory() {
   .then(res => res.history);
 }
 
-export function getPlaylist() {
+export function getSchedules() {
 
-  return fetch(`${SERVER_URL}/api/playlist`)
+  return fetch(`${SERVER_URL}/api/schedules`)
   .then(res => res.json())
-  .then(res => res.playlist)
+  .then(res => res.schedules)
 }

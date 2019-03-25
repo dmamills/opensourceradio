@@ -1,4 +1,3 @@
-let config = require('../../config.json');
 const overlayText = require('./overlay');
 
 const FRAMES_PER_SECOND = '24';

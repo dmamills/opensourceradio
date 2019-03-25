@@ -5,8 +5,8 @@ const musicMetadata = require('music-metadata');
 const stream = require('./src/stream');
 const { findCurrentSchedule } = require('./src/schedule');
 const { printMetadata, printHeader, getNextSong, printSchedule } = require('./src/utils');
-const currentConfig = require('./config.json');
 const videoPath = `${__dirname}/video/dock.mp4`;
+const STREAM_URL = 'rtmp://localhost/live/opensourceradio';
 
 const appState = {
   currentSchedule: null,
@@ -20,18 +20,18 @@ const updateState = (currentSchedule, lastSongPlayed) => {
 
 const playSong = () => {
   const { currentSchedule, lastSongPlayed } = appState;
-  const path = currentSchedule.playlist[lastSongPlayed];
+  const audioPath = currentSchedule.playlist[lastSongPlayed];
 
-  console.log(chalk.magenta(`Playing song #${lastSongPlayed} ${path}`));
+  console.log(chalk.magenta(`Playing song #${lastSongPlayed} ${audioPath}`));
 
-  if(!fs.existsSync(path)) {
-    return Promise.reject(`Song at path: ${path} not found!`);
+  if(!fs.existsSync(audioPath)) {
+    return Promise.reject(`Song at path: ${audioPath} not found!`);
   }
 
-  return musicMetadata.parseFile(path, { duration: true })
+  return musicMetadata.parseFile(audioPath, { duration: true })
     .then(metadata => {
       printMetadata(metadata);
-      return stream(currentConfig.stream_url, videoPath, path, metadata)
+      return stream(STREAM_URL, videoPath, audioPath, metadata)
     });
 }
 

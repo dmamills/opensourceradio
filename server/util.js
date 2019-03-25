@@ -10,6 +10,12 @@ function getHistory() {
     .limit(50);
 }
 
+function getSchedules() {
+  return knex.select('id','name', 'start_time', 'length')
+    .from('schedules')
+    .orderBy('start_time');
+}
+
 function getPlaylist() {
   const url = `http://localhost:9000/library/audio?include_metadata=true&api_key=${API_KEY}`;
   return fetch(url)
@@ -38,5 +44,6 @@ function saveMessage(message) {
 module.exports = {
   getHistory,
   getPlaylist,
-  saveMessage
+  saveMessage,
+  getSchedules
 };

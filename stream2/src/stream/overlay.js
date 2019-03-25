@@ -1,9 +1,7 @@
-
 const FONT_PATH = `${__dirname}/../font/scp.ttf`;
 const FONT_SIZE = '10'
 const FONT_COLOR = '#FFFFFF';
 const FONT_BORDER = "#000000";
-
 const X_POSITION = 2;
 
 //TODO: fix sanitize text

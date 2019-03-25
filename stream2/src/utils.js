@@ -21,9 +21,9 @@ const printMetadata = metadata => {
 
 const printHeader = () => {
   console.log('');
-  console.log('Radio Interval');
+  console.log(chalk.blue('\t▶️  Radio Interval'));
   const currentTime = moment().format(TIME_FORMAT);
-  console.log(`Current Time: ${currentTime}`);
+  console.log(chalk.blue(`\tCurrent Time: ${currentTime}`));
   console.log('');
 }
 
