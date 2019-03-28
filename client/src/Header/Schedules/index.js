@@ -19,13 +19,14 @@ const modalContainer = stylish({
 
 const Schedules = ({ schedules }) => {
   schedules = fillEmptyTime(schedules);
+  debugger;
   return (
     <div className={cn(modalContainer, mainTheme, whiteText)}>
       <div className={cn(flex, spaceBetween, p1)}>
-        <h1>Todays Schedules</h1>
+        <h1>Today's Schedule</h1>
       </div>
       <ul className={p0}>
-        {schedules.map(s => <Schedule schedule={s} />)}
+        {schedules.map(s => <Schedule key={s.id} schedule={s} />)}
       </ul>
     </div>
   );

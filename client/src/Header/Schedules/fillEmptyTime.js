@@ -2,12 +2,23 @@ import moment from 'moment';
 const DATE_FORMAT = 'YYYY-MM-DD HH:mm:ss';
 
 const makeSchedule = (start_time, length) => ({
+  id: Date.now(),
   start_time,
   length,
-  name: '🔀 opensourceradio on random! 🔀'
+  name: '🔀 opensourceradio on shuffle! 🔀',
+  description: 'Everything currently in the opensourceradio vault shuffled up!'
 });
 
 const fillEmptyTime = schedules => {
+
+  if(schedules.length === 0) {
+    return [
+      makeSchedule(
+        moment().startOf('day'),
+        24
+      )
+    ]
+  }
 
   let filledSchedule = [];
   schedules.forEach((schedule, idx) => {
