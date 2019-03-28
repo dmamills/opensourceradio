@@ -73,7 +73,7 @@ class Header extends Component {
             onClick={(showSchedules ? this.hideSchedules : this.onSchedulesClick)}
             href="#schedules"
           >
-          {showSchedules ? 'Hide' : 'Show'} scheduling
+          {showSchedules ? 'Hide' : 'Show'} schedule
           </a>
         </div>
         { showSchedules && <Schedules schedules={schedules} /> }
