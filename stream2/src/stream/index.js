@@ -10,6 +10,12 @@ const makeProgressBar = () => {
   return new progress.Bar({ format: 'Audio Progress {bar} {percentage}% | Time Playing: {duration_formatted} |' }, progress.Presets.shades_classic);
 }
 
+const progressToSeconds = progress => {
+  const timestamp = progress.timemark.substring(0, 8);
+  const splitTimestamp = timestamp.split(':');
+  return parseInt(splitTimestamp[0], 10) * 60 * 60 + parseInt(splitTimestamp[1], 10) * 60 + parseInt(splitTimestamp[2], 10);
+}
+
 const runStream = (outputPath, videoPath, audioPath, metadata) => {
   console.log(chalk.magenta(`Starting ffmpeg process`));
   console.log(chalk.magenta(`Streaming to: ${outputPath}`));
@@ -50,10 +56,7 @@ const runStream = (outputPath, videoPath, audioPath, metadata) => {
         reject(err);
       })
       .on('progress', progress => {
-        const timestamp = progress.timemark.substring(0, 8);
-        const splitTimestamp = timestamp.split(':');
-        const seconds = parseInt(splitTimestamp[0], 10) * 60 * 60 + parseInt(splitTimestamp[1], 10) * 60 + parseInt(splitTimestamp[2], 10);
-        progressBar.update(seconds);
+        progressBar.update(progressToSeconds(progress));
       });
 
       command.save(outputPath);

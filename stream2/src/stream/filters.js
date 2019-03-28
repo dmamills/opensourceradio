@@ -11,6 +11,7 @@ const addFilters = metadata => {
   complexFilterString += `[audiooutput] loudnorm [audiooutput]; `;
   complexFilterString += `[0:v] fps=fps=${FRAMES_PER_SECOND}`;
  
+  //const overlayTextFilterString = "";
   const overlayTextFilterString = overlayText(metadata);
   if (overlayTextFilterString) {
     if (complexFilterString.length > 0) {

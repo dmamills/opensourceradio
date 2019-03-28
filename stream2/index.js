@@ -5,43 +5,54 @@ const musicMetadata = require('music-metadata');
 const stream = require('./src/stream');
 const { findCurrentSchedule } = require('./src/schedule');
 const { printMetadata, printHeader, getNextSong, printSchedule } = require('./src/utils');
-const videoPath = `${__dirname}/video/dock.mp4`;
+const videoPath = `${__dirname}/assets/video/dock.mp4`;
+const audioPath = `${__dirname}/assets/audio/`;
 const STREAM_URL = 'rtmp://localhost/live/opensourceradio';
 
 const appState = {
   currentSchedule: null,
-  lastSongPlayed: null
+  lastSongPlayed: null,
+  songCount: 0
 };
 
-const updateState = (currentSchedule, lastSongPlayed) => {
+const updateState = (currentSchedule, lastSongPlayed, songCount) => {
   appState.currentSchedule = currentSchedule;
   appState.lastSongPlayed = lastSongPlayed;
+  appState.songCount = songCount || appState.songCount;
 }
 
 const playSong = () => {
   const { currentSchedule, lastSongPlayed } = appState;
-  const audioPath = currentSchedule.playlist[lastSongPlayed];
+  const currentAudioPath = `${audioPath}${currentSchedule.playlist[lastSongPlayed]}`;
 
-  console.log(chalk.magenta(`Playing song #${lastSongPlayed} ${audioPath}`));
+  console.log(chalk.magenta(`Playing song #${lastSongPlayed} ${currentAudioPath}`));
 
-  if(!fs.existsSync(audioPath)) {
-    return Promise.reject(`Song at path: ${audioPath} not found!`);
+  if(!fs.existsSync(currentAudioPath)) {
+    return Promise.reject(`Song at path: ${currentAudioPath} not found!`);
   }
 
-  return musicMetadata.parseFile(audioPath, { duration: true })
+  return musicMetadata.parseFile(currentAudioPath, { duration: true })
     .then(metadata => {
       printMetadata(metadata);
-      return stream(STREAM_URL, videoPath, audioPath, metadata)
+      return stream(STREAM_URL, videoPath, currentAudioPath, metadata)
     });
 }
 
 const onSongFinished = msg => {
   console.log(chalk.magenta(`Song finished ${msg ? msg : ''}`));
+  updateState(
+    appState.currentSchedule,
+    appState.lastSongPlayed,
+    appState.songCount++
+  );
   radioInterval();
 }
 
 const onSongError = err => {
   console.log(chalk.red('ffmpeg stream error:'), err);
+
+  //WRITE STATE TO FILE?
+  
   process.exit(-1);
 }
 
@@ -56,7 +67,7 @@ const onScheduleSet = (schedule, nextSongIndex) => {
 
 const radioInterval = () => {
   printHeader();
-  const { currentSchedule, lastSongPlayed } = appState;
+  const { currentSchedule, lastSongPlayed, songCount } = appState;
   
   if(!currentSchedule) {
     console.log(chalk.magenta('Getting initial schedule'));
@@ -65,7 +76,7 @@ const radioInterval = () => {
         onScheduleSet(schedule, 0);
       });
   } else if (currentSchedule.isActive()) {
-    console.log(chalk.magenta(`Continuing schedule`));
+    console.log(chalk.magenta(`Continuing schedule, song count: ${songCount}`));
     onScheduleSet(
       currentSchedule,
       getNextSong(currentSchedule.playlist, lastSongPlayed)

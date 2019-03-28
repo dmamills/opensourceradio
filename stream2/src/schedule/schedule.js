@@ -32,7 +32,7 @@ class Schedule {
       schedule.name,
       moment(schedule.start_time, SQL_FORMAT),
       schedule.length,
-      schedule.playlist.split(',').map(getFullPath),
+      schedule.playlist.split(','),
     );
   }
 

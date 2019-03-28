@@ -1,6 +1,6 @@
 const moment = require('moment');
 const chalk = require('chalk');
-const getFullPath = name => { return `${__dirname}/../audio/${name}`; }
+const getFullPath = name => { return `${__dirname}/../assets/audio/${name}`; }
 const pad = n => n < 10 ? `0${n}` : n;
 
 const TIME_FORMAT = 'MMM DD YYYY hh:mm a';
@@ -37,10 +37,10 @@ const printSchedule = schedule => {
 }
 
 const printFfmpegHeader = command => {
-  console.log(' ');
-  console.log(`${chalk.blue('Spawned ffmpeg with command:')}`);
+
+  console.log(`\n${chalk.blue('Spawned ffmpeg with command:')}`);
   console.log(command);
-  console.log(' ');
+  console.log('\n\n\n');
 } 
 
 const getNextSong = (playlist, lastSongPlayed) => {

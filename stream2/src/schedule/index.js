@@ -2,11 +2,11 @@ const moment = require('moment');
 const fs = require('fs');
 const path = require('path');
 const chalk = require('chalk');
-const { getFullPath, shuffleArray } = require('../utils');
+const { shuffleArray } = require('../utils');
 const Schedule = require('./schedule');
 
 const defaultSchedule = () => {
-  const audioDirectory = path.resolve(__dirname, '../../audio');
+  const audioDirectory = path.resolve(__dirname, '../../assets/audio');
   return new Promise(resolve => {
     fs.readdir(audioDirectory, (err, files) => {
       if(err) {
@@ -16,8 +16,8 @@ const defaultSchedule = () => {
       resolve(new Schedule(
         'opensourceradio default playlist',
         moment(),
-        0.05,
-        shuffleArray(files.map(getFullPath)),
+        0.04,
+        shuffleArray(files),
       ));
     });
   });
