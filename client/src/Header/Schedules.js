@@ -1,6 +1,7 @@
 import React from 'react';
 import cn from 'classnames';
 import stylish from '@dmamills/stylish';
+import moment from 'moment';
 
 import { flex, spaceBetween, mainTheme08, whiteText } from '../styles';
 
@@ -14,7 +15,11 @@ const modalContainer = stylish({
   padding: '1rem',
 });
 
-const Playlist = ({ schedules }) => {
+const Schedule = ({ schedule }) => {
+  const { name, start_time, length } = schedule; 
+}
+
+const Schedules = ({ schedules }) => {
   return (
     <div className={cn(modalContainer, mainTheme08, whiteText)}>
       <div className={cn(flex, spaceBetween)}>
@@ -31,4 +36,4 @@ const Playlist = ({ schedules }) => {
   );
 }
 
-export default Playlist;
+export default Schedules;

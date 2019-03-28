@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import cn from 'classnames';
 import { getSchedules } from '../api';
 import { p1, flex, spaceBetween, m0, whiteText, link, alignSelfCenter, mr1 } from '../styles';
-import Playlist from './Playlist';
+import Schedules from './Schedules';
 import UserList from './UserList';
 
 class Header extends Component {
   state = {
-    showPlaylist: false,
+    showSchedules: false,
     showUsers: false,
     users: [],
     schedules: [],
@@ -31,9 +31,9 @@ class Header extends Component {
     });
   }
 
-  onPlaylistClick = () => {
+  onSchedulesClick = () => {
     const { schedules } = this.state;
-    this.setState({ showPlaylist: true, showUsers: false });
+    this.setState({ showSchedules: true, showUsers: false });
 
     if(schedules.length === 0) {
       getSchedules()
@@ -44,27 +44,39 @@ class Header extends Component {
   }
 
   onUserlistClick = () => {
-    this.setState({ showUsers: true, showPlaylist: false });
+    this.setState({ showUsers: true, showSchedules: false });
   }
 
   hideUsers = () => {
     this.setState({ showUsers: false });
   }
 
-  hidePlaylist = () => {
-    this.setState({ showPlaylist: false });
+  hideSchedules = () => {
+    this.setState({ showSchedules: false });
   }
   
   render() {
-    const { showPlaylist, showUsers, users , schedules } = this.state;
+    const { showSchedules, showUsers, users , schedules } = this.state;
     return (
       <header className={cn(flex, p1, spaceBetween)}>
         <h1 className={cn(alignSelfCenter, m0, whiteText)}>opensourceradio</h1>
         <div>
-          <a className={cn(link, mr1)} onClick={(showUsers ? this.hideUsers : this.onUserlistClick)} href="#userlist">{showUsers ? 'Hide' : 'Show'} userlist</a>
-          <a className={link} onClick={(showPlaylist ? this.hidePlaylist : this.onPlaylistClick)} href="#playlist">{showPlaylist ? 'Hide' : 'Show'} scheduling</a>
+          <a
+            className={cn(link, mr1)}
+            onClick={(showUsers ? this.hideUsers : this.onUserlistClick)} 
+            href="#userlist"
+          >
+            {showUsers ? 'Hide' : 'Show'} userlist
+          </a>
+          <a
+            className={link}
+            onClick={(showSchedules ? this.hideSchedules : this.onSchedulesClick)}
+            href="#schedules"
+          >
+          {showSchedules ? 'Hide' : 'Show'} scheduling
+          </a>
         </div>
-        { showPlaylist && <Playlist schedules={schedules} /> }
+        { showSchedules && <Schedules schedules={schedules} /> }
         { showUsers && <UserList users={users} /> }
       </header>
     )
