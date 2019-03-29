@@ -4,22 +4,11 @@ const FONT_COLOR = '#FFFFFF';
 const FONT_BORDER = "#000000";
 const X_POSITION = 2;
 
-//TODO: fix sanitize text
 const sanitizeText = str => {
-  var safeString = str;
-
-  // Safen the string
-  // \ will be \\
-  safeString = safeString.replace(/\\/g, '\\\\');
-
-  // : will be \:
-  safeString = safeString.replace(/\:/g, '\\:');
-
-  // ' will be \'
-  safeString = safeString.replace(/\'/g, '\\\'');
-
-  // Return safe string
-return safeString;
+  str = str.replace(/\\/g, '\\\\');
+  str = str.replace(/\:/g, '\\:');
+  str = str.replace(/\'/g, '\\\'');
+  return str;
 }
 
 const createOverlayText = (text, x, y) => {
