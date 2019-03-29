@@ -1,3 +1,4 @@
+const fs = require('fs');
 const moment = require('moment');
 const chalk = require('chalk');
 const getFullPath = name => { return `${__dirname}/../assets/audio/${name}`; }
@@ -62,6 +63,33 @@ function shuffleArray(a) {
   return a;
 }
 
+const STATE_LOG_FILE = `${process.cwd()}/state.log`;
+
+function writeAppState(appState) {
+  return new Promise((resolve, reject) => {
+    fs.writeFile(STATE_LOG_FILE, JSON.stringify(appState), (err) => {
+      if(err) reject(err.message);
+      else resolve();
+    });
+  })
+}
+
+function loadAppState() {
+  return new Promise((resolve, reject) => {
+    fs.readFile(STATE_LOG_FILE, (err, data) => {
+      if(err) { reject(err.message); }
+      else {
+        try {
+          const state = JSON.parse(data.toString());
+          resolve(state);
+        } catch(e) {
+          reject(e);
+        }
+      }
+    })
+  });
+}
+
 module.exports = {
   getFullPath,
   printHeader,
@@ -70,5 +98,7 @@ module.exports = {
   printFfmpegHeader,
   getNextSong,
   shuffleArray,
+  writeAppState,
+  loadAppState,
   TIME_FORMAT,
 };

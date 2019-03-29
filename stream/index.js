@@ -4,7 +4,7 @@ const musicMetadata = require('music-metadata');
 
 const stream = require('./src/stream');
 const { findCurrentSchedule } = require('./src/schedule');
-const { printMetadata, printHeader, getNextSong, printSchedule } = require('./src/utils');
+const { printMetadata, printHeader, getNextSong, printSchedule, writeAppState, loadAppState } = require('./src/utils');
 const videoPath = `${__dirname}/assets/video/dock.mp4`;
 const audioPath = `${__dirname}/assets/audio/`;
 const STREAM_URL = 'rtmp://localhost/live/opensourceradio';
@@ -43,7 +43,7 @@ const onSongFinished = msg => {
   updateState(
     appState.currentSchedule,
     appState.lastSongPlayed,
-    appState.songCount++
+    ++appState.songCount
   );
   radioInterval();
 }
@@ -51,9 +51,19 @@ const onSongFinished = msg => {
 const onSongError = err => {
   console.log(chalk.red('ffmpeg stream error:'), err);
 
-  //WRITE STATE TO FILE?
+
+  const writeState = Object.create({}, appState);
+  writeState.lastSongPlayed = getNextSong(writeState.playlist, writeState.lastSongPlayed);
+  writeState.songCount++;
   
-  process.exit(-1);
+  //WRITE STATE TO FILE?
+  writeAppState(writeState)
+  .then(() => {
+    process.exit(-1);
+  }, err => {
+    console.log(chalk.red('Failed to write app state: '), err.message);
+    process.exit(-1);
+  });
 }
 
 const onScheduleSet = (schedule, nextSongIndex) => {
@@ -62,7 +72,7 @@ const onScheduleSet = (schedule, nextSongIndex) => {
     schedule,
     nextSongIndex
   );
-  playSong().then(onSongFinished, onSongError);
+  playSong().then(onSongFinished, onSongError).catch(onSongError);
 }
 
 const radioInterval = () => {
@@ -88,10 +98,14 @@ const radioInterval = () => {
   }
 }
 
-const radio = () => {
-  console.log(chalk.magenta(`Welcome to opensource radio. 📻`));
-  console.log(chalk.magenta('Starting server...'))
-  radioInterval();
-}
-
-radio();
+console.log(chalk.magenta(`Welcome to opensource radio. 📻`));
+console.log(chalk.magenta('Starting server...'))
+loadAppState()
+  .then(state => {
+    console.log(chalk.blue('Loaded app state from file.'));
+    appState = state;
+    radioInterval();
+  }, err => {
+    console.log(chalk.blue('No previous app state found'));
+    radioInterval();
+  });

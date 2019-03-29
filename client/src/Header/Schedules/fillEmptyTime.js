@@ -10,7 +10,6 @@ const makeSchedule = (start_time, length) => ({
 });
 
 const fillEmptyTime = schedules => {
-
   if(schedules.length === 0) {
     return [
       makeSchedule(

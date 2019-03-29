@@ -23,6 +23,7 @@ node index.js
 ```
 cd server
 npm install
+./node_modules/.bin/knex migrate:latest
 node index.js
 ```
 
