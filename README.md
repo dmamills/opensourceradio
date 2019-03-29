@@ -1,6 +1,8 @@
 # opensourceradio
 
-a proof of concept for self hosting streaming radio. [come and check it out](http://radio.yomills.com)
+a proof of concept for self hosting streaming radio.
+
+[come and check it out!](http://radio.yomills.com)
 
 ## example 
 
