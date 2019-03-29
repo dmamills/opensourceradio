@@ -13,8 +13,9 @@ a proof of concept for self hosting streaming radio.
 to start radio stream, populate `stream/audio` directory with mp3 files. then run:
 
 ```
-npm install -g live-stream-radio
-live-stream-radio stream
+cd stream2
+npm install
+node index.js
 ```
 
 ### backend 

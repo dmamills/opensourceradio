@@ -1,7 +1,9 @@
-const fetch = require('node-fetch');
 const knex = require('knex')(require('./knexfile').development);
+const moment = require('moment');
+const musicMetadata = require('music-metadata');
 
-const API_KEY = require('../stream/config.json').api.key;
+const ROOT_AUDIO_PATH = `${process.cwd()}/../stream/assets/audio/`;
+const DATE_FORMAT = 'YYYY-MM-DD HH:mm:ss';
 
 function getHistory() {
   return knex.select('name', 'message', knex.raw('created_at as timestamp'))
@@ -10,18 +12,40 @@ function getHistory() {
     .limit(50);
 }
 
-function getPlaylist() {
-  const url = `http://localhost:9000/library/audio?include_metadata=true&api_key=${API_KEY}`;
-  return fetch(url)
-    .then(res => res.json())
-    .then(res => res.audio)
-    .then(songs => {
-      return songs.map(s => {
-        const { title, artist } = s.metadata
-        return {
-          title,
-          artist
-        }
+function getMetadataForSongs(songs) {
+  return Promise.all(songs.map(audioPath => {
+    audioPath = `${ROOT_AUDIO_PATH}${audioPath}`;
+    return musicMetadata.parseFile(audioPath, { duration: true })
+    .then(metadata => {
+      return {
+        artist: metadata.common.artist,
+        album: metadata.common.album,
+        title: metadata.common.title
+      };
+    });
+  })
+  );
+}
+
+function getSchedules() {
+  return knex.select('id', 'name', 'description', 'start_time', 'length', 'playlist')
+    .from('schedules')
+    .where('start_time', '>=', moment().startOf('day').format(DATE_FORMAT))
+    .orderBy('start_time', 'DESC')
+    .then(schedules => {
+      return Promise.all(
+        schedules.map(schedule => {
+          const playlist = schedule.playlist.split(',');
+          return getMetadataForSongs(playlist).then(songs => {
+            schedule.playlist = songs;
+            return schedule;
+          })    
+        })
+      )
+    })
+    .then(schedules => {
+      return schedules.sort((s1, s2) => {
+        return moment(s1.start_time, DATE_FORMAT).diff(moment(s2.start_time, DATE_FORMAT))
       });
     });
 }
@@ -37,6 +61,6 @@ function saveMessage(message) {
 
 module.exports = {
   getHistory,
-  getPlaylist,
-  saveMessage
+  saveMessage,
+  getSchedules
 };

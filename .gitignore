@@ -1,6 +1,8 @@
-stream/audio/*
-stream/video/*
-stream/interludes/*
+
+stream/node_modules/*
+stream/assets/audio/*.mp3
+stream/assets/audio/*.wav
+stream/assets/video/*.mp4
 
 .DS_Store
 **/.DS_Store
