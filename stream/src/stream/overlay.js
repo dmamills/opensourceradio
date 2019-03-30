@@ -1,7 +1,13 @@
+const { getConfig } = require('../utils');
+
+const {
+  FONT_SIZE,
+  FONT_COLOR,
+  FONT_BORDER,
+  OVERLAY_TITLE
+} = getConfig();
+
 const FONT_PATH = `${process.cwd()}/assets/font/scp.ttf`;
-const FONT_SIZE = '10'
-const FONT_COLOR = '#FFFFFF';
-const FONT_BORDER = "#000000";
 const X_POSITION = 2;
 
 const sanitizeText = str => {
@@ -28,7 +34,7 @@ const addOverlay = metadata => {
   const overlayTextItems = [];
   let yPosition = 5;
 
-  overlayTextItems.push(createOverlayText('opensourceradio', X_POSITION, yPosition));
+  overlayTextItems.push(createOverlayText(OVERLAY_TITLE, X_POSITION, yPosition));
   yPosition += 8;
 
   if(common.artist) {

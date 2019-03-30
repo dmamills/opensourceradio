@@ -2,9 +2,16 @@ const ffmpeg = require('fluent-ffmpeg');
 const progress = require('cli-progress');
 const chalk = require('chalk');
 
-const { printFfmpegHeader } = require('../utils');
+const { printFfmpegHeader, getConfig } = require('../utils');
 const addOptions = require('./options');
 const addFilters = require('./filters');
+
+const { FFMPEG_PATH } = getConfig();
+
+if(FFMPEG_PATH && FFMPEG_PATH !== "") {
+  console.log(chalk.magenta('Setting custom ffmpeg path: ', FFMPEG_PATH));
+  ffmpeg.setFfmpegPath(FFMPEG_PATH);
+}
 
 const makeProgressBar = () => {
   return new progress.Bar({ format: 'Audio Progress {bar} {percentage}% | Time Playing: {duration_formatted} |' }, progress.Presets.shades_classic);

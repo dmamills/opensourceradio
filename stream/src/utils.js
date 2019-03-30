@@ -1,9 +1,9 @@
 const fs = require('fs');
 const moment = require('moment');
 const chalk = require('chalk');
-const getFullPath = name => { return `${__dirname}/../assets/audio/${name}`; }
-const pad = n => n < 10 ? `0${n}` : n;
+const getConfig = () => require('../config.json');
 
+const pad = n => n < 10 ? `0${n}` : n;
 const TIME_FORMAT = 'MMM DD YYYY hh:mm a';
 
 const printMetadata = metadata => {
@@ -91,7 +91,6 @@ function loadAppState() {
 }
 
 module.exports = {
-  getFullPath,
   printHeader,
   printMetadata,
   printSchedule,
@@ -101,4 +100,5 @@ module.exports = {
   writeAppState,
   loadAppState,
   TIME_FORMAT,
+  getConfig
 };

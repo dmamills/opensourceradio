@@ -4,10 +4,11 @@ const musicMetadata = require('music-metadata');
 
 const stream = require('./src/stream');
 const { findCurrentSchedule } = require('./src/schedule');
-const { printMetadata, printHeader, getNextSong, printSchedule, writeAppState, loadAppState } = require('./src/utils');
+const { printMetadata, printHeader, getNextSong, printSchedule, writeAppState, loadAppState, getConfig } = require('./src/utils');
+
 const videoPath = `${__dirname}/assets/video/dock.mp4`;
 const audioPath = `${__dirname}/assets/audio/`;
-const STREAM_URL = 'rtmp://localhost/live/opensourceradio';
+const { STREAM_URL } = getConfig();
 
 const appState = {
   currentSchedule: null,
@@ -35,7 +36,7 @@ const playSong = () => {
     .then(metadata => {
       printMetadata(metadata);
       return stream(STREAM_URL, videoPath, currentAudioPath, metadata)
-    });
+    }).catch(onSongError);
 }
 
 const onSongFinished = msg => {
@@ -50,13 +51,14 @@ const onSongFinished = msg => {
 
 const onSongError = err => {
   console.log(chalk.red('ffmpeg stream error:'), err);
+  console.log('Quitting process...');
+  process.exit(-1);
 
-
+  //WRITE STATE TO FILE?
   const writeState = Object.create({}, appState);
   writeState.lastSongPlayed = getNextSong(writeState.playlist, writeState.lastSongPlayed);
   writeState.songCount++;
-  
-  //WRITE STATE TO FILE?
+
   writeAppState(writeState)
   .then(() => {
     process.exit(-1);
@@ -100,6 +102,7 @@ const radioInterval = () => {
 
 console.log(chalk.magenta(`Welcome to opensource radio. 📻`));
 console.log(chalk.magenta('Starting server...'))
+
 loadAppState()
   .then(state => {
     console.log(chalk.blue('Loaded app state from file.'));

@@ -1,18 +1,21 @@
-const WIDTH = 1280;
-const HEIGHT = 720;
+const { getConfig } = require('../utils');
 
-const VIDEO_CODEC = 'libx264';
-const VIDEO_BIT_RATE = '2500k';
-const AUDIO_BIT_RATE = '128k';
+const {
+  VIDEO_WIDTH,
+  VIDEO_HEIGHT,
+  VIDEO_CODEC,
+  VIDEO_BIT_RATE,
 
-const AUDIO_SAMPLE_RATE= '44100';
-const AUDIO_CODEC = 'aac'
+  AUDIO_BIT_RATE,
+  AUDIO_SAMPLE_RATE,
+  AUDIO_CODEC,
 
-const NUM_THREADS = '2';
-const PRESET = 'superfast';
-const CRF = '28';
-const BUFFER_SIZE = '2500k';
-const FRAMES_PER_SECOND = '24';
+  NUM_THREADS,
+  PRESET,
+  CRF,
+  BUFFER_SIZE,
+  FRAMES_PER_SECOND
+} = getConfig();
 
 const addOptions = (metadata) => {
   
@@ -30,7 +33,7 @@ const addOptions = (metadata) => {
     `-pix_fmt yuv420p`
   ];
 
-  outputOptions.push(`-s ${WIDTH}x${HEIGHT}`);
+  outputOptions.push(`-s ${VIDEO_WIDTH}x${VIDEO_HEIGHT}`);
 
   outputOptions.push(`-b:v ${VIDEO_BIT_RATE}`);
   outputOptions.push(`-minrate ${VIDEO_BIT_RATE}`);

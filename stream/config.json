@@ -1,0 +1,25 @@
+{
+  "FFMPEG_PATH": "",
+  "STREAM_URL": "rtmp://localhost/live/opensourceradio",
+
+  "FONT_SIZE": "10",
+  "FONT_COLOR": "#FFFFFF",
+  "FONT_BORDER": "#000000",
+
+  "VIDEO_WIDTH": "1280",
+  "VIDEO_HEIGHT": "720",
+  "VIDEO_CODEC": "libx264",
+  "VIDEO_BIT_RATE": "2500k",
+
+  "AUDIO_BIT_RATE": "128k",
+  "AUDIO_SAMPLE_RATE": "44100",
+  "AUDIO_CODEC": "aac",
+
+  "NUM_THREADS": "2",
+  "PRESET": "superfast",
+  "CRF": "28",
+  "BUFFER_SIZE": "2500k",
+  "FRAMES_PER_SECOND": "24",
+
+  "OVERLAY_TITLE": "opensourceradio"
+}
