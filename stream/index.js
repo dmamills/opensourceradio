@@ -1,3 +1,4 @@
+require('dotenv').config();
 const chalk = require('chalk');
 const fs = require('fs');
 const musicMetadata = require('music-metadata');

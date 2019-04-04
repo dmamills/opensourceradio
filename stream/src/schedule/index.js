@@ -16,7 +16,7 @@ const defaultSchedule = () => {
       resolve(new Schedule(
         'opensourceradio default playlist',
         moment(),
-        0.04,
+        1,
         shuffleArray(files),
       ));
     });
