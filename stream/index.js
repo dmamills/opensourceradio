@@ -55,6 +55,7 @@ const onSongError = err => {
   process.exit(-1);
 
   //WRITE STATE TO FILE?
+  /*
   const writeState = Object.create({}, appState);
   writeState.lastSongPlayed = getNextSong(writeState.playlist, writeState.lastSongPlayed);
   writeState.songCount++;
@@ -66,6 +67,7 @@ const onSongError = err => {
     console.log(chalk.red('Failed to write app state: '), err.message);
     process.exit(-1);
   });
+  */
 }
 
 const onScheduleSet = (schedule, nextSongIndex) => {
@@ -102,7 +104,8 @@ const radioInterval = () => {
 
 console.log(chalk.magenta(`Welcome to opensource radio. 📻`));
 console.log(chalk.magenta('Starting server...'))
-
+radioInterval();
+/*
 loadAppState()
   .then(state => {
     console.log(chalk.blue('Loaded app state from file.'));
@@ -112,3 +115,4 @@ loadAppState()
     console.log(chalk.blue('No previous app state found'));
     radioInterval();
   });
+*/
