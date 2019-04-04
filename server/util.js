@@ -27,22 +27,24 @@ function getMetadataForSongs(songs) {
   );
 }
 
+function loadMetadataforSchedules(schedules) {
+  return Promise.all(
+    schedules.map(schedule => {
+      const playlist = schedule.playlist.split(',');
+      return getMetadataForSongs(playlist).then(songs => {
+        schedule.playlist = songs;
+        return schedule;
+      })
+    })
+  )
+}
+
 function getSchedules() {
   return knex.select('id', 'name', 'description', 'start_time', 'length', 'playlist')
     .from('schedules')
     .where('start_time', '>=', moment().startOf('day').format(DATE_FORMAT))
-    .orderBy('start_time', 'DESC')
-    // .then(schedules => {
-    //   return Promise.all(
-    //     schedules.map(schedule => {
-    //       const playlist = schedule.playlist.split(',');
-    //       return getMetadataForSongs(playlist).then(songs => {
-    //         schedule.playlist = songs;
-    //         return schedule;
-    //       })    
-    //     })
-    //   )
-    // })
+    .where('start_time', '<=', moment().endOf('day').format(DATE_FORMAT))
+    //.then(loadMetadataforSchedules)
     .then(schedules => {
       return schedules.sort((s1, s2) => {
         return moment(s1.start_time, DATE_FORMAT).diff(moment(s2.start_time, DATE_FORMAT))

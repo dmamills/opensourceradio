@@ -5,7 +5,7 @@ import stylish from '@dmamills/stylish';
 import fillEmptyTime from './fillEmptyTime';
 import Schedule from './Schedule';
 
-import { flex, spaceBetween, mainTheme, whiteText, p1, p0 } from '../../styles';
+import { flex, spaceBetween, mainTheme, whiteText, p1, p0, m0, ph1 } from '../../styles';
 
 const modalContainer = stylish({
   position: 'absolute',
@@ -19,16 +19,18 @@ const modalContainer = stylish({
 
 const Schedules = ({ schedules }) => {
   schedules = fillEmptyTime(schedules);
-  debugger;
   return (
     <div className={cn(modalContainer, mainTheme, whiteText)}>
-      <div className={cn(flex, spaceBetween, p1)}>
-        <h1>Today's Schedule</h1>
+      <div className={cn(flex, spaceBetween, ph1)}>
+        <h1 className={m0}>Today's Schedule</h1>
       </div>
-      <p>opensourceradio is proudly hosted in Toronto Canada. All times are in EST.</p>
-      <ul className={p0}>
-        {schedules.map(s => <Schedule key={s.id} schedule={s} />)}
-      </ul>
+      <div className={cn(p1)}>
+        <p>opensourceradio is proudly hosted in Toronto Ontario Canada <span role="img" aria-label="canadian flag">🇨🇦</span></p>
+        <p>All times are in Eastern Standard.</p>
+        <ul className={p0}>
+          {schedules.map(s => <Schedule key={s.id} schedule={s} />)}
+        </ul>
+      </div>
     </div>
   );
 }

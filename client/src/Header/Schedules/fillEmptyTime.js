@@ -20,24 +20,29 @@ const fillEmptyTime = schedules => {
   }
 
   let filledSchedule = [];
-  schedules.forEach((schedule, idx) => {
-    const prev = schedules[idx-1];
-    const st = (idx === 0) ? moment().startOf('day') : moment(prev.start_time, DATE_FORMAT).add(prev.length, 'h');
-    const et = moment(schedule.start_time, DATE_FORMAT);
-    const hours = moment.duration(et.diff(st)).asHours();
+  const getHour = (date) => parseInt(moment(date, DATE_FORMAT).format('HH'),10);
 
-    filledSchedule.push(makeSchedule(
-      st.format(DATE_FORMAT),
-      hours
-    ));
+  schedules.forEach((schedule, idx) => {
+
+    const previousSchedule = schedules[idx-1] || { start_time: moment().startOf('day').format(DATE_FORMAT), length: 0 };
+    const prevStartHour = getHour(previousSchedule.start_time);
+    const prevEndHour = prevStartHour + previousSchedule.length;
+    const currentStartHour = getHour(schedule.start_time);
+
+    const hourDiff = currentStartHour - prevEndHour;
+    if((hourDiff) > 1) {
+      filledSchedule.push(makeSchedule(
+        moment(previousSchedule.start_time, DATE_FORMAT).add(previousSchedule.length, 'h').format(DATE_FORMAT),
+        hourDiff
+      ))
+    }
 
     filledSchedule.push(schedule);
 
     if(idx === schedules.length - 1) {
-      const endHours = moment.duration(moment().endOf('day').add('1','m').diff(et)).asHours();
       filledSchedule.push(makeSchedule(
-        et.add(schedule.length).format(DATE_FORMAT),
-        endHours
+        moment(schedule.start_time, DATE_FORMAT).add(schedule.length, 'h').format(DATE_FORMAT),
+        0
       ));
     }
   });
