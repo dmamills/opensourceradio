@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const http = require('http');
 const socketio = require('socket.io');
@@ -5,24 +6,14 @@ const app = express();
 const cors = require('cors');
 const morgan = require('morgan')
 const { NodeMediaServer } = require('node-media-server');
+const mediaServerConfig = require('./mediaServerConfig')
 
-const SERVER_PORT = 3001;
+const { 
+  SERVER_PORT
+} = process.env;
+
 const api = require('./routes/api');
 const { saveMessage } = require('./util');
-
-const mediaServerConfig = {
-  rtmp: {
-    port: 1935,
-    chunk_size: 60000,
-    gop_cache: true,
-    ping: 60,
-    ping_timeout: 30
-  },
-  http: {
-    port: 8000,
-    allow_origin: '*'
-  }
-};
 
 const server = http.createServer(app);
 const io = socketio(server);
