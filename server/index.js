@@ -14,6 +14,7 @@ const {
 
 const api = require('./routes/api');
 const { saveMessage } = require('./util');
+const { MessageRepository } = require('./repo');
 
 const server = http.createServer(app);
 const io = socketio(server);
@@ -61,13 +62,13 @@ io.on('connection', function(socket) {
     console.log('server got message', msg);
 
     if(msg.name)
-    saveMessage(msg)
-      .then(result => {
-        console.log('save successful, sending message');
-        io.emit('message', msg);
-      }).catch(err => {
-        socket.emit('message-error', err);
-      });
+      MessageRepository.create(msg)
+        .then(result => {
+          console.log('save successful, sending message');
+          io.emit('message', msg);
+        }).catch(err => {
+          socket.emit('message-error', err);
+        });
   });
 
   socket.on('disconnect', () => {

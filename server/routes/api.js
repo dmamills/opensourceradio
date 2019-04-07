@@ -1,12 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const { getHistory, getTodaysSchedules, getAllSchedules } = require('../util');
-
+const { ScheduleRepository, MessageRepository } = require('../repo');
 const { RTMP_HTTP_PASS } = process.env;
 
 const authMiddleware = (req, res, next) => {
   const { authorization } = req.headers;
-
   if(!authorization || authorization !== `Bearer ${RTMP_HTTP_PASS}`) {
     res.status(401).json({
       error: 'Invalid API KEY'
@@ -17,9 +15,8 @@ const authMiddleware = (req, res, next) => {
   }
 }
 
-
 router.get('/history', (req, res) => {
-  getHistory()
+  MessageRepository.latest()
   .then((history) => {
     history = history.reverse();
     res.json({
@@ -32,7 +29,7 @@ router.get('/history', (req, res) => {
 });
 
 router.get('/todaySchedules', (req, res) => {
-  getTodaysSchedules()
+  ScheduleRepository.todays()
   .then(schedules => {
     res.json({
       schedules
@@ -46,7 +43,7 @@ router.get('/todaySchedules', (req, res) => {
 })
 
 router.get('/schedules', authMiddleware, (req, res) => {
-  getAllSchedules()
+  ScheduleRepository.getAll()
     .then(schedules => {
       res.json({
         schedules
@@ -58,5 +55,14 @@ router.get('/schedules', authMiddleware, (req, res) => {
       });
     });
 });
+
+router.delete('/schedules/:id', authMiddleware, (req, res) => {
+  ScheduleRepository.remove(req.params.id)
+    .then(result => {
+      res.json({
+        result
+      });
+    });
+})
 
 module.exports = router;
