@@ -6,10 +6,13 @@ const headers = {
 }
 
 export const getSchedules = () => {
-  console.log('api#schedules')
   return fetch(`${SERVER_URL}/api/schedules`, {
     headers
   })
   .then(res => res.json())
-  .then(({ schedules }) => schedules);
+  .then(({ error, schedules }) => {
+    if(error) throw new Error(error);
+    if(schedules) return schedules;
+  });
+
 }

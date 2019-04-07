@@ -7,6 +7,29 @@ stylish.raw(`
   label { width: 75px; }
 `)
 
+export const [ table, tableHeader, tableBody ] = stylish({
+  borderCollapse: 'collapse',
+}, {
+  backgroundColor: 'black',
+  color: 'white',
+  padding: '1rem',
+  ' > th': {
+    padding: '1rem',
+    textAlign: 'left',
+  },
+}, {
+  color: 'black',
+  ':nth-child(odd)': {
+    backgroundColor: 'lightgrey'
+  },
+  ':nth-child(even)': {
+    backgroundColor: '#eee'
+  },
+  ' > td': {
+    padding: '1rem'
+  }
+});
+
 export const [
   flex,
   alignItemsStart,
