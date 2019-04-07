@@ -39,12 +39,22 @@ function loadMetadataforSchedules(schedules) {
   )
 }
 
-function getSchedules() {
+function getTodaysSchedules() {
   return knex.select('id', 'name', 'description', 'start_time', 'length', 'playlist')
     .from('schedules')
     .where('start_time', '>=', moment().startOf('day').format(DATE_FORMAT))
     .where('start_time', '<=', moment().endOf('day').format(DATE_FORMAT))
     //.then(loadMetadataforSchedules)
+    .then(schedules => {
+      return schedules.sort((s1, s2) => {
+        return moment(s1.start_time, DATE_FORMAT).diff(moment(s2.start_time, DATE_FORMAT))
+      });
+    });
+}
+
+function getAllSchedules() {
+  return knex.select('id', 'name', 'description', 'start_time', 'length', 'playlist', 'created_at', 'updated_at')
+    .from('schedules')
     .then(schedules => {
       return schedules.sort((s1, s2) => {
         return moment(s1.start_time, DATE_FORMAT).diff(moment(s2.start_time, DATE_FORMAT))
@@ -63,6 +73,7 @@ function saveMessage(message) {
 
 module.exports = {
   getHistory,
+  getTodaysSchedules,
+  getAllSchedules,
   saveMessage,
-  getSchedules
 };
