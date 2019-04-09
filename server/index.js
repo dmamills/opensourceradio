@@ -4,7 +4,8 @@ const http = require('http');
 const socketio = require('socket.io');
 const app = express();
 const cors = require('cors');
-const morgan = require('morgan')
+const morgan = require('morgan');
+const bodyParser = require('body-parser');
 const { NodeMediaServer } = require('node-media-server');
 const mediaServerConfig = require('./mediaServerConfig')
 
@@ -13,13 +14,13 @@ const {
 } = process.env;
 
 const api = require('./routes/api');
-const { saveMessage } = require('./util');
 const { MessageRepository } = require('./repo');
 
 const server = http.createServer(app);
 const io = socketio(server);
 
 app.use(morgan('dev'));
+app.use(bodyParser.json());
 app.use(cors());
 app.use('/api', api);
 

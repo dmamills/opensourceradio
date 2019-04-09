@@ -6,9 +6,20 @@ const sortByDate = (s1, s2) => moment(s1.start_time, DATE_FORMAT).diff(moment(s2
 const tableName = 'schedules';
 const fields = ['id', 'name', 'description', 'start_time', 'length', 'playlist', 'created_at', 'updated_at'];
 
+const ts = () => moment().format(DATE_FORMAT); 
+
+const createTimestamps = () => ({
+  created_at: ts(),
+  updated_at: ts(),
+});
+
+const updateTimestamp = () => ({
+  updated_at: ts(),
+})
+
 class ScheduleRepository {
   static get(id) {
-    return knex(this.tableName)
+    return knex(tableName)
       .where('id', id)
       .first();
   }
@@ -28,16 +39,33 @@ class ScheduleRepository {
     .then(schedules => schedules.sort(sortByDate));
   }
 
+  static create(schedule) {
+
+    schedule = {
+      ...schedule,
+      ...createTimestamps()
+    };
+
+    return knex(tableName)
+      .insert(schedule);
+  }
+
   static remove(id) {
-    return knex(this.tableName)
+    return knex(tableName)
     .where('id', id)
     .delete()
   }
 
   static update(id, schedule) {
-    return knex(this.tableName)
-    .update(schedule)
-    .where('id', id);
+
+    schedule = {
+      ...schedule,
+      ...updateTimestamp(),
+    };
+
+    return knex(tableName)
+    .where('id', id)
+    .update(schedule);
   }
 }
 

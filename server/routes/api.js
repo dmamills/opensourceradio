@@ -56,6 +56,34 @@ router.get('/schedules', authMiddleware, (req, res) => {
     });
 });
 
+router.post('/schedules', (req, res) => {
+  const schedule = req.body;
+  ScheduleRepository.create(schedule)
+    .then(result => {
+      ScheduleRepository.get(result[0])
+        .then(schedule => {
+          res.json({ schedule });
+        });
+    }).catch(err => {
+      console.log(err);
+      res.json({ error: err });
+    })
+});
+
+router.post('/schedules/:id', (req, res) => {
+  const id = req.params.id;
+  ScheduleRepository.update(id, req.body)
+    .then(result => {
+      ScheduleRepository.get(id)
+        .then(schedule => {
+          res.json({ schedule });
+        });
+    }).catch(err => {
+      console.log(err);
+      res.json({ error: err });
+    })
+});
+
 router.delete('/schedules/:id', authMiddleware, (req, res) => {
   ScheduleRepository.remove(req.params.id)
     .then(result => {

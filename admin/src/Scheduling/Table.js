@@ -4,7 +4,7 @@ import cn from 'classnames';
 import Row from './Row';
 import { width100, table, tableHeader } from '../styles';
 
-const Table = ({ schedules }) => {
+const Table = ({ schedules, onEdit }) => {
   return (
     <table className={cn(width100, table)}>
       <thead className={tableHeader}>
@@ -18,7 +18,7 @@ const Table = ({ schedules }) => {
         </tr>
       </thead>
       <tbody>
-        {schedules.map(s => <Row key={s.id} schedule={s} />)}
+        {schedules.map(s => <Row key={s.id} schedule={s} onEdit={onEdit} />)}
       </tbody>
     </table>
   );
