@@ -2,6 +2,8 @@ import React from 'react';
 import moment from 'moment';
 import cn from 'classnames';
 
+import { updateSchedule, createSchedule } from '../api';
+
 import { flex, spaceBetween, alignItemsCenter, p05, heavyText, flex2, ml1, justifyEnd } from '../styles';
 
 const defaultSchedule = {
@@ -30,6 +32,22 @@ class EditSchedule extends React.Component {
         }
       })
     }
+  }
+
+  onSubmit = () => {
+    const { schedule } = this.state;
+    let submitRequest;
+    if(schedule.id) {
+      submitRequest = updateSchedule(schedule.id, schedule);
+    } else {
+      submitRequest = createSchedule(schedule);
+    }
+
+    submitRequest.then(result => {
+      this.props.back();
+    }).catch(error => {
+      console.log('error', error);
+    });
   }
 
   render() {
@@ -79,7 +97,7 @@ class EditSchedule extends React.Component {
         </div>
 
         <div className={cn(flex, spaceBetween, justifyEnd, p05)}>
-          <button>Submit</button>
+          <button onClick={this.onSubmit}>Submit</button>
         </div>
       </div>
     );

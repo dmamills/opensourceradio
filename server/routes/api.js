@@ -15,6 +15,13 @@ const authMiddleware = (req, res, next) => {
   }
 }
 
+const errorHandler = (error, res) => {
+  console.log(error);
+  res.status(500).json({
+    error
+  });
+}
+
 router.get('/history', (req, res) => {
   MessageRepository.latest()
   .then((history) => {
@@ -35,10 +42,7 @@ router.get('/todaySchedules', (req, res) => {
       schedules
     });
   }).catch(error => {
-    console.log(error);
-    res.status(500).json({
-      error
-    });
+    errorHandler(error, res);
   });
 })
 
@@ -49,10 +53,7 @@ router.get('/schedules', authMiddleware, (req, res) => {
         schedules
       });
     }).catch(error => {
-      console.log(error);
-      res.status(500).json({
-        error
-      });
+      errorHandler(error, res);
     });
 });
 
@@ -64,9 +65,8 @@ router.post('/schedules', (req, res) => {
         .then(schedule => {
           res.json({ schedule });
         });
-    }).catch(err => {
-      console.log(err);
-      res.json({ error: err });
+    }).catch(error => {
+      errorHandler(error, res);
     })
 });
 
@@ -78,9 +78,8 @@ router.post('/schedules/:id', (req, res) => {
         .then(schedule => {
           res.json({ schedule });
         });
-    }).catch(err => {
-      console.log(err);
-      res.json({ error: err });
+    }).catch(error => {
+      errorHandler(error, res);
     })
 });
 
@@ -90,7 +89,9 @@ router.delete('/schedules/:id', authMiddleware, (req, res) => {
       res.json({
         result
       });
-    });
+    }).catch(error => {
+      errorHandler(error, res);
+    })
 })
 
 module.exports = router;

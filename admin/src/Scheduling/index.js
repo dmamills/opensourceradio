@@ -26,14 +26,18 @@ class Scheduling extends React.Component {
     });
   }
 
-  onCreate = (selectedSchedule) => {
+  onEdit = (selectedSchedule) => {
     this.setState({
       selectedSchedule,
       showEdit: true,
     })
   }
 
-  back = () => this.setState({ showEdit: false })
+  back = () => {
+    this.setState({ showEdit: false }, () => {
+      this.fetchSchedules();
+    });
+  }
 
   renderButtons = () => {
     const { showEdit } = this.state;
@@ -44,7 +48,7 @@ class Scheduling extends React.Component {
     }
 
     return (<>
-     <button onClick={() => this.onCreate()}>Create New Schedule</button>
+     <button onClick={() => this.onEdit()}>Create New Schedule</button>
      <button onClick={this.fetchSchedules}>Refresh</button>
     </>);
   }
@@ -69,10 +73,12 @@ class Scheduling extends React.Component {
         <div>
           {!showEdit && <Table
             schedules={schedules}
-            onEdit={this.onCreate}
+            onEdit={this.onEdit}
+            refresh={this.fetchSchedules}
           />}
           {showEdit && <EditSchedule
             schedule={selectedSchedule}
+            back={this.back}
           />}
         </div>
       </div>

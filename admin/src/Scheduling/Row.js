@@ -3,7 +3,7 @@ import cn from 'classnames';
 
 import { p1, flex, justifyEnd, tableBody } from '../styles';
 
-const Row = ({ schedule, onEdit }) => {
+const Row = ({ schedule, onEdit, onRemove }) => {
   schedule.description = schedule.description || '';
   const length = `${schedule.length} hour${schedule.length > 1 ? 's' : ''}`;
   const description = schedule.description.length <= 20 ? schedule.description : `${schedule.description.substr(0, 29)}...`;
@@ -17,7 +17,7 @@ const Row = ({ schedule, onEdit }) => {
       <td>{length}</td>
       <td className={cn(flex, justifyEnd)}>
         <button onClick={() => onEdit(schedule)}>Edit</button>
-        <button>Delete</button>
+        <button onClick={() => onRemove(schedule.id)}>Delete</button>
       </td>
     </tr>
   );

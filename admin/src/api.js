@@ -5,14 +5,54 @@ const headers = {
   Authorization: `Bearer ${API_KEY}`
 }
 
-export const getSchedules = () => {
-  return fetch(`${SERVER_URL}/api/schedules`, {
+const get = url => {
+  return fetch(`${SERVER_URL}${url}`, {
     headers
   })
-  .then(res => res.json())
+  .then(res => res.json());
+}
+
+const post = (url, data) => {
+  return fetch(`${SERVER_URL}${url}`, {
+    method: 'POST',
+    headers: { ...headers, 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  })
+  .then(res => res.json());
+}
+
+const del = url => {
+  return fetch(`${SERVER_URL}${url}`, {
+    headers,
+    method: 'DELETE'
+  })
+  .then(res => res.json());
+}
+
+export const getSchedules = () => {
+  return get('/api/schedules')
   .then(({ error, schedules }) => {
     if(error) throw new Error(error);
     if(schedules) return schedules;
   });
+}
 
+export const removeSchedule = (id) => {
+  return del(`/api/schedules/${id}`);
+}
+
+export const updateSchedule = (id, schedule) => {
+  return post(`/api/schedules/${id}`, schedule)
+  .then(({ error, schedule }) => {
+    if(error) throw new Error(error);
+    return schedule;
+  });
+}
+
+export const createSchedule =(schedule) => {
+  return post(`/api/schedules`, schedule)
+  .then(({ error, schedule }) => {
+    if(error) throw new Error(error);
+    return schedule;
+  });
 }
