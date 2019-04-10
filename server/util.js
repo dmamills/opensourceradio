@@ -1,5 +1,31 @@
+const fs = require('fs');
 const musicMetadata = require('music-metadata');
+const { promisify } = require('util');
+const { resolve } = require('path');
+
+const readdir = promisify(fs.readdir);
+const stat = promisify(fs.stat);
 const ROOT_AUDIO_PATH = `${process.cwd()}/../stream/assets/audio/`;
+
+async function getFiles(dir) {
+  const subdirs = await readdir(dir);
+  const files = await Promise.all(subdirs.map(async (subdir) => {
+    const res = resolve(dir, subdir);
+    return (await stat(res)).isDirectory() ? getFiles(res) : res;
+  }));
+  return files.reduce((a, f) => a.concat(f), []);
+}
+
+function getMetadataForSong(filename) {
+  return musicMetadata.parseFile(`${ROOT_AUDIO_PATH}/${filename}`, { duration: true })
+    .then(metadata => {
+      return {
+        artist: metadata.common.artist,
+        album: metadata.common.album,
+        title: metadata.common.title
+      };
+    });
+}
 
 function getMetadataForSongs(songs) {
   return Promise.all(songs.map(audioPath => {
@@ -28,6 +54,29 @@ function loadMetadataforSchedules(schedules) {
   )
 }
 
+function loadLibrary() {
+  return getFiles(ROOT_AUDIO_PATH).then(files => {
+    return files.reduce((acc, file) => {
+      file = file.replace(`${resolve(ROOT_AUDIO_PATH)}/`, '');
+
+      const idx = file.indexOf('/');
+      if(idx >= 0) {
+        const folder = file.substr(0, idx);
+        file = file.substr(idx+1);
+        if(!acc[folder]) acc[folder] = [];
+        acc[folder].push(file);
+      } else {
+        acc['/'].push(file);
+      }
+
+      return acc;
+    }, { '/': []});
+  });
+}
+
+
 module.exports = {
   loadMetadataforSchedules,
+  loadLibrary,
+  getMetadataForSong,
 };

@@ -29,6 +29,22 @@ const del = url => {
   .then(res => res.json());
 }
 
+export const getLibrary = () => {
+  return get('/api/library')
+    .then(({ error, library}) => {
+      if(error) throw new Error(error);
+      if(library) return library;
+    });
+}
+
+export const getMetadata = filename => {
+  return get(`/api/library/metadata?file=${filename}`)
+    .then(({ error, metadata }) => {
+      if(error) throw new Error(error);
+      if(metadata) return metadata;
+    })
+}
+
 export const getSchedules = () => {
   return get('/api/schedules')
   .then(({ error, schedules }) => {

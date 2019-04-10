@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { ScheduleRepository, MessageRepository } = require('../repo');
+const { loadLibrary, getMetadataForSong } = require('../util');
 const { RTMP_HTTP_PASS } = process.env;
 
 const authMiddleware = (req, res, next) => {
@@ -22,6 +23,23 @@ const errorHandler = (error, res) => {
   });
 }
 
+router.get('/library', authMiddleware, (req, res) => {
+  loadLibrary().then(library => {
+    res.json({
+      library
+    })
+  }).catch(error => {
+    errorHandler(error, res);
+  });
+});
+
+router.get('/library/metadata', (req, res) => {
+  getMetadataForSong(req.query.file)
+    .then(metadata => {
+      res.json({ metadata });
+    });
+})
+
 router.get('/history', (req, res) => {
   MessageRepository.latest()
   .then((history) => {
@@ -30,7 +48,7 @@ router.get('/history', (req, res) => {
       history
     });
   }).catch(error => {
-   console.log(error);
+    console.log(error);
     res.json({ history: [] });
   });
 });
