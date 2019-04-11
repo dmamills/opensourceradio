@@ -35,10 +35,6 @@ class App extends Component {
     const { currentTab, apiKey } = this.state;
     return (
       <div className={cn(box, whiteText)}>
-        <div>
-          <h1 className={cn(m0, ph1)}>opensourceradio admin</h1>
-          {apiKey && <span>{apiKey}</span>}
-        </div>
         <Tabs 
           currentTab={currentTab}
           tabs={defaultTabs}

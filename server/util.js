@@ -1,5 +1,6 @@
 const fs = require('fs');
 const musicMetadata = require('music-metadata');
+const fx = require('mkdir-recursive');
 const { promisify } = require('util');
 const { resolve } = require('path');
 
@@ -74,9 +75,34 @@ function loadLibrary() {
   });
 }
 
+function moveFiles(files, folderName) {
+  let audioPath = ROOT_AUDIO_PATH;
+  if(folderName) {
+    //recursively make folder if needed
+    audioPath = `${audioPath}${folderName}/`;
+    fx.mkdirSync(audioPath);
+  }
+  console.log(files);
+
+  return Promise.all(files.map(file => {
+    const { path, name } = file;
+    return new Promise(resolve => {    
+      fs.copyFile(path, `${audioPath}${name}`, err => {
+        if(err) {
+          console.log(err);
+          throw err;
+        } else {
+          resolve();  
+        }
+      });
+    })
+  }));
+}
+
 
 module.exports = {
   loadMetadataforSchedules,
   loadLibrary,
   getMetadataForSong,
+  moveFiles,
 };
