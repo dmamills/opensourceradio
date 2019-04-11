@@ -4,6 +4,7 @@ import cn from 'classnames';
 import { flex, p1, spaceBetween, spacedEvenly, flex1, column } from '../styles';
 import { getLibrary } from '../api';
 import AudioMetadata from './AudioMetadata';
+import AudioUpload from './AudioUpload';
 import Browser from './Browser';
 
 class Library extends Component {
@@ -44,9 +45,7 @@ class Library extends Component {
             <AudioMetadata
               selectedFile={selectedFile}
             />
-            <div>
-              <h3>Upload Audio</h3>
-            </div>
+           <AudioUpload />
           </div>
         </div>
       </div>

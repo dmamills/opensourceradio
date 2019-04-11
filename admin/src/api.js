@@ -1,7 +1,7 @@
-const SERVER_URL = process.env.REACT_APP_SERVER_URL;
+export const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 const API_KEY = process.env.REACT_APP_API_TOKEN;
 
-const headers = {
+export const headers = {
   Authorization: `Bearer ${API_KEY}`
 }
 

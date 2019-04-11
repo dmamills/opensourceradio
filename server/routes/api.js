@@ -1,8 +1,13 @@
 const express = require('express');
+const multipart = require('connect-multiparty');
 const router = express.Router();
 const { ScheduleRepository, MessageRepository } = require('../repo');
 const { loadLibrary, getMetadataForSong } = require('../util');
 const { RTMP_HTTP_PASS } = process.env;
+
+const multipartMiddleware = multipart({
+  maxFieldsSize: 50 * (1024 * 1024)
+});
 
 const authMiddleware = (req, res, next) => {
   const { authorization } = req.headers;
@@ -30,6 +35,15 @@ router.get('/library', authMiddleware, (req, res) => {
     })
   }).catch(error => {
     errorHandler(error, res);
+  });
+});
+
+router.post('/library', authMiddleware, multipartMiddleware, (req, res) => {
+  const files = req.files;
+  const folderName = req.body.folderName;
+  res.json({
+    files,
+    folderName,
   });
 });
 
