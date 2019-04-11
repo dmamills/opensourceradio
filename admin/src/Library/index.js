@@ -14,13 +14,16 @@ class Library extends Component {
   }
 
   componentDidMount() {
+    this.fetchLibrary();
+  }
+
+  fetchLibrary = () => {
     getLibrary()
-      .then(library => {
-        console.log(library);
-        this.setState({ library });
-      }).catch(err => {
-        console.log(err);
-      })
+    .then(library => {
+      this.setState({ library });
+    }).catch(err => {
+      console.log('error fetching library: ', err);
+    })
   }
 
   selectFile = selectedFile => {
@@ -45,7 +48,9 @@ class Library extends Component {
             <AudioMetadata
               selectedFile={selectedFile}
             />
-           <AudioUpload />
+           <AudioUpload 
+            fetchLibrary={this.fetchLibrary}
+           />
           </div>
         </div>
       </div>

@@ -5,7 +5,7 @@ import stylish from '@dmamills/stylish';
 import Tabs from './Tabs';
 import Scheduling from './Scheduling';
 import Library from './Library';
-import { whiteText, m0, ph1 } from './styles';
+import { whiteText } from './styles';
 
 const box = stylish({
   display: 'flex',
@@ -32,7 +32,7 @@ class App extends Component {
   }
 
   render() {
-    const { currentTab, apiKey } = this.state;
+    const { currentTab } = this.state;
     return (
       <div className={cn(box, whiteText)}>
         <Tabs 

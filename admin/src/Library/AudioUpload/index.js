@@ -62,8 +62,12 @@ class AudioUpload extends Component {
   }
 
   onSuccess = files => {
-    console.log('success', files)
-    this.dropzone.removeAllFiles();
+    files.forEach(f => this.dropzone.removeFile(f));
+    if(this.dropzone.files.length > 0) {
+      this.dropzone.processQueue();
+    } else {
+      this.props.fetchLibrary();
+    }
   }
 
   onError = error => {
