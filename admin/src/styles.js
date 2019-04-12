@@ -129,6 +129,18 @@ export const [
 );
 
 export const [
+  pl0,
+  pl05,
+  pl1,
+  pl2
+] = stylish(
+  { paddingLeft: '0' },
+  { paddingLeft: '0.5rem' },
+  { paddingLeft: '1rem' },
+  { paddingLeft: '2rem' },
+);
+
+export const [
   mr0,
   mr05,
   mr1,
@@ -139,6 +151,8 @@ export const [
   { marginRight: '1rem' },
   { marginRight: '2rem' },
 );
+
+
 
 export const [
   ml0,

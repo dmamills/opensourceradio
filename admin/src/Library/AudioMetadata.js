@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import cn from 'classnames';
-import { flex, spaceBetween, pv2, alignItemsCenter, p05, heavyText, flex2, ml1, justifyEnd, m05 } from '../styles';
+import { flex, spaceBetween, p2, alignItemsCenter, p05, heavyText, flex2, ml1, justifyEnd, m05 } from '../styles';
 
 import { getMetadata } from '../api';
 
@@ -15,7 +15,6 @@ class AudioMetadata extends Component {
     const { selectedFile } = nextProps;
     if(selectedFile === this.props.selectedFile) return;
 
-    console.log('metadata#song changed');
     getMetadata(selectedFile)
       .then(metadata => {
         this.setState({
@@ -52,7 +51,7 @@ class AudioMetadata extends Component {
     const { metadata, isEditing, selectedFile } = this.state;
     const { artist, album, title } = metadata;
     return (
-      <div className={pv2}>
+      <div className={p2}>
         <h3>Audio Metadata</h3>
         {selectedFile && <p>Viewing {selectedFile}</p>}
         <div>
