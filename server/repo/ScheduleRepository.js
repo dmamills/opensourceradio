@@ -25,9 +25,9 @@ class ScheduleRepository {
   }
 
   static getAll() {
-    console.log(tableName);
     return knex(fields)
     .from(tableName)
+    .where('deleted_at', null)
     .then(schedules => schedules.sort(sortByDate));
   }
 
@@ -36,11 +36,11 @@ class ScheduleRepository {
     .from(tableName)
     .where('start_time', '>=', moment().startOf('day').format(DATE_FORMAT))
     .where('start_time', '<=', moment().endOf('day').format(DATE_FORMAT))
+    .where('deleted_at', null)
     .then(schedules => schedules.sort(sortByDate));
   }
 
   static create(schedule) {
-
     schedule = {
       ...schedule,
       ...createTimestamps()
@@ -53,11 +53,12 @@ class ScheduleRepository {
   static remove(id) {
     return knex(tableName)
     .where('id', id)
-    .delete()
+    .update({
+      deleted_at: moment().format(DATE_FORMAT),
+    });
   }
 
   static update(id, schedule) {
-
     schedule = {
       ...schedule,
       ...updateTimestamp(),
