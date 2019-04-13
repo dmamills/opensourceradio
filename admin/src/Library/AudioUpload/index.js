@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import cn from 'classnames';
 import Dropzone from 'dropzone';
 
-import { headers, SERVER_URL } from '../../api';
+import { getHeaders, SERVER_URL } from '../../api';
 import previewTemplate from './previewTemplate';
 import { flex, spaceBetween, alignItemsCenter, p05, heavyText, flex2, ml1, p1 } from '../../styles';
 import { dropzoneStyles, folderLabel } from './styles';
@@ -16,6 +16,7 @@ class AudioUpload extends Component {
   }
 
   componentDidMount() {
+    const headers = getHeaders();
     this.dropzone = new Dropzone('div#dropzoneEl', { 
       url: `${SERVER_URL}/api/library`,
       headers,

@@ -3,7 +3,7 @@ import cn from 'classnames';
 import stylish from '@dmamills/stylish';
 
 import Tab from './Tab';
-import { whiteBg, whiteText, blackText, listStyleNone, flex, p1, m05, p0, m0, ph1, flexAuto, flexCenter, alignItemsCenter, spaceBetween } from '../styles';
+import { whiteBg, whiteText, blackText, listStyleNone, flex, m05, p0, m0, ph1, flexAuto, alignItemsCenter, spaceBetween } from '../styles';
 
 const box = stylish({
   display: 'flex',
@@ -35,6 +35,5 @@ const Tabs = props => {
     </div>
   );
 }
-
 
 export default Tabs;

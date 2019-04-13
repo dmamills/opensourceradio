@@ -67,6 +67,7 @@ export const [
 export const [
   whiteText,
   blackText,
+  redText,
   lightGreyText,
   textCenter,
   listStyleNone,
@@ -76,6 +77,7 @@ export const [
  ] = stylish(
   { color: 'white' },
   { color: 'black' },
+  { color: '#cc0000' },
   { color: '#C8C8C8' },
   { textAlign: 'center' },
   { listStyleType: 'none' },

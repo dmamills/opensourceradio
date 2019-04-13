@@ -1,11 +1,22 @@
 export const SERVER_URL = process.env.REACT_APP_SERVER_URL;
-const API_KEY = process.env.REACT_APP_API_TOKEN;
 
-export const headers = {
-  Authorization: `Bearer ${API_KEY}`
+const OSR_KEY = 'osr_admin_key';
+
+export const fetchKey = () => {
+  const key = localStorage.getItem(OSR_KEY) || null;
+  return key;
 }
 
+export const storeKey = key => {
+  return localStorage.setItem(OSR_KEY, key);
+}
+
+export const getHeaders = () => ({
+  Authorization: `Bearer ${fetchKey()}`
+})
+
 const get = url => {
+  const headers = getHeaders();
   return fetch(`${SERVER_URL}${url}`, {
     headers
   })
@@ -13,6 +24,7 @@ const get = url => {
 }
 
 const post = (url, data) => {
+  const headers = getHeaders();
   return fetch(`${SERVER_URL}${url}`, {
     method: 'POST',
     headers: { ...headers, 'Content-Type': 'application/json' },
@@ -22,11 +34,24 @@ const post = (url, data) => {
 }
 
 const del = url => {
+  const headers = getHeaders();
   return fetch(`${SERVER_URL}${url}`, {
     headers,
     method: 'DELETE'
   })
   .then(res => res.json());
+}
+
+export const authTest = key => {
+  return fetch(`${SERVER_URL}/api/library`, {
+    headers: {
+      Authorization: `Bearer ${key}`
+    }
+  })
+  .then(res => res.json())
+  .then(({ library }) => {
+    return !!library;
+  });
 }
 
 export const getLibrary = () => {

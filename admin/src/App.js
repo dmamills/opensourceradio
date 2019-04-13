@@ -2,9 +2,12 @@ import React, { Component } from 'react';
 import cn from 'classnames';
 import stylish from '@dmamills/stylish';
 
+import LoginPage from './Login';
 import Tabs from './Tabs';
 import Scheduling from './Scheduling';
 import Library from './Library';
+import { fetchKey } from './api';
+
 import { whiteText } from './styles';
 
 const box = stylish({
@@ -21,6 +24,18 @@ const defaultTabs = [
 class App extends Component {
   state = {
     currentTab: 0,
+    apiKey: null
+  }
+
+  componentWillMount() {
+    this.onAuthChange();
+  }
+
+  onAuthChange = () => {
+    const apiKey = fetchKey();
+    this.setState({
+      apiKey
+    });
   }
 
   changeTab = key => {
@@ -28,18 +43,21 @@ class App extends Component {
     const currentTab = defaultTabs.indexOf(tab);
     this.setState({
       currentTab
-    })
+    });
   }
 
   render() {
-    const { currentTab } = this.state;
+    const { currentTab, apiKey } = this.state;
     return (
       <div className={cn(box, whiteText)}>
-        <Tabs 
-          currentTab={currentTab}
-          tabs={defaultTabs}
-          changeTab={this.changeTab}
-        />
+        {!apiKey ?
+          <LoginPage onAuthChange={this.onAuthChange} /> :
+          <Tabs
+            currentTab={currentTab}
+            tabs={defaultTabs}
+            changeTab={this.changeTab}
+          />
+        }
       </div>
     );
   }
