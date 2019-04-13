@@ -1,10 +1,13 @@
 const fs = require('fs');
+const path = require('path');
 const moment = require('moment');
 const chalk = require('chalk');
-const getConfig = () => require('../config.json');
 
+const STATE_LOG_FILE = `${process.cwd()}/state.log`;
+const TIME_FORMAT = 'MMM DD YYYY HH:mm a';
+
+const getConfig = () => require('../config.json');
 const pad = n => n < 10 ? `0${n}` : n;
-const TIME_FORMAT = 'MMM DD YYYY hh:mm a';
 
 const printMetadata = metadata => {
   const { common, format } = metadata;
@@ -63,7 +66,7 @@ function shuffleArray(a) {
   return a;
 }
 
-const STATE_LOG_FILE = `${process.cwd()}/state.log`;
+
 
 function writeAppState(appState) {
   return new Promise((resolve, reject) => {
@@ -90,6 +93,25 @@ function loadAppState() {
   });
 }
 
+const fetchAudioDirectoryContents = () => {
+  const audioDirectory = path.resolve(__dirname, '../../assets/audio');
+  return new Promise(resolve => {
+    fs.readdir(audioDirectory, (err, files) => {
+      if(err) {
+        throw err;
+      } else {
+        resolve(files);
+      }
+    });
+  });
+}
+
+const timeTillNextBlockInHours = (startTime = moment()) => {
+  const minutes = parseInt(startTime.format('m'), 10);
+  return parseFloat((minutes / 60).toFixed(2));
+}
+
+
 module.exports = {
   printHeader,
   printMetadata,
@@ -100,5 +122,7 @@ module.exports = {
   writeAppState,
   loadAppState,
   TIME_FORMAT,
-  getConfig
+  getConfig,
+  fetchAudioDirectoryContents,
+  timeTillNextBlockInHours
 };

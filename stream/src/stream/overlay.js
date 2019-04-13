@@ -13,7 +13,7 @@ const X_POSITION = 2;
 const sanitizeText = str => {
   str = str.replace(/\\/g, '\\\\');
   str = str.replace(/\:/g, '\\:');
-  str = str.replace(/\'/g, '\\\'');
+  str = str.replace(/\'/g, '');
   return str;
 }
 

@@ -1,26 +1,19 @@
 const moment = require('moment');
-const fs = require('fs');
-const path = require('path');
 const chalk = require('chalk');
-const { shuffleArray } = require('../utils');
+const { shuffleArray, fetchAudioDirectoryContents, timeTillNextBlockInHours } = require('../utils');
 const Schedule = require('./schedule');
 
 const defaultSchedule = () => {
-  const audioDirectory = path.resolve(__dirname, '../../assets/audio');
-  return new Promise(resolve => {
-    fs.readdir(audioDirectory, (err, files) => {
-      if(err) {
-        throw err;
-      }
-
-      resolve(new Schedule(
+  return fetchAudioDirectoryContents()
+    .then(songs => {
+      const startTime = moment();
+      return new Schedule(
         'opensourceradio default playlist',
-        moment(),
-        1,
-        shuffleArray(files),
-      ));
+        startTime,
+        timeTillNextBlockInHours(startTime),
+        shuffleArray(songs),
+      );
     });
-  });
 }
 
 const findCurrentSchedule = () => {
@@ -32,11 +25,10 @@ const findCurrentSchedule = () => {
       } 
 
       console.log('Searching for current schedule...');
-      for(let i =0; i < schedules.length; i++) {
-        if(schedules[i].isActive()) {
-          console.log(chalk.blue('Found next active schedule...'));
-          return schedules[i];
-        }
+      const activeSchedule = schedules.find(s => s.isActive());
+      if(activeSchedule) {
+        console.log(chalk.blue('Found next active schedule...'));
+        return activeSchedule;
       }
       
       console.log(chalk.blue('No Active Schedules Found, Returning Default...'));
