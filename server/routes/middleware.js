@@ -17,11 +17,13 @@ const authMiddleware = (req, res, next) => {
   }
 }
 
-const errorHandler = (error, res) => {
-  console.log(error);
-  res.status(500).json({
-    error
-  });
+const errorHandler = response => {
+  return error => {
+    console.log('error:', error);
+    response.status(500).json({
+      error
+    });
+  }
 }
 
 module.exports = {

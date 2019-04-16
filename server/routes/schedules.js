@@ -10,10 +10,8 @@ router.get('/today', (req, res) => {
     res.json({
       schedules
     });
-  }).catch(error => {
-    errorHandler(error, res);
-  });
-})
+  }).catch(errorHandler(res));
+});
 
 router.get('/', authMiddleware, (req, res) => {
   ScheduleRepository.getAll()
@@ -21,9 +19,7 @@ router.get('/', authMiddleware, (req, res) => {
       res.json({
         schedules
       });
-    }).catch(error => {
-      errorHandler(error, res);
-    });
+    }).catch(errorHandler(res));
 });
 
 router.post('/', (req, res) => {
@@ -34,9 +30,7 @@ router.post('/', (req, res) => {
         .then(schedule => {
           res.json({ schedule });
         });
-    }).catch(error => {
-      errorHandler(error, res);
-    })
+    }).catch(errorHandler(res));
 });
 
 router.post('/:id', (req, res) => {
@@ -47,9 +41,7 @@ router.post('/:id', (req, res) => {
         .then(schedule => {
           res.json({ schedule });
         });
-    }).catch(error => {
-      errorHandler(error, res);
-    })
+    }).catch(errorHandler(res));
 });
 
 router.delete('/:id', authMiddleware, (req, res) => {
@@ -58,9 +50,7 @@ router.delete('/:id', authMiddleware, (req, res) => {
       res.json({
         result
       });
-    }).catch(error => {
-      errorHandler(error, res);
-    })
+    }).catch(errorHandler(res));
 });
 
 module.exports = router;

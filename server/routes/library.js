@@ -9,9 +9,7 @@ router.get('/', authMiddleware, (req, res) => {
     res.json({
       library
     });
-  }).catch(error => {
-    errorHandler(error, res);
-  });
+  }).catch(errorHandler(res));
 });
 
 router.post('/', authMiddleware, multipartMiddleware, (req, res) => {
@@ -20,16 +18,14 @@ router.post('/', authMiddleware, multipartMiddleware, (req, res) => {
   moveFiles(files,folderName)
     .then(() => {
       res.json({ success: true });
-    }).catch(error => {
-      errorHandler(error, res);
-    });
+    }).catch(errorHandler(res));
 });
 
 router.get('/metadata', (req, res) => {
   getMetadataForSong(req.query.file)
     .then(metadata => {
       res.json({ metadata });
-    });
+    }).catch(errorHandler(res));
 });
 
 
