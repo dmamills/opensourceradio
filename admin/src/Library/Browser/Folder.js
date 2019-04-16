@@ -1,6 +1,6 @@
 import React from 'react';
-import cn from 'classnames';
 import stylish from '@dmamills/stylish';
+
 import { listStyleNone } from '../../styles';
 import File from './File';
 
@@ -9,7 +9,6 @@ const folderStyles = stylish({
   cursor: 'pointer',
   padding: '1rem',
 });
-
 
 const Folder = ({ folder, isExpanded, actionFn, folderContents, selectFile }) => {
   return <li className={listStyleNone}>

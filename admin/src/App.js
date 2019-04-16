@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import cn from 'classnames';
-import stylish from '@dmamills/stylish';
 
 import LoginPage from './Login';
 import Tabs from './Tabs';
@@ -8,13 +7,7 @@ import Scheduling from './Scheduling';
 import Library from './Library';
 import { fetchKey } from './api';
 
-import { whiteText } from './styles';
-
-const box = stylish({
-  display: 'flex',
-  flexFlow: 'column',
-  height: '100%'
-});
+import { whiteText, containerBox } from './styles';
 
 const defaultTabs = [
   { key: 'scheduling', component: Scheduling, name: 'Scheduling' },
@@ -49,7 +42,7 @@ class App extends Component {
   render() {
     const { currentTab, apiKey } = this.state;
     return (
-      <div className={cn(box, whiteText)}>
+      <div className={cn(containerBox, whiteText)}>
         {!apiKey ?
           <LoginPage onAuthChange={this.onAuthChange} /> :
           <Tabs

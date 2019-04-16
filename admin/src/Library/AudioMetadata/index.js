@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import cn from 'classnames';
-import { flex, spaceBetween, p2, alignItemsCenter, p05, heavyText, flex2, ml1, justifyEnd, m05 } from '../styles';
+import { flex, spaceBetween, alignItemsCenter, p05, heavyText, flex2, ml1, ph1 } from '../../styles';
 
-import { getMetadata } from '../api';
+import { getMetadata } from '../../api';
+import MetadataActions from './MetadataActions';
 
 class AudioMetadata extends Component {
   state = {
@@ -26,32 +27,20 @@ class AudioMetadata extends Component {
       })
   }
 
-  renderButtons = () => {
-    const { isEditing } = this.state;
-    if(isEditing) {
-      return (<>
-        <button>Save</button>
-        <button onClick={() => this.setState({isEditing: false})}>Cancel</button>
-      </>);
-    }
-
-    return (<>
-      <button onClick={this.edit}>Edit</button>
-    </>)
-  }
-
   edit = () => {
     if(!this.state.selectedFile) return;
     this.setState({
       isEditing: true,
-    })
+    });
   }
+
+  cancel = () => this.setState({isEditing: false})
 
   render() {
     const { metadata, isEditing, selectedFile } = this.state;
     const { artist, album, title } = metadata;
     return (
-      <div className={p2}>
+      <div className={ph1}>
         <h3>Audio Metadata</h3>
         {selectedFile && <p>Viewing {selectedFile}</p>}
         <div>
@@ -67,9 +56,11 @@ class AudioMetadata extends Component {
             <label className={heavyText} htmlFor="title">Title</label>
             <input defaultValue={title} className={cn(flex2, ml1)} type="text" disabled={!isEditing} />
           </div>
-          <div className={cn(flex, justifyEnd, m05)}>
-            {this.renderButtons()}
-          </div>
+          <MetadataActions
+            selectedFile={selectedFile}
+            edit={this.edit}
+            cancel={this.cancel}
+          />
         </div>
       </div>
     );

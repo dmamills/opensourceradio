@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import cn from 'classnames';
 import stylish from '@dmamills/stylish';
-import { flex, flex1, column, pl0, p1 } from '../../styles';
+import { flex, flex1, column, pl0 } from '../../styles';
 
 import Folder from './Folder';
 
@@ -36,7 +36,8 @@ class Browser extends Component {
     const { expanded } = this.state;
     const folders = Object.keys(library);
     return (
-      <div className={cn(flex, flex1, browserContainer)}>
+      <div className={cn(flex, flex1, browserContainer, column)}>
+        <h3>Audio Browser</h3>
         <ul className={cn(flex, column, flex1, pl0)}>
           {folders.map(folder => <Folder
               key={folder}

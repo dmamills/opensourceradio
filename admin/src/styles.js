@@ -3,9 +3,14 @@ import stylish from '@dmamills/stylish';
 stylish.raw(`
   body { background-color: rgb(107,127,149); height: 99vh; font-family: monospace; }
   #root { display: flex; flex-flow: column; height: 100%; }
-  input:disabled { background-color: lightgrey; }
   label { width: 75px; }
 `)
+
+export const containerBox = stylish({
+  display: 'flex',
+  flexFlow: 'column',
+  height: '100%'
+});
 
 export const [ table, tableHeader, tableBody ] = stylish({
   borderCollapse: 'collapse',

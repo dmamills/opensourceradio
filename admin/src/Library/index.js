@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import cn from 'classnames';
 
-import { flex, p1, spaceBetween, spacedEvenly, flex1, column } from '../styles';
+import { flex, p1, spacedEvenly, flex1, column } from '../styles';
 import { getLibrary } from '../api';
 import AudioMetadata from './AudioMetadata';
 import AudioUpload from './AudioUpload';
@@ -32,13 +32,11 @@ class Library extends Component {
       selectedFile,
     })
   }
+  
   render() {
     const { library, selectedFile } = this.state;
     return (
       <div className={cn(p1)}>
-        <div className={cn(flex, spaceBetween)}>
-          <h2>Audio Library</h2>
-        </div>
         <div className={cn(flex, spacedEvenly)}>
           <Browser
             library={library}
