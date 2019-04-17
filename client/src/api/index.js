@@ -21,7 +21,7 @@ export function getHistory() {
 
 export function getSchedules() {
 
-  return fetch(`${SERVER_URL}/api/schedules`)
+  return fetch(`${SERVER_URL}/api/schedules/today`)
   .then(res => res.json())
   .then(res => res.schedules)
 }

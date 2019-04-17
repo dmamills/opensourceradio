@@ -1,15 +1,31 @@
-const knex = require('knex')(require('./knexfile').development);
-const moment = require('moment');
+const fs = require('fs');
 const musicMetadata = require('music-metadata');
+const fx = require('mkdir-recursive');
+const { promisify } = require('util');
+const { resolve } = require('path');
 
+const readdir = promisify(fs.readdir);
+const stat = promisify(fs.stat);
 const ROOT_AUDIO_PATH = `${process.cwd()}/../stream/assets/audio/`;
-const DATE_FORMAT = 'YYYY-MM-DD HH:mm:ss';
 
-function getHistory() {
-  return knex.select('name', 'message', knex.raw('created_at as timestamp'))
-    .from('messages')
-    .orderBy('created_at', 'DESC')
-    .limit(50);
+async function getFiles(dir) {
+  const subdirs = await readdir(dir);
+  const files = await Promise.all(subdirs.map(async (subdir) => {
+    const res = resolve(dir, subdir);
+    return (await stat(res)).isDirectory() ? getFiles(res) : res;
+  }));
+  return files.reduce((a, f) => a.concat(f), []);
+}
+
+function getMetadataForSong(filename) {
+  return musicMetadata.parseFile(`${ROOT_AUDIO_PATH}/${filename}`, { duration: true })
+    .then(metadata => {
+      return {
+        artist: metadata.common.artist,
+        album: metadata.common.album,
+        title: metadata.common.title
+      };
+    });
 }
 
 function getMetadataForSongs(songs) {
@@ -39,30 +55,53 @@ function loadMetadataforSchedules(schedules) {
   )
 }
 
-function getSchedules() {
-  return knex.select('id', 'name', 'description', 'start_time', 'length', 'playlist')
-    .from('schedules')
-    .where('start_time', '>=', moment().startOf('day').format(DATE_FORMAT))
-    .where('start_time', '<=', moment().endOf('day').format(DATE_FORMAT))
-    //.then(loadMetadataforSchedules)
-    .then(schedules => {
-      return schedules.sort((s1, s2) => {
-        return moment(s1.start_time, DATE_FORMAT).diff(moment(s2.start_time, DATE_FORMAT))
-      });
-    });
+function loadLibrary() {
+  return getFiles(ROOT_AUDIO_PATH).then(files => {
+    return files.reduce((acc, file) => {
+      file = file.replace(`${resolve(ROOT_AUDIO_PATH)}/`, '');
+
+      const idx = file.indexOf('/');
+      if(idx >= 0) {
+        const folder = file.substr(0, idx);
+        file = file.substr(idx+1);
+        if(!acc[folder]) acc[folder] = [];
+        acc[folder].push(file);
+      } else {
+        acc['/'].push(file);
+      }
+
+      return acc;
+    }, { '/': []});
+  });
 }
 
-function saveMessage(message) {
-  return knex('messages')
-    .insert({
-      name: message.name,
-      created_at: message.timestamp,
-      message: message.message
-    });
+function moveFiles(files, folderName) {
+  let audioPath = ROOT_AUDIO_PATH;
+  if(folderName) {
+    //recursively make folder if needed
+    audioPath = `${audioPath}${folderName}/`;
+    fx.mkdirSync(audioPath);
+  }
+  console.log(files);
+
+  return Promise.all(files.map(file => {
+    const { path, name } = file;
+    return new Promise(resolve => {    
+      fs.copyFile(path, `${audioPath}${name}`, err => {
+        if(err) {
+          console.log(err);
+          throw err;
+        } else {
+          resolve();  
+        }
+      });
+    })
+  }));
 }
 
 module.exports = {
-  getHistory,
-  saveMessage,
-  getSchedules
+  loadMetadataforSchedules,
+  loadLibrary,
+  getMetadataForSong,
+  moveFiles,
 };
