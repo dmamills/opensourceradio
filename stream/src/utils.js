@@ -1,12 +1,14 @@
 const fs = require('fs');
-const path = require('path');
 const moment = require('moment');
 const chalk = require('chalk');
+const Schedule = require('./schedule/schedule');
 
 const STATE_LOG_FILE = `${process.cwd()}/state.log`;
 const TIME_FORMAT = 'MMM DD YYYY HH:mm a';
 
 const getConfig = () => require('../config.json');
+const { AUDIO_PATH } = getConfig();
+
 const pad = n => n < 10 ? `0${n}` : n;
 
 const printMetadata = metadata => {
@@ -21,6 +23,8 @@ const printMetadata = metadata => {
   console.log(chalk.yellow(`\tTitle: ${common.title}`));
   console.log(chalk.yellow(`\tLength: ${pad(minutes)}:${pad(seconds)}`));
   console.log('');
+
+  return metadata;
 }
 
 const printHeader = () => {
@@ -66,8 +70,6 @@ function shuffleArray(a) {
   return a;
 }
 
-
-
 function writeAppState(appState) {
   return new Promise((resolve, reject) => {
     fs.writeFile(STATE_LOG_FILE, JSON.stringify(appState), (err) => {
@@ -78,30 +80,29 @@ function writeAppState(appState) {
 }
 
 function loadAppState() {
+  console.log('Looking for existing app state', STATE_LOG_FILE);
   return new Promise((resolve, reject) => {
     fs.readFile(STATE_LOG_FILE, (err, data) => {
       if(err) { reject(err.message); }
       else {
         try {
-          const state = JSON.parse(data.toString());
+          let state = JSON.parse(data.toString());
+          const { name, startTime, length, playlist } = state.currentSchedule;  
+          state.currentSchedule = new Schedule(name, moment(startTime, 'YYYY-MM-DD HH:mm:ss'), length, playlist.join(','));
           resolve(state);
         } catch(e) {
           reject(e);
         }
       }
-    })
+    });
   });
 }
 
 const fetchAudioDirectoryContents = () => {
-  const audioDirectory = path.resolve(__dirname, '../../assets/audio');
   return new Promise(resolve => {
-    fs.readdir(audioDirectory, (err, files) => {
-      if(err) {
-        throw err;
-      } else {
-        resolve(files);
-      }
+    fs.readdir(AUDIO_PATH, (err, files) => {
+      if(err) { throw err; }
+      resolve(files.filter(f => f.indexOf('.mp3') > -1));
     });
   });
 }
@@ -110,7 +111,6 @@ const timeTillNextBlockInHours = (startTime = moment()) => {
   const minutes = parseInt(startTime.format('m'), 10);
   return parseFloat((minutes / 60).toFixed(2));
 }
-
 
 module.exports = {
   printHeader,

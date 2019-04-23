@@ -6,7 +6,7 @@ const { printFfmpegHeader, getConfig } = require('../utils');
 const addOptions = require('./options');
 const addFilters = require('./filters');
 
-const { FFMPEG_PATH } = getConfig();
+const { FFMPEG_PATH, VIDEO_PATH, STREAM_URL } = getConfig();
 
 if(FFMPEG_PATH && FFMPEG_PATH !== "") {
   console.log(chalk.magenta('Setting custom ffmpeg path: ', FFMPEG_PATH));
@@ -23,14 +23,14 @@ const progressToSeconds = progress => {
   return parseInt(splitTimestamp[0], 10) * 60 * 60 + parseInt(splitTimestamp[1], 10) * 60 + parseInt(splitTimestamp[2], 10);
 }
 
-const runStream = (outputPath, videoPath, audioPath, metadata) => {
+const runStream = (audioPath, metadata) => {
   console.log(chalk.magenta(`Starting ffmpeg process`));
-  console.log(chalk.magenta(`Streaming to: ${outputPath}`));
+  console.log(chalk.magenta(`Streaming to: ${STREAM_URL}`));
 
   return new Promise((resolve, reject) => {
     let command = ffmpeg();
     
-    command = command.input(videoPath).inputOptions([ '-stream_loop -1' ]);
+    command = command.input(VIDEO_PATH).inputOptions([ '-stream_loop -1' ]);
     command = command.input(audioPath).audioCodec('copy');
 
     command = command
@@ -66,7 +66,7 @@ const runStream = (outputPath, videoPath, audioPath, metadata) => {
         progressBar.update(progressToSeconds(progress));
       });
 
-      command.save(outputPath);
+      command.save(STREAM_URL);
   });
 }
 
