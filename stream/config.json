@@ -8,19 +8,19 @@
   "FONT_COLOR": "#FFFFFF",
   "FONT_BORDER": "#000000",
 
-  "VIDEO_WIDTH": "1280",
-  "VIDEO_HEIGHT": "720",
+  "VIDEO_WIDTH": "640",
+  "VIDEO_HEIGHT": "360",
   "VIDEO_CODEC": "libx264",
-  "VIDEO_BIT_RATE": "2500k",
+  "VIDEO_BIT_RATE": "1250k",
 
   "AUDIO_BIT_RATE": "128k",
   "AUDIO_SAMPLE_RATE": "44100",
-  "AUDIO_CODEC": "aac",
+  "AUDIO_CODEC": "mp3",
 
   "NUM_THREADS": "2",
   "PRESET": "superfast",
   "CRF": "28",
-  "BUFFER_SIZE": "2500k",
+  "BUFFER_SIZE": "1250k",
   "FRAMES_PER_SECOND": "24",
 
   "OVERLAY_TITLE": "opensourceradio"
