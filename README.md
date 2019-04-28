@@ -10,9 +10,13 @@ a proof of concept for self hosting streaming radio.
 
 ## usage
 
-### stream
+### setup
 
 before anything else, you'll need FFMPEG locally. if you don't already, run `brew install ffmpeg` to install it locally.
+
+you may run into a somewhat-common issue of the install failing when building symlinks, which is [fixed in this GitHub thread](https://github.com/Homebrew/homebrew-core/issues/30652#issuecomment-410645836).
+
+### stream
 
 to start your radio stream, `mkdir stream/assets/audio` and populate the directory with mp3 files. then run:
 
