@@ -12,7 +12,9 @@ a proof of concept for self hosting streaming radio.
 
 ### stream
 
-to start radio stream, `mkdir stream/assets/audio` and populate the directory with mp3 files. then run:
+before anything else, you'll need FFMPEG locally. if you don't already, run `brew install ffmpeg` to install it locally.
+
+to start your radio stream, `mkdir stream/assets/audio` and populate the directory with mp3 files. then run:
 
 ```
 cd stream
