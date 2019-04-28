@@ -16,6 +16,15 @@ before anything else, you'll need FFMPEG locally. if you don't already, run `bre
 
 you may run into a somewhat-common issue of the install failing when building symlinks, which is [fixed in this GitHub thread](https://github.com/Homebrew/homebrew-core/issues/30652#issuecomment-410645836).
 
+### backend
+
+```
+cd server
+npm install
+./node_modules/.bin/knex migrate:latest
+node index.js
+```
+
 ### stream
 
 to start your radio stream, `mkdir stream/assets/audio` and populate the directory with mp3 files. then run:
@@ -23,15 +32,6 @@ to start your radio stream, `mkdir stream/assets/audio` and populate the directo
 ```
 cd stream
 npm install
-node index.js
-```
-
-### backend
-
-```
-cd server
-npm install
-./node_modules/.bin/knex migrate:latest
 node index.js
 ```
 
