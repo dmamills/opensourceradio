@@ -4,7 +4,7 @@ a proof of concept for self hosting streaming radio.
 
 [come and check it out!](http://radio.yomills.com)
 
-## example 
+## example
 
 ![example stream](example.png)
 
@@ -12,15 +12,15 @@ a proof of concept for self hosting streaming radio.
 
 ### stream
 
-to start radio stream, populate `stream/audio` directory with mp3 files. then run:
+to start radio stream, `mkdir stream/assets/audio` and populate the directory with mp3 files. then run:
 
 ```
-cd stream2
+cd stream
 npm install
 node index.js
 ```
 
-### backend 
+### backend
 
 ```
 cd server
