@@ -25,10 +25,10 @@ class Volume extends Component {
     return (
       <div className={cn(flex, p1, alignItemsCenter, whiteText)}>
         <label className={mr1} htmlFor="volume">Volume</label>
-        <input 
+        <input
           type="range"
           name="volume"
-          min="0" 
+          min="0"
           max="1"
           step="0.05"
           value={volume}
@@ -37,7 +37,7 @@ class Volume extends Component {
         <span className={volumeLabel}>{`${parseInt(volume * 100, 10)}%`}</span>
       </div>
     );
-  } 
+  }
 }
 
 export default Volume;

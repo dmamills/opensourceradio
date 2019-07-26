@@ -10,7 +10,7 @@ stylish.raw(`
       flex-direction: column;
     }
   }
-`)
+`);
 
 export const [
   flex,

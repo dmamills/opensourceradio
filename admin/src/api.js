@@ -40,6 +40,7 @@ const del = url => {
     method: 'DELETE'
   })
   .then(res => res.json());
+
 }
 
 export const authTest = key => {

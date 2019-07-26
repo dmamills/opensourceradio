@@ -10,6 +10,7 @@ const getConfig = () => require('../config.json');
 const { AUDIO_PATH } = getConfig();
 
 const pad = n => n < 10 ? `0${n}` : n;
+const getNextIndex = (n, arr) => n + 1 >= arr.length ? 0 : n + 1;
 
 const printMetadata = metadata => {
   const { common, format } = metadata;
@@ -45,19 +46,11 @@ const printSchedule = schedule => {
 }
 
 const printFfmpegHeader = command => {
-
   console.log(`\n${chalk.blue('Spawned ffmpeg with command:')}`);
   console.log(command);
   console.log('\n\n\n');
-} 
-
-const getNextSong = (playlist, lastSongPlayed) => {
-  let n = lastSongPlayed + 1;
-  if(n >= playlist.length) {
-    n = 0;
-  }
-  return n;
 }
+
 
 function shuffleArray(a) {
   var j, x, i;
@@ -76,7 +69,7 @@ function writeAppState(appState) {
       if(err) reject(err.message);
       else resolve();
     });
-  })
+  });
 }
 
 function loadAppState() {
@@ -87,7 +80,7 @@ function loadAppState() {
       else {
         try {
           let state = JSON.parse(data.toString());
-          const { name, startTime, length, playlist } = state.currentSchedule;  
+          const { name, startTime, length, playlist } = state.currentSchedule;
           state.currentSchedule = new Schedule(name, moment(startTime, 'YYYY-MM-DD HH:mm:ss'), length, playlist.join(','));
           resolve(state);
         } catch(e) {
@@ -117,7 +110,7 @@ module.exports = {
   printMetadata,
   printSchedule,
   printFfmpegHeader,
-  getNextSong,
+  getNextIndex,
   shuffleArray,
   writeAppState,
   loadAppState,

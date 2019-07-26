@@ -29,7 +29,7 @@ const runStream = (audioPath, metadata) => {
 
   return new Promise((resolve, reject) => {
     let command = ffmpeg();
-    
+
     command = command.input(VIDEO_PATH).inputOptions([ '-stream_loop -1' ]);
     command = command.input(audioPath).audioCodec('copy');
 
@@ -40,7 +40,7 @@ const runStream = (audioPath, metadata) => {
       `-f lavfi`,
       `-re`
     ]);
-    
+
     command = command.outputOptions([
       ...addOptions(metadata),
       `-f flv`
@@ -48,11 +48,11 @@ const runStream = (audioPath, metadata) => {
 
     command = command.complexFilter(addFilters(metadata));
     const progressBar = makeProgressBar();
-    
+
     command
       .on('start', commandString => {
         printFfmpegHeader(commandString);
-        progressBar.start(Math.floor(metadata.format.duration), 0);        
+        progressBar.start(Math.floor(metadata.format.duration), 0);
       })
       .on('end', () => {
         progressBar.stop();

@@ -12,7 +12,7 @@ const Footer = () => {
         <p className={p}>thanks for hanging out.</p>
       </div>
     </footer>
-  )
+  );
 }
 
 export default Footer;

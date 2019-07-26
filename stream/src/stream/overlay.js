@@ -45,7 +45,7 @@ const addOverlay = metadata => {
     overlayTextItems.push(createOverlayText(common.album, X_POSITION, yPosition));
     yPosition += 8;
   }
-  
+
   if(common.title) {
     overlayTextItems.push(createOverlayText(common.title, X_POSITION, yPosition));
   }

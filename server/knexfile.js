@@ -1,5 +1,4 @@
 module.exports = {
-
   development: {
     debug: true,
     client: 'sqlite3',
@@ -10,7 +9,6 @@ module.exports = {
       tableName: 'migrations'
     }
   },
-
   staging: {
     client: 'postgresql',
     connection: {
@@ -26,7 +24,6 @@ module.exports = {
       tableName: 'knex_migrations'
     }
   },
-
   production: {
     client: 'postgresql',
     connection: {
@@ -42,5 +39,4 @@ module.exports = {
       tableName: 'knex_migrations'
     }
   }
-
 };

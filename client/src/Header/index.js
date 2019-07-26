@@ -54,7 +54,7 @@ class Header extends Component {
   hideSchedules = () => {
     this.setState({ showSchedules: false });
   }
-  
+
   render() {
     const { showSchedules, showUsers, users , schedules } = this.state;
     return (
@@ -79,7 +79,7 @@ class Header extends Component {
         { showSchedules && <Schedules schedules={schedules} /> }
         { showUsers && <UserList users={users} /> }
       </header>
-    )
+    );
   }
 }
 

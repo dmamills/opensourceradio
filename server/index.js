@@ -6,15 +6,13 @@ const app = express();
 const cors = require('cors');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
+
 const { NodeMediaServer } = require('node-media-server');
-const mediaServerConfig = require('./mediaServerConfig')
-
-const { 
-  SERVER_PORT
-} = process.env;
-
+const mediaServerConfig = require('./mediaServerConfig');
 const api = require('./routes/api');
 const { MessageRepository } = require('./repo');
+
+const { SERVER_PORT } = process.env;
 
 const server = http.createServer(app);
 const io = socketio(server);
@@ -58,7 +56,7 @@ io.on('connection', function(socket) {
   socket.on('name-unset', () => {
     delete connectedUsers[socketName];
     emitUsers('user-left');
-  })
+  });
 
   socket.on('message', msg => {
     console.log('server got message', msg);
@@ -84,5 +82,5 @@ server.listen(SERVER_PORT, () => {
   console.log(`Server started on port: ${SERVER_PORT}`);
 });
 
-const nms = new NodeMediaServer(mediaServerConfig)
+const nms = new NodeMediaServer(mediaServerConfig);
 nms.run();

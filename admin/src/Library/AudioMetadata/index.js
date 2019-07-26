@@ -24,7 +24,7 @@ class AudioMetadata extends Component {
         });
       }).catch(error => {
         console.log(error);
-      })
+      });
   }
 
   edit = () => {

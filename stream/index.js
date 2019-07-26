@@ -5,7 +5,7 @@ const musicMetadata = require('music-metadata');
 
 const stream = require('./src/stream');
 const { findCurrentSchedule } = require('./src/schedule');
-const { printMetadata, printHeader, getNextSong, printSchedule, writeAppState, loadAppState, getConfig } = require('./src/utils');
+const { printMetadata, printHeader, getNextIndex, printSchedule, getConfig } = require('./src/utils');
 const { AUDIO_PATH } = getConfig();
 
 let appState = {
@@ -66,7 +66,7 @@ const radioInterval = () => {
   const { currentSchedule, lastSongPlayed, songCount } = appState;
   
   if(!currentSchedule) {
-    console.log(chalk.magenta('Getting initial schedule'));
+    console.log(chalk.magenta('Getting current schedule...'));
     findCurrentSchedule()
       .then(schedule => {
         onScheduleSet(schedule, 0);
@@ -75,7 +75,7 @@ const radioInterval = () => {
     console.log(chalk.magenta(`Continuing schedule, song count: ${songCount}`));
     onScheduleSet(
       currentSchedule,
-      getNextSong(currentSchedule.playlist, lastSongPlayed)
+      getNextIndex(currentSchedule.playlist, lastSongPlayed)
     );
   } else {
     console.log('Searching for next schedule, calling onSongFinished');
