@@ -8,7 +8,7 @@ class MetadataActions extends Component {
     const { isEditing } = this.props;
     if(isEditing) {
       return (<>
-        <button>Save</button>
+        <button onClick={this.props.save}>Save</button>
         <button onClick={this.props.cancel}>Cancel</button>
       </>);
     }

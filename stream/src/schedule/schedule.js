@@ -4,10 +4,10 @@ const SQL_FORMAT = 'YYYY-MM-DD hh:mm:ss';
 
 class Schedule {
   /**
-   * @param {string} name 
-   * @param {moment} startTime 
-   * @param {number} length 
-   * @param {array<string>} playlist 
+   * @param {string} name
+   * @param {moment} startTime
+   * @param {number} length
+   * @param {array<string>} playlist
    */
   constructor(name, startTime, length, playlist) {
     this.name = name;

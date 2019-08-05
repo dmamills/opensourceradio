@@ -3,6 +3,7 @@ const musicMetadata = require('music-metadata');
 const fx = require('mkdir-recursive');
 const { promisify } = require('util');
 const { resolve } = require('path');
+const ffmetadata = require("ffmetadata");
 
 const readdir = promisify(fs.readdir);
 const stat = promisify(fs.stat);
@@ -26,6 +27,15 @@ function getMetadataForSong(filename) {
         title: metadata.common.title
       };
     });
+}
+
+function writeMetadataForSong(filename, metadata) {
+  return new Promise((resolve, reject) => {
+    ffmetadata.write(`${ROOT_AUDIO_PATH}/${filename}`, metadata, function(err) {
+      if (err) reject(err);
+      else resolve();
+    });
+  });
 }
 
 function getMetadataForSongs(songs) {
@@ -103,5 +113,6 @@ module.exports = {
   loadMetadataforSchedules,
   loadLibrary,
   getMetadataForSong,
+  writeMetadataForSong,
   moveFiles,
 };

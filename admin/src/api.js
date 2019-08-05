@@ -11,9 +11,7 @@ export const storeKey = key => {
   return localStorage.setItem(OSR_KEY, key);
 }
 
-export const getHeaders = () => ({
-  Authorization: `Bearer ${fetchKey()}`
-})
+export const getHeaders = () => ({ Authorization: `Bearer ${fetchKey()}` })
 
 const get = url => {
   const headers = getHeaders();
@@ -40,6 +38,7 @@ const del = url => {
     method: 'DELETE'
   })
   .then(res => res.json());
+
 }
 
 export const authTest = key => {
@@ -49,9 +48,7 @@ export const authTest = key => {
     }
   })
   .then(res => res.json())
-  .then(({ library }) => {
-    return !!library;
-  });
+  .then(({ library }) => !!library);
 }
 
 export const getLibrary = () => {
@@ -67,6 +64,14 @@ export const getMetadata = filename => {
     .then(({ error, metadata }) => {
       if(error) throw new Error(error);
       if(metadata) return metadata;
+    })
+}
+
+export const updateMetadata = (filename, metadata) => {
+  return post('/api/library/metadata', { filename, metadata })
+    .then(({ error }) => {
+      if(error) throw new Error(error);
+      else return true;
     })
 }
 

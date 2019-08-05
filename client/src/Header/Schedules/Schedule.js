@@ -27,7 +27,7 @@ const isActiveSchedule = (startTime, endTime) => {
 }
 
 const Schedule = ({ schedule }) => {
-  const { id, name, start_time, length, description } = schedule; 
+  const { id, name, start_time, length, description } = schedule;
   const startTime = moment(start_time);
   const endTime = startTime.clone().add(length, 'h');
   const isActive = isActiveSchedule(startTime, endTime);

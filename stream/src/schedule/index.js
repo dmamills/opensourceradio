@@ -22,7 +22,7 @@ const findCurrentSchedule = () => {
       if(!schedules || schedules.length === 0) {
         console.log(chalk.blue('No Schedules Found, Returning Default...'));
         return defaultSchedule();
-      } 
+      }
 
       console.log('Searching for current schedule...');
       const activeSchedule = schedules.find(s => s.isActive());
@@ -30,7 +30,7 @@ const findCurrentSchedule = () => {
         console.log(chalk.blue('Found next active schedule...'));
         return activeSchedule;
       }
-      
+
       console.log(chalk.blue('No Active Schedules Found, Returning Default...'));
       return defaultSchedule();
     });

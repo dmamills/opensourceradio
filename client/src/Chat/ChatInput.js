@@ -20,18 +20,18 @@ class ChatInput extends Component {
     const { name } = this.props;
     const { message } = this.state;
 
-    if(message.length === 0) return; 
-    
+    if(message.length === 0) return;
+
     if(!name) {
       this.props.sendName(message);
     } else {
-      this.props.sendMessage(message)
+      this.props.sendMessage(message);
     }
-    
+
     this.setState({
       message: ''
     });
-  } 
+  }
 
   onChange = (e) => {
     this.setState({

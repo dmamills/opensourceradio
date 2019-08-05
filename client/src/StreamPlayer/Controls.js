@@ -30,7 +30,7 @@ const Controls = props => {
 
   return (
     <div className={cn(flex, p1, spaceBetween, container)}>
-      {button}   
+      {button}
       <Volume onVolumeChange={onVolumeChange} />
     </div>
   );

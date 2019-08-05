@@ -14,7 +14,6 @@ const msgStyles = stylish({
   }
 });
 
-
 const Message = props => {
   const { timestamp, name, message } = props;
   return (

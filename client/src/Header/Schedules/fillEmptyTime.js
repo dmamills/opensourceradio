@@ -16,7 +16,7 @@ const fillEmptyTime = schedules => {
         moment().startOf('day'),
         24
       )
-    ]
+    ];
   }
 
   let filledSchedule = [];
@@ -34,7 +34,7 @@ const fillEmptyTime = schedules => {
       filledSchedule.push(makeSchedule(
         moment(previousSchedule.start_time, DATE_FORMAT).add(previousSchedule.length, 'h').format(DATE_FORMAT),
         hourDiff
-      ))
+      ));
     }
 
     filledSchedule.push(schedule);
