@@ -1,11 +1,12 @@
 import React from 'react';
 import cn from 'classnames';
 import stylish from '@dmamills/stylish';
-import { pv1 } from '../../styles';
+import { pv1, mr05 } from '../../styles';
 
 const  fileStyles = stylish({
   cursor: 'pointer',
   borderBottom: '1px solid black',
+  listStyle: 'none',
 });
 
 const File = ({ selectFile, file, folder }) => {
@@ -14,7 +15,8 @@ const File = ({ selectFile, file, folder }) => {
       className={cn(fileStyles, pv1)}
       onClick={() => selectFile(`${folder === '/' ? '': `${folder}/`}${file}`)}
     >
-      {file}
+      <span className={mr05} role="img" aria-label="song">🎵</span>
+      <strong>{file}</strong>
     </li>
   );
 }

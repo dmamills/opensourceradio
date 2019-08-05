@@ -3,7 +3,6 @@ import cn from 'classnames';
 import { flex, justifyEnd, m05 } from '../../styles';
 
 class MetadataActions extends Component {
-
   renderButtons = () => {
     const { isEditing } = this.props;
     if(isEditing) {

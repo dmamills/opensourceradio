@@ -5,7 +5,7 @@ import Dropzone from 'dropzone';
 import { getHeaders, SERVER_URL } from '../../api';
 import previewTemplate from './previewTemplate';
 import { flex, spaceBetween, alignItemsCenter, p05, heavyText, flex2, ml1, p1 } from '../../styles';
-import { dropzoneStyles, folderLabel } from './styles';
+import { dropzoneStyles, folderLabel, previewText } from './styles';
 
 const acceptedFiles = '.mp3,audio/*';
 
@@ -92,7 +92,7 @@ class AudioUpload extends Component {
       <div className={cn(p1)}>
         <h3>Upload Audio</h3>
         <div id="dropzoneEl" className={cn(p1, dropzoneStyles, { flex: hasNoFiles }, { flexCenter: hasNoFiles })}>
-          {(hasNoFiles) && <p>Drop files, or click here</p>}
+          {(hasNoFiles) && <p className={previewText}>Drop files, or click here</p>}
         </div>
         <div className={cn(flex, spaceBetween, alignItemsCenter, p05)}>
           <label

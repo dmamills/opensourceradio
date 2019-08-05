@@ -1,7 +1,7 @@
 import React from 'react';
 import stylish from '@dmamills/stylish';
 
-import { listStyleNone } from '../../styles';
+import { listStyleNone, mr05 } from '../../styles';
 import File from './File';
 
 const folderStyles = stylish({
@@ -14,6 +14,7 @@ const Folder = ({ folder, isExpanded, actionFn, folderContents, selectFile }) =>
   return <li className={listStyleNone}>
     <div>
       <div className={folderStyles} onClick={() => actionFn(folder)}>
+        <span className={mr05} role="img" aria-label="folder">🗂</span>
         <strong>{folder}</strong>
       </div>
       {isExpanded && <ul>
