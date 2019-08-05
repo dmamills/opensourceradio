@@ -1,6 +1,6 @@
 const express = require('express');
 
-const { loadLibrary, getMetadataForSong, moveFiles } = require('../util');
+const { loadLibrary, writeMetadataForSong, getMetadataForSong, moveFiles } = require('../util');
 const { errorHandler, multipartMiddleware, authMiddleware } = require('./middleware');
 const router = express.Router();
 
@@ -28,6 +28,16 @@ router.get('/metadata', (req, res) => {
     }).catch(errorHandler(res));
 });
 
+router.post('/metadata', (req, res) => {
+    const filename = req.body.filename;
+    const metadata = req.body.metadata;
+
+    writeMetadataForSong(filename, metadata)
+      .then(() => {
+        res.json({ success: true })
+      })
+      .catch(errorHandler(res));
+});
 
 
 module.exports = router;
