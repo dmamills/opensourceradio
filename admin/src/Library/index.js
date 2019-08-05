@@ -23,14 +23,13 @@ class Library extends Component {
       this.setState({ library });
     }).catch(err => {
       console.log('error fetching library: ', err);
-    })
+    });
   }
 
   selectFile = selectedFile => {
-    console.log('file selected', selectedFile);
     this.setState({
       selectedFile,
-    })
+    });
   }
   
   render() {
@@ -41,6 +40,7 @@ class Library extends Component {
           <Browser
             library={library}
             selectFile={this.selectFile}
+            selectedFile={selectedFile}
           />
           <div className={cn(flex, flex1, column)}>
             <AudioMetadata

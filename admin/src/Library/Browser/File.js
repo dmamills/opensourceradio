@@ -1,19 +1,22 @@
 import React from 'react';
 import cn from 'classnames';
 import stylish from '@dmamills/stylish';
-import { pv1, mr05 } from '../../styles';
+import { pv1, mr05, pl1 } from '../../styles';
 
-const  fileStyles = stylish({
+const  [fileStyles, selectedFileStyle] = stylish({
   cursor: 'pointer',
-  borderBottom: '1px solid black',
   listStyle: 'none',
+}, {
+  backgroundColor: '#bac6d3',
 });
 
-const File = ({ selectFile, file, folder }) => {
+const File = ({ selectFile, selectedFile, file, folder }) => {
+  const fullFilename = `${folder === '/' ? '': `${folder}/`}${file}`;
+  const isSelected = selectedFile === fullFilename;
   return (
     <li
-      className={cn(fileStyles, pv1)}
-      onClick={() => selectFile(`${folder === '/' ? '': `${folder}/`}${file}`)}
+      className={cn(fileStyles, pv1, pl1, (isSelected ? selectedFileStyle : ''))}
+      onClick={() => selectFile(fullFilename)}
     >
       <span className={mr05} role="img" aria-label="song">🎵</span>
       <strong>{file}</strong>

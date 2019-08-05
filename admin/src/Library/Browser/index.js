@@ -32,7 +32,7 @@ class Browser extends Component {
   }
 
   render() {
-    const { library, selectFile } = this.props;
+    const { library, selectFile, selectedFile } = this.props;
     const { expanded } = this.state;
     const folders = Object.keys(library);
     return (
@@ -45,6 +45,7 @@ class Browser extends Component {
               actionFn={expanded[folder] ? this.collapse : this.expand}
               isExpanded={expanded[folder]}
               selectFile={selectFile}
+              selectedFile={selectedFile}
               folderContents={library[folder]}
           />)}
         </ul>
