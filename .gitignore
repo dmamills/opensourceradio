@@ -1,8 +1,11 @@
 
-stream/node_modules/*
-stream/assets/audio/*.mp3
-stream/assets/audio/*.wav
-stream/assets/video/*.mp4
+packages/stream/node_modules/*
+packages/stream/assets/audio/*.mp3
+packages/stream/assets/audio/*.wav
+packages/stream/assets/video/*.mp4
+node_modules/
+lerna-debug.log
+npm-debug.log
 
 .DS_Store
 **/.DS_Store
