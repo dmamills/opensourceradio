@@ -4,6 +4,15 @@ stylish.raw(`
   body { background-color: rgb(107,127,149); height: 99vh; font-family: monospace; }
   #root { display: flex; flex-flow: column; height: 100%; }
   label { width: 75px; }
+  .dz-preview.dz-file-preview {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem;
+    margin: 0.25rem;
+    border: 1px solid black;
+    border-radius: 0.5rem;
+    align-items: center;
+}
 `)
 
 export const containerBox = stylish({
