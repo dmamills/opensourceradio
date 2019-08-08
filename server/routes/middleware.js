@@ -20,7 +20,7 @@ const authMiddleware = (req, res, next) => {
 const errorHandler = response => {
   return error => {
     console.log('error:', error);
-    response.status(500).json({
+    response.status(400).json({
       error
     });
   }

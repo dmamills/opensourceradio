@@ -6,6 +6,7 @@ const { resolve } = require('path');
 const ffmetadata = require("ffmetadata");
 
 const readdir = promisify(fs.readdir);
+const removeFile = promisify(fs.unlink);
 const stat = promisify(fs.stat);
 const ROOT_AUDIO_PATH = `${process.cwd()}/../stream/assets/audio/`;
 
@@ -85,6 +86,22 @@ function loadLibrary() {
   });
 }
 
+function removeSong(filename) {
+  const path = resolve(ROOT_AUDIO_PATH, filename);
+  if(!path.startsWith(resolve(ROOT_AUDIO_PATH))) {
+    return Promise.reject('Unaccepted path.');
+  }
+
+  return removeFile(path)
+    .then(() => {
+      return true;
+    })
+    .catch(error => {
+      console.log('error:', error);
+      return false;
+    });
+}
+
 function moveFiles(files, folderName) {
   let audioPath = ROOT_AUDIO_PATH;
   if(folderName) {
@@ -114,5 +131,6 @@ module.exports = {
   loadLibrary,
   getMetadataForSong,
   writeMetadataForSong,
+  removeSong,
   moveFiles,
 };

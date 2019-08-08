@@ -1,6 +1,6 @@
 const express = require('express');
 
-const { loadLibrary, writeMetadataForSong, getMetadataForSong, moveFiles } = require('../util');
+const { loadLibrary, writeMetadataForSong, getMetadataForSong, removeSong, moveFiles } = require('../util');
 const { errorHandler, multipartMiddleware, authMiddleware } = require('./middleware');
 const router = express.Router();
 
@@ -18,6 +18,14 @@ router.post('/', authMiddleware, multipartMiddleware, (req, res) => {
   moveFiles(files,folderName)
     .then(() => {
       res.json({ success: true });
+    }).catch(errorHandler(res));
+});
+
+router.delete('/', authMiddleware, (req, res) => {
+  const filename = req.query.filename;
+  removeSong(filename)
+    .then((success) => {
+      res.json({ success });
     }).catch(errorHandler(res));
 });
 
