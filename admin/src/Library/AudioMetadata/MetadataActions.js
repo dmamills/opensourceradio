@@ -22,7 +22,7 @@ class MetadataActions extends Component {
     const { selectedFile } = this.props;
     if(!selectedFile) return;
     if(window.confirm(`Delete ${selectedFile}?`)) {
-      console.log('delete: ', selectedFile);
+      this.props.delete();
     }
   }
 

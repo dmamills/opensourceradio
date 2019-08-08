@@ -6,6 +6,7 @@ export const [ dropzoneStyles, folderLabel, previewText ] = stylish({
   cursor: 'pointer',
   overflowY: 'scroll',
   display: 'flex',
+  flexDirection: 'column',
 }, {
   width: '100px'
 }, {

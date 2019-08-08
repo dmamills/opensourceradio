@@ -95,7 +95,11 @@ export const updateSchedule = (id, schedule) => {
   });
 }
 
-export const createSchedule =(schedule) => {
+export const removeSong = (filename) => {
+  return del(`/api/library?filename=${filename}`);
+}
+
+export const createSchedule = (schedule) => {
   return post(`/api/schedules`, schedule)
   .then(({ error, schedule }) => {
     if(error) throw new Error(error);

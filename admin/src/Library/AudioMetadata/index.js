@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import cn from 'classnames';
 import { flex, spaceBetween, alignItemsCenter, p05, heavyText, flex2, ml1, ph1 } from '../../styles';
 
-import { updateMetadata, getMetadata } from '../../api';
+import { updateMetadata, getMetadata, removeSong } from '../../api';
 import MetadataActions from './MetadataActions';
 
 class AudioMetadata extends Component {
@@ -37,6 +37,22 @@ class AudioMetadata extends Component {
     updateMetadata(selectedFile, metadata)
       .then(() => {
         this.setState({ isEditing: false })
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
+  onDelete = () => {
+    const { selectedFile } = this.state;
+    removeSong(selectedFile)
+      .then(() => {
+        this.props.fetchLibrary();
+        this.setState({
+          selectedFile: null,
+          isEditing: false,
+          metadata: { artist: '', title: '', album: '' },
+        });
       })
       .catch(error => {
         console.log(error);
@@ -124,6 +140,7 @@ class AudioMetadata extends Component {
             isEditing={isEditing}
             selectedFile={selectedFile}
             save={this.onSave}
+            delete={this.onDelete}
             edit={this.edit}
             cancel={this.cancel}
           />

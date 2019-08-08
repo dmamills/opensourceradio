@@ -45,9 +45,10 @@ class Library extends Component {
           <div className={cn(flex, flex1, column)}>
             <AudioMetadata
               selectedFile={selectedFile}
+              fetchLibrary={this.fetchLibrary}
             />
            <AudioUpload 
-            fetchLibrary={this.fetchLibrary}
+              fetchLibrary={this.fetchLibrary}
            />
           </div>
         </div>
