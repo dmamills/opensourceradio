@@ -22,6 +22,9 @@ class App extends Component {
 
   componentWillMount() {
     this.onAuthChange();
+    if(window.location.hash) {
+      this.changeTab(window.location.hash.substring(1));
+  }
   }
 
   onAuthChange = () => {
@@ -33,7 +36,11 @@ class App extends Component {
 
   changeTab = key => {
     const tab = defaultTabs.find(t => t.key === key);
-    const currentTab = defaultTabs.indexOf(tab);
+    let currentTab = defaultTabs.indexOf(tab);
+    if(currentTab === -1) {
+      currentTab = 0;
+    }
+
     this.setState({
       currentTab
     });
