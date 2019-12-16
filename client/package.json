@@ -4,6 +4,8 @@
   "private": true,
   "dependencies": {
     "@dmamills/stylish": "^1.2.2",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.4.0",
     "classnames": "^2.2.6",
     "flv.js": "^1.5.0",
     "moment": "^2.24.0",
@@ -17,6 +19,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "test2": "react-scripts test --transformIgnorePatterns \"node_modules/(?!(@dmamills/stylish))/\"",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
