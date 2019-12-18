@@ -7,12 +7,13 @@ const STATE_LOG_FILE = `${process.cwd()}/state.log`;
 const TIME_FORMAT = 'MMM DD YYYY HH:mm a';
 
 const getConfig = () => require('../config.json');
-const { AUDIO_PATH } = getConfig();
+const { VIDEO_PATH, AUDIO_PATH } = getConfig();
 
 const pad = n => n < 10 ? `0${n}` : n;
 const getNextIndex = (n, arr) => n + 1 >= arr.length ? 0 : n + 1;
 
 const printMetadata = metadata => {
+  console.log('hello???');
   const { common, format } = metadata;
   const length = Math.floor(format.duration);
   const minutes = Math.floor(length / 60);
@@ -26,7 +27,7 @@ const printMetadata = metadata => {
   console.log('');
 
   return metadata;
-}
+};
 
 const printHeader = () => {
   console.log('');
@@ -34,7 +35,7 @@ const printHeader = () => {
   const currentTime = moment().format(TIME_FORMAT);
   console.log(chalk.blue(`\tCurrent Time: ${currentTime}`));
   console.log('');
-}
+};
 
 const printSchedule = schedule => {
   console.log('');
@@ -43,13 +44,13 @@ const printSchedule = schedule => {
   console.log(chalk.yellow(`\tEnd Time: ${schedule.endTime().format(TIME_FORMAT)}`));
   console.log(chalk.yellow(`\tPlaying for: ${schedule.length} hour${schedule.length > 1 ? 's' : ''}`));
   console.log('');
-}
+};
 
 const printFfmpegHeader = command => {
   console.log(`\n${chalk.blue('Spawned ffmpeg with command:')}`);
   console.log(command);
   console.log('\n\n\n');
-}
+};
 
 
 function shuffleArray(a) {
@@ -91,6 +92,15 @@ function loadAppState() {
   });
 }
 
+const fetchVideoDirectoryContents = () => {
+  return new Promise(resolve => {
+    fs.readdir(VIDEO_PATH, (err, files) => {
+      if(err) { throw err; }
+      resolve(files.filter(f => !f.startsWith('.')));
+    });
+  });
+};
+
 const fetchAudioDirectoryContents = () => {
   return new Promise(resolve => {
     fs.readdir(AUDIO_PATH, (err, files) => {
@@ -98,12 +108,12 @@ const fetchAudioDirectoryContents = () => {
       resolve(files.filter(f => f.indexOf('.mp3') > -1));
     });
   });
-}
+};
 
 const timeTillNextBlockInHours = (startTime = moment()) => {
   const minutes = parseInt(startTime.format('m'), 10);
   return parseFloat((minutes / 60).toFixed(2));
-}
+};
 
 module.exports = {
   printHeader,
@@ -117,5 +127,6 @@ module.exports = {
   TIME_FORMAT,
   getConfig,
   fetchAudioDirectoryContents,
+  fetchVideoDirectoryContents,
   timeTillNextBlockInHours
 };

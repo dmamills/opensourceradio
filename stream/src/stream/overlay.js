@@ -15,7 +15,7 @@ const sanitizeText = str => {
   str = str.replace(/\:/g, '\\:');
   str = str.replace(/\'/g, '');
   return str;
-}
+};
 
 const createOverlayText = (text, x, y) => {
     return `drawtext=text='${sanitizeText(text)}'` +
@@ -26,7 +26,7 @@ const createOverlayText = (text, x, y) => {
       `:fontcolor=${FONT_COLOR}` +
       `:y=(h * ${(y / 100).toFixed(2)})` +
       `:x=(w * ${(x / 100).toFixed(2)})`;
-}
+};
 
 const addOverlay = metadata => {
   const { common } = metadata;
@@ -58,6 +58,6 @@ const addOverlay = metadata => {
   });
 
   return overlayString;
-}
+};
 
 module.exports = addOverlay;

@@ -1,20 +1,20 @@
 const moment = require('moment');
 const chalk = require('chalk');
-const { shuffleArray, fetchAudioDirectoryContents, timeTillNextBlockInHours } = require('../utils');
+const { shuffleArray, fetchAudioDirectoryContents, fetchVideoDirectoryContents, timeTillNextBlockInHours } = require('../utils');
 const Schedule = require('./schedule');
 
 const defaultSchedule = () => {
-  return fetchAudioDirectoryContents()
-    .then(songs => {
+  return fetchVideoDirectoryContents()
+    .then(episodes => {
       const startTime = moment();
       return new Schedule(
         'opensourceradio default playlist',
         startTime,
         timeTillNextBlockInHours(startTime),
-        shuffleArray(songs),
+        episodes,
       );
     });
-}
+};
 
 const findCurrentSchedule = () => {
   return Schedule.todaysSchedules()
@@ -34,7 +34,7 @@ const findCurrentSchedule = () => {
       console.log(chalk.blue('No Active Schedules Found, Returning Default...'));
       return defaultSchedule();
     });
-}
+};
 
 module.exports = {
   Schedule,

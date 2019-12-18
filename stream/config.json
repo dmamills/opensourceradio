@@ -1,5 +1,6 @@
 {
-  "VIDEO_PATH": "./assets/video/dock.mp4",
+  "VIDEO_PATH": "./assets/video/",
+  "OLD_VIDEO_PATH": "./assets/video/dock.mp4",
   "AUDIO_PATH": "./assets/audio/",
   "FFMPEG_PATH": "",
   "STREAM_URL": "rtmp://localhost/live/opensourceradio",

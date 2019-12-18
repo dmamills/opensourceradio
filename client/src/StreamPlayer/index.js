@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import stylish from '@dmamills/stylish';
-import flvjs from 'flv.js';
 import Controls from './Controls';
 import cn from 'classnames';
 import { flex, column, ml1 } from '../styles';
