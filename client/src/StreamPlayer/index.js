@@ -4,25 +4,19 @@ import flvjs from 'flv.js';
 import Controls from './Controls';
 import cn from 'classnames';
 import { flex, column, ml1 } from '../styles';
+import MediaPlayer from './MediaPlayer';
 
 const STREAM_URL = process.env.REACT_APP_STREAM_URL;
-
-const playerContainer = stylish({
-  height: '400px',
-});
+const playerContainer = stylish({ height: '400px' });
 
 class StreamPlayer extends Component {
   state = {
     playing: false
   }
   componentDidMount() {
-    this.flvPlayer = flvjs.createPlayer({ // eslint-disable-line no-undef
-      type: 'flv',
-      url: STREAM_URL,
-      isLive: true,
-    });
 
-    this.flvPlayer.attachMediaElement(this.videoElement);
+    this.player = new MediaPlayer(STREAM_URL);
+    this.player.attach(this.videoElement);
 
     this.videoElement.addEventListener('ended', () => {
       this.setState({
@@ -37,14 +31,14 @@ class StreamPlayer extends Component {
     const { playing } = this.state;
     if(playing) return;
 
-    this.flvPlayer.unload();
-    this.flvPlayer.load();
-    this.flvPlayer.play();
+    this.player.unload();
+    this.player.load();
+    this.player.play();
     this.setState({ playing: true });
   }
 
   componentWillUnmount() {
-    this.flvPlayer.destroy();
+    this.player.destroy();
   }
 
   getVideoReference = el => {
@@ -58,7 +52,7 @@ class StreamPlayer extends Component {
   onStop = () => {
     if(!this.state.playing) return;
 
-    this.flvPlayer.pause();
+    this.player.pause();
     this.setState({ playing: false });
   }
 

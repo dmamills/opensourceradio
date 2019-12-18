@@ -22,8 +22,7 @@ const [btn, container]  = stylish({
   backgroundColor: 'rgba(211,211,211, 0.2)'
 });
 
-const Controls = props => {
-  const { onPlay, onStop, onVolumeChange, playing } = props;
+const Controls = ({ onPlay, onStop, onVolumeChange, playing }) => {
   const button = playing ?
    <button className={btn} onClick={onStop}>■</button> :
    <button className={btn} onClick={onPlay}>▶</button>;

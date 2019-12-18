@@ -18,8 +18,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
-    "test2": "react-scripts test --transformIgnorePatterns \"node_modules/(?!(@dmamills/stylish))/\"",
+    "test": "react-scripts test --transformIgnorePatterns \"node_modules/(?!(@dmamills/stylish))/\"",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

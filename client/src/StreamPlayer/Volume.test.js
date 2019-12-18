@@ -10,17 +10,10 @@ describe('Volume Component', () => {
 
   it('should call the onVolumeChange property', () => {
     const spyFn = jest.fn();
-    const { queryByTestId } = render(<Volume onVolumeChange={spyFn} />);
+    const { queryByTestId, getByText } = render(<Volume onVolumeChange={spyFn} />);
 
     fireEvent.change(queryByTestId('volumeControl'), { target: { value: 0.5 }});
     expect(spyFn).toHaveBeenCalled();
-  });
-
-  it('should update the volume label', () => {
-    const spyFn = jest.fn();
-    const { getByText, queryByTestId } = render(<Volume onVolumeChange={spyFn} />);
-
-    fireEvent.change(queryByTestId('volumeControl'), { target: { value: 0.5 }});
     expect(getByText('50%')).toBeInTheDocument();
   });
 });
