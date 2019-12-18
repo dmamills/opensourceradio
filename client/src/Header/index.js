@@ -6,10 +6,10 @@ import Schedules from './Schedules';
 import UserList from './UserList';
 
 const Header = ({ socket }) => {
-  const [showUsers, setShowUsers ] = useState(false);
-  const [showSchedules, setShowSchedules ] = useState(false);
-  const [schedules, setSchedules ] = useState([]);
-  const [users, setUsers ] = useState([]);
+  const [showUsers, setShowUsers] = useState(false);
+  const [showSchedules, setShowSchedules] = useState(false);
+  const [schedules, setSchedules] = useState([]);
+  const [users, setUsers] = useState([]);
 
   const onUsersChange = ({ users }) => setUsers(users);
   const hideUsers = () =>  setShowUsers(false);
@@ -24,7 +24,7 @@ const Header = ({ socket }) => {
     setShowUsers(false);
     setShowSchedules(true);
     if(schedules.length === 0) {
-      getSchedules().then(schedules => setSchedules(schedules));
+      getSchedules().then(s => setSchedules(s));
     }
   }
 
@@ -43,6 +43,7 @@ const Header = ({ socket }) => {
       <h1 className={cn(alignSelfCenter, m0, whiteText)}>opensourceradio</h1>
       <div>
         <a
+          data-testid="userlist"
           className={cn(link, mr1)}
           onClick={(showUsers ? hideUsers : onUserlistClick)}
           href="#userlist"
@@ -50,6 +51,7 @@ const Header = ({ socket }) => {
           {showUsers ? 'Hide' : 'Show'} userlist
         </a>
         <a
+          data-testid="schedules"
           className={link}
           onClick={(showSchedules ? hideSchedules : onSchedulesClick)}
           href="#schedules"
