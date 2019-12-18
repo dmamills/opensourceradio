@@ -3,7 +3,6 @@ import { render } from '@testing-library/react';
 import MediaPlayer from './MediaPlayer';
 import StreamPlayer from './index';
 
-
 const mockUnload = jest.fn();
 const mockDestroy = jest.fn();
 const mockLoad = jest.fn();
