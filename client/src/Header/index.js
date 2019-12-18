@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import cn from 'classnames';
-import { getSchedules } from '../api';
+
 import { p1, flex, spaceBetween, m0, whiteText, link, alignSelfCenter, mr1 } from '../styles';
+import { getSchedules } from '../api';
 import Schedules from './Schedules';
 import UserList from './UserList';
 
@@ -36,7 +37,7 @@ const Header = ({ socket }) => {
       socket.off('user-joined', onUsersChange);
       socket.off('user-left', onUsersChange);
     }
-  })
+  }, [socket])
 
   return (
     <header className={cn(flex, p1, spaceBetween)}>
