@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, waitForElement } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import History from './History';
 import Message from './Message';
 
