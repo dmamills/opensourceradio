@@ -8,7 +8,7 @@ const Footer = () => {
     <footer className={cn(flex, p1, justifyEnd)}>
       <div className={cn(flex, column)}>
         <p className={p}>made with ♥ by <a className={link} href="https://yomills.com">dmamills.</a></p>
-        <p className={p}>checkout the source <a className={link} href="https://github.com/dmamills/radio">here.</a></p>
+        <p className={p}>checkout the source <a className={link} href="https://github.com/dmamills/opensourceradio">here.</a></p>
         <p className={p}>thanks for hanging out.</p>
       </div>
     </footer>

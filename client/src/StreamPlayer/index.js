@@ -13,7 +13,6 @@ class StreamPlayer extends Component {
     playing: false
   }
   componentDidMount() {
-
     this.player = new MediaPlayer(STREAM_URL);
     this.player.attach(this.videoElement);
 
