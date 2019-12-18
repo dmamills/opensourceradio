@@ -17,7 +17,7 @@ const modalContainer = stylish({
   padding: '1rem',
 });
 
-const Schedules = ({ schedules }) => {
+const Schedules = ({ schedules = []}) => {
   schedules = fillEmptyTime(schedules);
   return (
     <div className={cn(modalContainer, mainTheme, whiteText)}>
