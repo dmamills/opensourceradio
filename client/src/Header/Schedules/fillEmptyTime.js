@@ -48,6 +48,6 @@ const fillEmptyTime = schedules => {
   });
 
   return filledSchedule;
-}
+};
 
 export default fillEmptyTime;

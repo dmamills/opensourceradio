@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import io from 'socket.io-client';
 import cn from 'classnames';
 
@@ -9,27 +9,21 @@ import Footer from './Footer';
 import { flex } from './styles';
 import { SERVER_URL } from './api';
 
-class App extends Component {
-  componentWillMount() {
-    this.socket = io.connect(SERVER_URL);
-  }
+const App = () => {
+  const [socket] = useState(() => {
+    return io.connect(SERVER_URL);
+  });
 
-  componentWillUnmount() {
-    this.socket.close();
-  };
-
-  render() {
-    return (
-      <React.Fragment>
-        <Header socket={this.socket} />
-        <div className={cn(flex, 'app-container')}>
-          <StreamPlayer />
-          <Chat socket={this.socket} />
-        </div>
-        <Footer />
-      </React.Fragment>
-    );
-  }
+  return (
+    <>
+      <Header socket={socket} />
+      <div className={cn(flex, 'app-container')}>
+        <StreamPlayer />
+        <Chat socket={socket} />
+      </div>
+      <Footer />
+    </>
+  );
 }
 
 export default App;
