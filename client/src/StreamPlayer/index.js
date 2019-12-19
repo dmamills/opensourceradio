@@ -59,6 +59,8 @@ class StreamPlayer extends Component {
     this.videoElement.volume = volume;
   }
 
+  onFullScreen = () => this.videoElement.requestFullscreen()
+
   render() {
     return (
       <div className={cn(ml1, flex, column)}>
@@ -72,6 +74,7 @@ class StreamPlayer extends Component {
           onPlay={this.onPlay}
           onStop={this.onStop}
           onVolumeChange={this.onVolumeChange}
+          onFullScreen={this.onFullScreen}
         />
       </div>
     );

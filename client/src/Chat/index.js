@@ -52,13 +52,15 @@ const Chat = ({ socket }) => {
         socket.once('name-accepted', onNameAccepted);
     }
 
-    getHistory().then(newMessages => setMessages(newMessages));
-
     return function() {
       socket.off('message', addMessage);
       socket.off('name-used', onNameInUse);
     }
   }, [socket]);
+
+    useEffect(() => {
+        getHistory().then(newMessages => setMessages(newMessages));
+    }, [false])
 
   return (
     <div className={cn(flex, flex2, column, ph1)}>
