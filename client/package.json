@@ -9,8 +9,8 @@
     "classnames": "^2.2.6",
     "flv.js": "^1.5.0",
     "moment": "^2.24.0",
-    "react": "^16.8.3",
-    "react-dom": "^16.8.3",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
     "react-scripts": "2.1.5",
     "socket.io": "^2.2.0",
     "socket.io-client": "^2.2.0"
@@ -19,7 +19,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --transformIgnorePatterns \"node_modules/(?!(@dmamills/stylish))/\"",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "coverage": "react-scripts test --env=jsdom --coverage  --transformIgnorePatterns \"node_modules/(?!(@dmamills/stylish))/\""
   },
   "eslintConfig": {
     "extends": "react-app"
