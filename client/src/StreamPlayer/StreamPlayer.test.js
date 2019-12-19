@@ -41,10 +41,8 @@ describe('StreamPlayer', () => {
 
 
   it('should create player on mount', () => {
-    const component = render(<StreamPlayer />);
+    render(<StreamPlayer />);
     expect(MediaPlayer).toHaveBeenCalled();
     expect(mockAttach).toHaveBeenCalled();
-    expect(mockLoad).toHaveBeenCalled();
-    expect(mockPlay).toHaveBeenCalled();
   });
 });
