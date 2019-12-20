@@ -24,7 +24,7 @@ const [scheduleContainer, activeSchedule, timeContainer ] = stylish({
 const isActiveSchedule = (startTime, endTime) => {
   const now = moment();
   return now.isAfter(startTime) && now.isBefore(endTime);
-}
+};
 
 const Schedule = ({ schedule }) => {
   const { id, name, start_time, length, description } = schedule;
