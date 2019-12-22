@@ -13,7 +13,7 @@ stylish.raw(`
     border-radius: 0.5rem;
     align-items: center;
 }
-`)
+`);
 
 export const containerBox = stylish({
   display: 'flex',

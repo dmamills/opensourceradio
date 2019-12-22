@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import cn from 'classnames';
 
 import LoginPage from './Login';
@@ -12,55 +12,38 @@ import { whiteText, containerBox } from './styles';
 const defaultTabs = [
   { key: 'scheduling', component: Scheduling, name: 'Scheduling' },
   { key: 'library', component: Library, name: 'Library' },
+  { key: 'chat', component: () => <div>Chat</div>, name: 'Chat'},
+  { key: 'stream', component: () => <div>Stream</div>, name: 'Stream'},
 ];
 
-class App extends Component {
-  state = {
-    currentTab: 0,
-    apiKey: null
-  }
+const App = () => {
+  const [apiKey, setApiKey] = useState(() => fetchKey());
+  const [currentTab, setCurrentTab] = useState(0);
 
-  componentWillMount() {
-    this.onAuthChange();
-    if(window.location.hash) {
-      this.changeTab(window.location.hash.substring(1));
-  }
-  }
-
-  onAuthChange = () => {
-    const apiKey = fetchKey();
-    this.setState({
-      apiKey
-    });
-  }
-
-  changeTab = key => {
+  const onAuthChange = () => setApiKey(fetchKey());
+  const changeTab = key => {
     const tab = defaultTabs.find(t => t.key === key);
-    let currentTab = defaultTabs.indexOf(tab);
-    if(currentTab === -1) {
-      currentTab = 0;
+    let foundCurrentTab = defaultTabs.indexOf(tab);
+    if(foundCurrentTab === -1) {
+      foundCurrentTab = 0;
     }
 
-    this.setState({
-      currentTab
-    });
+    setCurrentTab(foundCurrentTab);
   }
 
-  render() {
-    const { currentTab, apiKey } = this.state;
-    return (
-      <div className={cn(containerBox, whiteText)}>
-        {!apiKey ?
-          <LoginPage onAuthChange={this.onAuthChange} /> :
-          <Tabs
-            currentTab={currentTab}
-            tabs={defaultTabs}
-            changeTab={this.changeTab}
-          />
-        }
-      </div>
-    );
-  }
+  return (
+    <div className={cn(containerBox, whiteText)}>
+      {!apiKey ?
+       <LoginPage onAuthChange={onAuthChange} /> :
+       <Tabs
+         onAuthChange={onAuthChange}
+         currentTab={currentTab}
+         tabs={defaultTabs}
+         changeTab={changeTab}
+       />
+      }
+    </div>
+  );
 }
 
 export default App;

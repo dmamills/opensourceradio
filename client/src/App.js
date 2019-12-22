@@ -1,15 +1,10 @@
 import React from 'react';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link
-} from "react-router-dom";
+import { Switch, Route, Link, BrowserRouter as Router } from "react-router-dom";
 
 import AdminApp from './admin/App';
 import ClientApp from './ClientApp';
 
-const FullApp = () => {
+const App = () => {
   return (
     <Router>
       <Switch>
@@ -17,11 +12,11 @@ const FullApp = () => {
           <ClientApp />
         </Route>
         <Route path="/admin">
-      <AdminApp />
+          <AdminApp />
         </Route>
       </Switch>
     </Router>
   );
 };
 
-export default FullApp;
+export default App;

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import cn from 'classnames';
 import stylish from '@dmamills/stylish';
 
@@ -10,36 +10,24 @@ const loginBox = stylish({
   backgroundColor: 'white',
 });
 
-class LoginPage extends Component {
-  state = {
-    apiKey: null,
-    error: null,
-  }
+const LoginPage = ({ onAuthChange }) => {
+    const [error, setError] = useState(null);
+    const [apiKey, setApiKey] = useState(null);
 
-  onChange = e => {
-    const apiKey = e.target.value;
-    this.setState({
-      apiKey
-    });
-  }
+    const onChange = ({ target }) => setApiKey(target.value);
 
-  onSubmit = () => {
-    const { apiKey } = this.state;
-    authTest(apiKey)
-      .then(success => {
-        if(success) {
-          storeKey(apiKey);
-          this.props.onAuthChange();
-        } else {
-          this.setState({
-            error: 'Invalid Key.'
-          });
-        }
-      });
-  }
+    const onSubmit = () => {
+      authTest(apiKey)
+        .then(success => {
+          if(success) {
+            storeKey(apiKey);
+            onAuthChange();
+          } else {
+            setError('Invalid Key.');
+          }
+        });
+    }
 
-  render() {
-    const { error } = this.state;
     return (
       <div className={cn(flex, flex, column, alignItemsCenter)}>
         <h1>opensourceradio admin</h1>
@@ -51,20 +39,24 @@ class LoginPage extends Component {
             type="text"
             id="api_key"
             className={cn(flex2, ml1)}
-            onChange={this.onChange}
-            onKeyUp={e => { if(e.keyCode === 13) this.onSubmit()}}
+            onChange={onChange}
+            onKeyUp={e => { if(e.keyCode === 13) onSubmit()}}
           />
           </div>
           <div className={cn(flex, justifyEnd, redText)}>
             <strong style={{ visibility: error ? 'visible' : 'hidden'}}>{error || 'error'}</strong>
           </div>
+          <div className={cn(flex, justifyEnd)}>
           <div className={cn(flex, justifyEnd, m05)}>
-            <button onClick={this.onSubmit}>Submit</button>
+            <button onClick={onSubmit}>Submit</button>
+          </div>
+          <div className={cn(flex, justifyEnd, m05)}>
+            <a href="/">Back</a>
+          </div>
           </div>
         </div>
       </div>
     );
-  }
 }
 
 export default LoginPage;
