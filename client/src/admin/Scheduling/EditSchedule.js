@@ -9,8 +9,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import { updateSchedule, createSchedule, getLibrary } from '../api';
 import { flex, spaceBetween, alignItemsCenter, p05, heavyText, flex2, ml1, justifyEnd } from '../styles';
 
-const DATE_FORMAT = 'YYYY-MM-DD HH:mm:ss';
-const DATE_FORMAT_DP = 'YYYY-MM-dd HH:mm:ss';
+const DATE_FORMAT = 'yyyy-MM-DD HH:mm:ss';
+const DATE_FORMAT_DP = 'yyyy-MM-dd HH:mm:ss';
 
 
 stylish.raw(`

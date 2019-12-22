@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import App from './App';
+import ClientApp from './ClientApp';
 
 jest.mock('./StreamPlayer/MediaPlayer', () => {
   const noop = () => {};
@@ -12,13 +12,13 @@ jest.mock('./StreamPlayer/MediaPlayer', () => {
       start: noop,
       play: noop,
       attach: noop,
-    }
+    };
   });
 });
 
 describe('opensourceradio client', () => {
   it('renders without crashing', () => {
-    const { getByText } = render(<App />);
+    const { getByText } = render(<ClientApp />);
     expect(getByText('opensourceradio')).toBeInTheDocument();
   });
 });
