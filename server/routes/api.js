@@ -4,9 +4,11 @@ const router = express.Router();
 const { MessageRepository } = require('../repo');
 const libraryRouter = require('./library');
 const schedulesRouter = require('./schedules');
+const streamRouter = require('./stream');
 
 router.use('/library', libraryRouter);
 router.use('/schedules', schedulesRouter);
+router.use('/stream', streamRouter);
 
 router.get('/history', (req, res) => {
   MessageRepository.latest()

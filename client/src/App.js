@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route, Link, BrowserRouter as Router } from "react-router-dom";
+import { Switch, Route, BrowserRouter as Router } from "react-router-dom";
 
 import AdminApp from './admin/App';
 import ClientApp from './ClientApp';

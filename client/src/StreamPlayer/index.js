@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import stylish from '@dmamills/stylish';
-import flvjs from 'flv.js';
-import Controls from './Controls';
 import cn from 'classnames';
-import { flex, column, ml1 } from '../styles';
+
+import Controls from './Controls';
 import MediaPlayer from './MediaPlayer';
+import { flex, column, ml1 } from '../styles';
 
 const STREAM_URL = process.env.REACT_APP_STREAM_URL;
 const playerContainer = stylish({ height: '400px' });
@@ -42,7 +42,6 @@ const StreamPlayer = () => {
     setPlayer(mediaPlayer);
 
     videoEl.current.addEventListener('ended', () => {
-      setPlaying(true);
       start();
     });
 
