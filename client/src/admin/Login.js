@@ -17,9 +17,12 @@ const LoginPage = ({ onAuthChange }) => {
     const onChange = ({ target }) => setApiKey(target.value);
 
     const onSubmit = () => {
+        console.log('onSubmt: ' + apiKey);
       authTest(apiKey)
         .then(success => {
+            console.log('authTest');
           if(success) {
+              console.log('victory!')
             storeKey(apiKey);
             onAuthChange();
           } else {
@@ -38,6 +41,7 @@ const LoginPage = ({ onAuthChange }) => {
           <input
             type="text"
             id="api_key"
+            data-testid="login"
             className={cn(flex2, ml1)}
             onChange={onChange}
             onKeyUp={e => { if(e.keyCode === 13) onSubmit()}}

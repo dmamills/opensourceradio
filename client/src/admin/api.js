@@ -108,3 +108,17 @@ export const createSchedule = (schedule) => {
     return schedule;
   });
 };
+
+export const getStreamStatus = () => {
+  return get('/api/stream/status').then(res => res.description);
+};
+
+export const postStartStream = () => {
+  return get('/api/stream/start').then(res => res.description);
+};
+
+export const postStopStream = () => {
+  return get('/api/stream/stop').then(() => getStreamStatus());
+};
+
+
