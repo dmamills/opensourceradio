@@ -12,7 +12,7 @@ const ChatPage = () => {
     });
 
     return (
-      <div class={cn(p1, flex, column )}>
+      <div className={cn(p1, flex, column )}>
         <h1>Chat</h1>
         <div className={mainThemeBg} style={{ width: '500px' }}>
           <Chat socket={socket} />

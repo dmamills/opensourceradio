@@ -1,5 +1,4 @@
 module.exports = {
-
   development: {
     debug: false,
     client: 'sqlite3',

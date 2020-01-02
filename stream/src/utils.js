@@ -3,7 +3,6 @@ const moment = require('moment');
 const chalk = require('chalk');
 const Schedule = require('./schedule/schedule');
 
-const STATE_LOG_FILE = `${process.cwd()}/state.log`;
 const TIME_FORMAT = 'MMM DD YYYY HH:mm a';
 
 const getConfig = () => require('../config.json');
@@ -51,7 +50,6 @@ const printFfmpegHeader = command => {
   console.log('\n\n\n');
 }
 
-
 function shuffleArray(a) {
   var j, x, i;
   for (i = a.length - 1; i > 0; i--) {
@@ -61,34 +59,6 @@ function shuffleArray(a) {
       a[j] = x;
   }
   return a;
-}
-
-function writeAppState(appState) {
-  return new Promise((resolve, reject) => {
-    fs.writeFile(STATE_LOG_FILE, JSON.stringify(appState), (err) => {
-      if(err) reject(err.message);
-      else resolve();
-    });
-  });
-}
-
-function loadAppState() {
-  console.log('Looking for existing app state', STATE_LOG_FILE);
-  return new Promise((resolve, reject) => {
-    fs.readFile(STATE_LOG_FILE, (err, data) => {
-      if(err) { reject(err.message); }
-      else {
-        try {
-          let state = JSON.parse(data.toString());
-          const { name, startTime, length, playlist } = state.currentSchedule;
-          state.currentSchedule = new Schedule(name, moment(startTime, 'YYYY-MM-DD HH:mm:ss'), length, playlist.join(','));
-          resolve(state);
-        } catch(e) {
-          reject(e);
-        }
-      }
-    });
-  });
 }
 
 const fetchAudioDirectoryContents = () => {
@@ -112,8 +82,6 @@ module.exports = {
   printFfmpegHeader,
   getNextIndex,
   shuffleArray,
-  writeAppState,
-  loadAppState,
   TIME_FORMAT,
   getConfig,
   fetchAudioDirectoryContents,

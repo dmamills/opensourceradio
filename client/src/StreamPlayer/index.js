@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useCallback, useState, useEffect, useRef } from 'react';
 import stylish from '@dmamills/stylish';
 import cn from 'classnames';
 
@@ -14,15 +14,23 @@ const StreamPlayer = () => {
   const [playing, setPlaying] = useState(false);
   const videoEl = useRef(null);
 
-  const start = () => {
+  const onStart = useCallback(() => {
     if(playing) return;
 
     player.unload();
     player.load();
     player.play();
     setPlaying(true);
-  }
+  }, [player]);
 
+    /* const start = () => {
+     *   if(playing) return;
+     *   player.unload();
+     *   player.load();
+     *   player.play();
+     *   setPlaying(true);
+     * }
+     */
   const onStop = () => {
     if(!playing) return;
 
@@ -41,8 +49,9 @@ const StreamPlayer = () => {
     mediaPlayer.attach(videoEl.current);
     setPlayer(mediaPlayer);
 
-    videoEl.current.addEventListener('ended', () => {
-      start();
+    videoEl.current.addEventListener('ended', function() {
+      console.log('ended triggered.');
+      onStart();
     });
 
     return function() {
@@ -59,7 +68,7 @@ const StreamPlayer = () => {
       </video>
       <Controls
         playing={playing}
-        onPlay={start}
+        onPlay={onStart}
         onStop={onStop}
         onVolumeChange={onVolumeChange}
         onFullScreen={onFullScreen}

@@ -114,11 +114,11 @@ export const getStreamStatus = () => {
 };
 
 export const postStartStream = () => {
-  return get('/api/stream/start').then(res => res.description);
+  return post('/api/stream/start').then(res => res.description);
 };
 
 export const postStopStream = () => {
-  return get('/api/stream/stop').then(() => getStreamStatus());
+  return post('/api/stream/stop').then(() => getStreamStatus());
 };
 
 
