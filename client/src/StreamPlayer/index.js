@@ -23,14 +23,6 @@ const StreamPlayer = () => {
     setPlaying(true);
   }, [player]);
 
-    /* const start = () => {
-     *   if(playing) return;
-     *   player.unload();
-     *   player.load();
-     *   player.play();
-     *   setPlaying(true);
-     * }
-     */
   const onStop = () => {
     if(!playing) return;
 
@@ -50,14 +42,16 @@ const StreamPlayer = () => {
     setPlayer(mediaPlayer);
 
     videoEl.current.addEventListener('ended', function() {
-      console.log('ended triggered.');
-      onStart();
+        mediaPlayer.unload();
+        mediaPlayer.load();
+        mediaPlayer.play();
+        setPlaying(true);
     });
 
     return function() {
       mediaPlayer.destroy();
     }
-  }, [false]);
+  }, [STREAM_URL]);
 
   return (
     <div className={cn(ml1, flex, column)}>
