@@ -1,7 +1,7 @@
 import React from 'react';
 import cn from 'classnames';
 import stylish from '@dmamills/stylish';
-import { pv1, mr05, pl1 } from '../../styles';
+import { pv1, mr05, pl1 } from '../../../styles';
 
 const  [fileStyles, selectedFileStyle] = stylish({
   cursor: 'pointer',

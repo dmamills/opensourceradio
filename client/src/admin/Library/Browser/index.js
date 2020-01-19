@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import cn from 'classnames';
 import stylish from '@dmamills/stylish';
-import { flex, flex1, column, pl0 } from '../../styles';
+import { flex, flex1, column, pl0 } from '../../../styles';
 
 import Folder from './Folder';
 

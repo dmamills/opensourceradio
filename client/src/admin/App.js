@@ -9,7 +9,7 @@ import ChatPage from './Chat';
 import StreamPage from './Stream';
 import { fetchKey } from './api';
 
-import { whiteText, containerBox } from './styles';
+import { whiteText, containerBox } from '../styles';
 
 const getKeyIndex = key => {
     const tab = defaultTabs.find(t => t.key === key);

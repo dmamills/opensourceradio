@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import cn from 'classnames';
-import { flex, spaceBetween, alignItemsCenter, p05, heavyText, flex2, ml1, ph1 } from '../../styles';
+import { flex, spaceBetween, alignItemsCenter, p05, heavyText, flex2, ml1, ph1 } from '../../../styles';
 
 import { updateMetadata, getMetadata, removeSong } from '../../api';
 import MetadataActions from './MetadataActions';

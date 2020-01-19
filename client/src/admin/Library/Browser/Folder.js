@@ -2,7 +2,7 @@ import React from 'react';
 import stylish from '@dmamills/stylish';
 import cn from 'classnames';
 
-import { listStyleNone, mr05, p0 } from '../../styles';
+import { listStyleNone, mr05, p0 } from '../../../styles';
 import File from './File';
 
 const [folderList, folderStyles] = stylish({

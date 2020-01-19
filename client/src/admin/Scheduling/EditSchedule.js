@@ -1,22 +1,15 @@
 import React from 'react';
 import moment from 'moment';
 import DatePicker from 'react-datepicker';
-import stylish from '@dmamills/stylish';
 import cn from 'classnames';
 import AsyncSelect from 'react-select/lib/Async';
 import "react-datepicker/dist/react-datepicker.css";
 
 import { updateSchedule, createSchedule, getLibrary } from '../api';
-import { flex, spaceBetween, alignItemsCenter, p05, heavyText, flex2, ml1, justifyEnd } from '../styles';
+import { flex, spaceBetween, alignItemsCenter, p05, heavyText, flex2, ml1, justifyEnd } from '../../styles';
 
-const DATE_FORMAT = 'yyyy-MM-DD HH:mm:ss';
+const DATE_FORMAT = 'YYYY-MM-DD HH:mm:ss';
 const DATE_FORMAT_DP = 'yyyy-MM-dd HH:mm:ss';
-
-
-stylish.raw(`
-  .react-datepicker-wrapper { display: flex; flex: 1; cursor: pointer; }
-  .react-datepicker__input-container { display: flex !important; flex: 1 !important; }
-`);
 
 const defaultSchedule = {
   name: '',
@@ -25,7 +18,7 @@ const defaultSchedule = {
   playlist: []
 }
 
-class EditSchedule extends React.Component {  
+class EditSchedule extends React.Component {
   componentWillMount() {
     let { schedule } = this.props;
     if(!schedule) schedule = { ...defaultSchedule }
@@ -107,7 +100,7 @@ class EditSchedule extends React.Component {
       <div>
         <div className={cn(flex, spaceBetween, alignItemsCenter, p05)}>
           <label className={heavyText} htmlFor="name">Name</label>
-          <input 
+          <input
             defaultValue={schedule.name}
             onChange={this.onChange('name')}
             className={cn(flex2, ml1)} type="text"
@@ -115,9 +108,9 @@ class EditSchedule extends React.Component {
         </div>
         <div className={cn(flex, spaceBetween, alignItemsCenter, p05)}>
           <label className={heavyText} htmlFor="description">Description</label>
-          <textarea 
+          <textarea
             defaultValue={schedule.description}
-            onChange={this.onChange('description')} 
+            onChange={this.onChange('description')}
             className={cn(flex2, ml1)}
             type="text"
           ></textarea>
@@ -138,7 +131,7 @@ class EditSchedule extends React.Component {
         </div>
         <div className={cn(flex, spaceBetween, alignItemsCenter, p05)}>
           <label className={heavyText} htmlFor="length">Length</label>
-          <input 
+          <input
             defaultValue={schedule.length}
             onChange={this.onChange('length')}
             className={cn(flex2, ml1)} type="text"

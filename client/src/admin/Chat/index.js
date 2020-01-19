@@ -3,7 +3,7 @@ import io from 'socket.io-client';
 import cn from 'classnames';
 
 import Chat from '../../Chat';
-import { mainThemeBg, flex, column, p1,} from '../styles';
+import { mainThemeBg, flex, column, p1,} from '../../styles';
 import { SERVER_URL } from '../api';
 
 const ChatPage = () => {

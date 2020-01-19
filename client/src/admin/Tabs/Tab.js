@@ -2,7 +2,7 @@ import React from 'react';
 import stylish from '@dmamills/stylish';
 import cn from 'classnames';
 
-import { textDecorationNone } from '../styles';
+import { textDecorationNone } from '../../styles';
 
 const [ tabClass, link, selected ] = stylish({
   backgroundColor: 'white',

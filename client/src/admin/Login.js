@@ -3,7 +3,7 @@ import cn from 'classnames';
 import stylish from '@dmamills/stylish';
 
 import { authTest, storeKey } from './api';
-import { flex, spaceBetween, column, redText, flex2, ml1, p05, blackText, p1, alignItemsCenter, heavyText, m05, justifyEnd } from './styles';
+import { flex, spaceBetween, column, redText, flex2, ml1, p05, blackText, p1, alignItemsCenter, heavyText, m05, justifyEnd } from '../styles';
 
 const loginBox = stylish({
   width: '400px',

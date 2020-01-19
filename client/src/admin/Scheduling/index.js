@@ -4,7 +4,7 @@ import cn from 'classnames';
 import { getSchedules } from '../api';
 import Table from './Table'
 import EditSchedule from './EditSchedule';
-import { p1, flex, spaceBetween, flexCenter } from '../styles';
+import { p1, flex, spaceBetween, flexCenter } from '../../styles';
 
 class Scheduling extends React.Component {
   state = {

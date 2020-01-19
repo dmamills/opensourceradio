@@ -4,7 +4,7 @@ import Dropzone from 'dropzone';
 
 import { getHeaders, SERVER_URL } from '../../api';
 import previewTemplate from './previewTemplate';
-import { flex, spaceBetween, alignItemsCenter, p05, heavyText, flex2, ml1, p1 } from '../../styles';
+import { flex, spaceBetween, alignItemsCenter, p05, heavyText, flex2, ml1, p1 } from '../../../styles';
 import { dropzoneStyles, folderLabel, previewText } from './styles';
 
 const acceptedFiles = '.mp3,audio/*';

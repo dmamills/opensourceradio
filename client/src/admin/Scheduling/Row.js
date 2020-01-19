@@ -1,7 +1,7 @@
 import React from 'react';
 import cn from 'classnames';
 
-import { p1, flex, justifyEnd, tableBody } from '../styles';
+import { p1, flex, justifyEnd, tableBody } from '../../styles';
 
 const Row = ({ schedule, onEdit, onRemove }) => {
   schedule.description = schedule.description || '';

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import { p1 } from '../styles';
+import { p1 } from '../../styles';
 import { getStreamStatus, postStartStream, postStopStream } from '../api';
 
 const StreamPage = () => {

@@ -3,7 +3,7 @@ import cn from 'classnames';
 
 import Tab from './Tab';
 import { storeKey } from '../api';
-import { containerBox, whiteBg, blackText, listStyleNone, flex, m05, p0, m0, ph1, flexAuto, alignItemsCenter, spaceBetween } from '../styles';
+import { containerBox, whiteBg, blackText, listStyleNone, flex, m05, p0, m0, ph1, flexAuto, alignItemsCenter, spaceBetween } from '../../styles';
 
 const logoutTab = {
     key: 'blah',

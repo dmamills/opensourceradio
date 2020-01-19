@@ -2,7 +2,7 @@ import React from 'react';
 import cn from 'classnames';
 
 import Row from './Row';
-import { width100, table, tableHeader } from '../styles';
+import { width100, table, tableHeader } from '../../styles';
 
 import { removeSchedule } from '../api';
 

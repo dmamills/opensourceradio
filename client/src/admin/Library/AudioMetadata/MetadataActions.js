@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import cn from 'classnames';
-import { flex, justifyEnd, m05 } from '../../styles';
+import { flex, justifyEnd, m05 } from '../../../styles';
 
 class MetadataActions extends Component {
   renderButtons = () => {
