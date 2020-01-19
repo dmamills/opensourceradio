@@ -1,5 +1,4 @@
 const ffmpeg = require('fluent-ffmpeg');
-const chalk = require('chalk');
 
 const { printFfmpegHeader, getConfig } = require('../utils');
 const addOptions = require('./options');
@@ -8,13 +7,13 @@ const addFilters = require('./filters');
 const { FFMPEG_PATH, VIDEO_PATH, STREAM_URL } = getConfig();
 
 if(FFMPEG_PATH && FFMPEG_PATH !== "") {
-  console.log(chalk.magenta('Setting custom ffmpeg path: ', FFMPEG_PATH));
+  console.log('Setting custom ffmpeg path: ', FFMPEG_PATH);
   ffmpeg.setFfmpegPath(FFMPEG_PATH);
 }
 
 const runStream = (audioPath, metadata) => {
-  console.log(chalk.magenta(`Starting ffmpeg process`));
-  console.log(chalk.magenta(`Streaming to: ${STREAM_URL}`));
+  console.log(`Starting ffmpeg process`);
+  console.log(`Streaming to: ${STREAM_URL}`);
 
   return new Promise((resolve, reject) => {
     let command = ffmpeg();

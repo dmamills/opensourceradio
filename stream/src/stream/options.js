@@ -18,7 +18,6 @@ const {
 } = getConfig();
 
 const addOptions = (metadata) => {
-  
   const delayInMilli = 3000;
   const delayInSeconds = Math.ceil(delayInMilli / 1000);
   const streamDuration = delayInSeconds * 2 + Math.ceil(metadata.format.duration);

@@ -6,8 +6,6 @@
   "author": "dmamills",
   "license": "MIT",
   "dependencies": {
-    "chalk": "^2.4.2",
-    "chalkline": "0.0.5",
     "dotenv": "^7.0.0",
     "fluent-ffmpeg": "^2.1.2",
     "knex": "^0.19.5",

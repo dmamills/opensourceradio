@@ -1,5 +1,4 @@
 require('dotenv').config();
-const chalk = require('chalk');
 const fs = require('fs');
 const musicMetadata = require('music-metadata');
 
@@ -24,7 +23,7 @@ const playSong = () => {
   const { currentSchedule, lastSongPlayed } = appState;
   const currentAudioPath = `${AUDIO_PATH}${currentSchedule.playlist[lastSongPlayed]}`;
 
-  console.log(chalk.magenta(`Playing song #${lastSongPlayed} ${currentAudioPath}`));
+  console.log(`Playing song #${lastSongPlayed} ${currentAudioPath}`);
 
   if(!fs.existsSync(currentAudioPath)) {
     return Promise.reject(`Song at path: ${currentAudioPath} not found!`);
@@ -37,7 +36,7 @@ const playSong = () => {
 }
 
 const onSongFinished = msg => {
-  console.log(chalk.magenta(`Song finished ${msg ? msg : ''}`));
+  console.log(`Song finished ${msg ? msg : ''}`);
   updateState(
     appState.currentSchedule,
     appState.lastSongPlayed,
@@ -47,8 +46,8 @@ const onSongFinished = msg => {
 }
 
 const onSongError = err => {
-  console.log(chalk.red('ffmpeg stream error:'), err);
-  console.log(chalk.red('Exiting process..'));
+  console.log('ffmpeg stream error:', err);
+  console.log('Exiting process..');
   process.exit(-1);
 }
 
@@ -64,15 +63,15 @@ const onScheduleSet = (schedule, nextSongIndex) => {
 const radioInterval = () => {
   printHeader();
   const { currentSchedule, lastSongPlayed, songCount } = appState;
-  
+
   if(!currentSchedule) {
-    console.log(chalk.magenta('Getting current schedule...'));
+    console.log('Getting current schedule...');
     findCurrentSchedule()
       .then(schedule => {
         onScheduleSet(schedule, 0);
       });
   } else if (currentSchedule.isActive()) {
-    console.log(chalk.magenta(`Continuing schedule, song count: ${songCount}`));
+    console.log(`Continuing schedule, song count: ${songCount}`);
     onScheduleSet(
       currentSchedule,
       getNextIndex(currentSchedule.playlist, lastSongPlayed)
@@ -84,7 +83,7 @@ const radioInterval = () => {
   }
 }
 
-console.log(chalk.magenta(`Welcome to opensource radio. 📻`));
-console.log(chalk.magenta('Starting server...'));
+console.log(`Welcome to opensource radio. 📻`);
+console.log('Starting server...');
 
 radioInterval();
