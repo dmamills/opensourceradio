@@ -6,18 +6,20 @@ const pm2 = require('pm2');
 const { errorHandler, authMiddleware } = require('./middleware');
 
 const processInfo = {
-  name: process.env.STREAM_PROCESS_NAME,
+  name: process.env.STREAM_NAME,
   startScript: process.env.STREAM_START_SCRIPT,
-  workingDirectory: process.env.STREAM_WORKING_DIRECTORY,
+  workingDirectory: process.env.STREAM_WORKING_DIR,
 };
 
 const onStatus = (res) => (err, process) => {
   if(err) return res.status(500).json({ err });
 
+  if(process.length === 0) {
+    return res.status(500).json({error: 'No process found.'});
+  }
   const description = {
     status: process[0].pm2_env.status
   };
-
   return res.json({ description });
 };
 
