@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const router = express.Router();
 const pm2 = require('pm2');
+const { SongLogRepository } = require('../repo');
 
 const { errorHandler, authMiddleware } = require('./middleware');
 
@@ -36,6 +37,15 @@ router.post('/stop', authMiddleware, (req, res) => {
 
 router.get('/status', authMiddleware, (req, res) => {
   pm2.describe(processInfo.name, onStatus(res));
+});
+
+router.get('/log', authMiddleware, (req, res) => {
+  SongLogRepository.latest()
+    .then(logs => {
+      const currentLog = logs[0];
+      delete currentLog.ffmpeg_command;
+      res.json({ currentLog });
+    });
 });
 
 module.exports = router;

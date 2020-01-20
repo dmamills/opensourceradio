@@ -1,46 +1,45 @@
 import React, { useState, useEffect } from 'react';
 
 import { p1 } from '../../styles';
-import { getStreamStatus, postStartStream, postStopStream } from '../api';
+import { getStreamStats } from '../api';
+import StreamControls from './StreamControls';
 
 const StreamPage = () => {
-    const [streamStatus, setStreamStatus] = useState(null);
-    const [statusMessage, setStatusMessage ] = useState('stopped');
-
-    const onStart = () => {
-      postStartStream().then(status => setStreamStatus(status));
-    }
-
-    const onStop = () => {
-      postStopStream().then(status => setStreamStatus(status));
-    }
+    const [streamStats, setStreamStats] = useState(null);
 
     useEffect(() => {
-      getStreamStatus().then(status => setStreamStatus(status));
+      getStreamStats().then(stats => setStreamStats(stats));
     }, [false]);
-
-
-    useEffect(() => {
-        if(streamStatus) setStatusMessage(streamStatus.status);
-    }, [streamStatus]);
 
     return (
       <div className={p1}>
         <h1>Stream</h1>
-        <div>
+        <StreamControls />
+
+        {streamStats &&<div>
+          <h2>Stream State:</h2>
           <div>
-            <strong>Current Status:</strong>
-            <span>{statusMessage}</span>
+            <strong>Schedule Id: </strong>
+            <span>{streamStats.schedule_id}</span>
           </div>
-        </div>
-        <div>
-            <button onClick={onStart}>Start</button>
-            <button onClick={onStop}>Stop</button>
-        </div>
-        <div>
-            <h2>Output</h2>
-            <pre>{streamStatus && JSON.stringify(streamStatus, null, 2)}</pre>
-        </div>
+          <div>
+            <strong>Current Song: </strong>
+            <span>{streamStats.file_name}</span>
+          </div>
+          <div>
+            <strong>Start Time: </strong>
+            <span>{streamStats.schedule_start_time}</span>
+          </div>
+          <div>
+            <strong>End Time: </strong>
+            <span>{streamStats.schedule_stop_time}</span>
+          </div>
+          <div>
+            <strong>Playlist: </strong>
+            <span>{streamStats.schedule_playlist}</span>
+          </div>
+
+        </div>}
       </div>
     );
 }

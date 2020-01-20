@@ -121,4 +121,8 @@ export const postStopStream = () => {
   return post('/api/stream/stop').then(() => getStreamStatus());
 };
 
+export const getStreamStats = () => {
+  return get('/api/stream/log').then(res => res.currentLog);
+};
+
 
