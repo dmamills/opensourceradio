@@ -2,7 +2,7 @@ import moment from 'moment';
 const DATE_FORMAT = 'YYYY-MM-DD HH:mm:ss';
 
 const makeSchedule = (start_time, length) => ({
-  id: Date.now(),
+  id: `${Date.now()}-${start_time}`,
   start_time,
   length,
   name: '🔀 opensourceradio on shuffle! 🔀',
