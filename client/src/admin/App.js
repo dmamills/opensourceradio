@@ -5,7 +5,6 @@ import LoginPage from './Login';
 import Tabs from './Tabs';
 import Scheduling from './Scheduling';
 import Library from './Library';
-import ChatPage from './Chat';
 import StreamPage from './Stream';
 import { fetchKey } from './api';
 
@@ -20,7 +19,6 @@ const getKeyIndex = key => {
 const defaultTabs = [
   { key: 'scheduling', component: Scheduling, name: 'Scheduling' },
   { key: 'library', component: Library, name: 'Library' },
-  { key: 'chat', component: ChatPage, name: 'Chat'},
   { key: 'stream', component: StreamPage, name: 'Stream'},
 ];
 
