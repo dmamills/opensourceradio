@@ -1,5 +1,6 @@
 const fs = require('fs');
 const moment = require('moment');
+const knex = require('knex')(require('../knexfile').development);
 const Schedule = require('./schedule/schedule');
 
 const TIME_FORMAT = 'MMM DD YYYY HH:mma';
@@ -53,12 +54,25 @@ const fetchAudioDirectoryContents = () => {
       resolve(files.filter(f => f.indexOf('.mp3') > -1));
     });
   });
-}
+};
+
+const writeToSongLog = (audioPath, command, schedule) => {
+  return knex('song_log').insert({
+    schedule_id: schedule.id,
+    schedule_start_time: schedule.startTime.toDate(),
+    schedule_stop_time: schedule.endTime().toDate(),
+    schedule_playlist: schedule.playlist.join(','),
+    file_name: audioPath,
+    ffmpeg_command: command,
+    created_at: new Date(),
+    updated_at: new Date(),
+  });
+};
 
 const timeTillNextBlockInHours = (startTime = moment()) => {
   const minutes = parseInt(startTime.format('m'), 10);
   return parseFloat((minutes / 60).toFixed(2));
-}
+};
 
 module.exports = {
   printMetadata,
@@ -68,5 +82,6 @@ module.exports = {
   TIME_FORMAT,
   getConfig,
   fetchAudioDirectoryContents,
-  timeTillNextBlockInHours
+  timeTillNextBlockInHours,
+  writeToSongLog,
 };

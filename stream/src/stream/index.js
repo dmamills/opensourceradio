@@ -11,7 +11,7 @@ if(FFMPEG_PATH && FFMPEG_PATH !== "") {
   ffmpeg.setFfmpegPath(FFMPEG_PATH);
 }
 
-const runStream = (audioPath, metadata) => {
+const runStream = (audioPath, metadata, commandFn) => {
   console.log(`Starting ffmpeg process.\nStreaming to ${STREAM_URL}`);
 
   return new Promise((resolve, reject) => {
@@ -36,9 +36,7 @@ const runStream = (audioPath, metadata) => {
     command = command.complexFilter(addFilters(metadata));
 
     command
-      .on('start', commandString => {
-        console.log(`Spawned ffmpeg with command: \n${commandString}`);
-      })
+      .on('start', commandFn)
       .on('end', () => {
         resolve();
       })
