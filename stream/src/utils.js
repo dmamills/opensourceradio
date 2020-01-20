@@ -2,7 +2,7 @@ const fs = require('fs');
 const moment = require('moment');
 const Schedule = require('./schedule/schedule');
 
-const TIME_FORMAT = 'MMM DD YYYY HH:mm a';
+const TIME_FORMAT = 'MMM DD YYYY HH:mma';
 
 const getConfig = () => require('../config.json');
 const { AUDIO_PATH } = getConfig();
@@ -24,27 +24,15 @@ const printMetadata = metadata => {
   return metadata;
 }
 
-const printHeader = () => {
-  console.log('');
-  console.log('\t▶️  Radio Interval');
-  const currentTime = moment().format(TIME_FORMAT);
-  console.log(`\tCurrent Time: ${currentTime}`);
-  console.log('');
-}
-
 const printSchedule = schedule => {
-  console.log('');
-  console.log(`\tPlaying Schedule: ${schedule.name}`);
+  console.log(`\n\tPlaying Schedule: ${schedule.name}`);
   console.log(`\tStart Time: ${schedule.startTime.format(TIME_FORMAT)}`);
   console.log(`\tEnd Time: ${schedule.endTime().format(TIME_FORMAT)}`);
-  console.log(`\tPlaying for: ${schedule.length} hour${schedule.length > 1 ? 's' : ''}`);
-  console.log('');
-}
-
-const printFfmpegHeader = command => {
-  console.log(`\n${'Spawned ffmpeg with command:'}`);
-  console.log(command);
-  console.log('\n\n\n');
+  if(schedule.length <= 1) {
+    console.log(`\tPlaying for: ${Math.ceil(schedule.length * 60)} minutes`);
+  } else {
+    console.log(`\tPlaying for: ${schedule.length} hour${schedule.length > 1 ? 's' : ''}`);
+  }
 }
 
 function shuffleArray(a) {
@@ -73,10 +61,8 @@ const timeTillNextBlockInHours = (startTime = moment()) => {
 }
 
 module.exports = {
-  printHeader,
   printMetadata,
   printSchedule,
-  printFfmpegHeader,
   getNextIndex,
   shuffleArray,
   TIME_FORMAT,

@@ -1,6 +1,6 @@
 const ffmpeg = require('fluent-ffmpeg');
 
-const { printFfmpegHeader, getConfig } = require('../utils');
+const { getConfig } = require('../utils');
 const addOptions = require('./options');
 const addFilters = require('./filters');
 
@@ -12,8 +12,7 @@ if(FFMPEG_PATH && FFMPEG_PATH !== "") {
 }
 
 const runStream = (audioPath, metadata) => {
-  console.log(`Starting ffmpeg process`);
-  console.log(`Streaming to: ${STREAM_URL}`);
+  console.log(`Starting ffmpeg process.\nStreaming to ${STREAM_URL}`);
 
   return new Promise((resolve, reject) => {
     let command = ffmpeg();
@@ -38,7 +37,7 @@ const runStream = (audioPath, metadata) => {
 
     command
       .on('start', commandString => {
-        printFfmpegHeader(commandString);
+        console.log(`Spawned ffmpeg with command: \n${commandString}`);
       })
       .on('end', () => {
         resolve();

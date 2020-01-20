@@ -15,24 +15,18 @@ const defaultSchedule = () => {
     });
 }
 
-const findCurrentSchedule = () => {
-  return Schedule.todaysSchedules()
-    .then(schedules => {
-      if(!schedules || schedules.length === 0) {
-        console.log('No Schedules Found, Returning Default...');
-        return defaultSchedule();
-      }
+const findCurrentSchedule = async () => {
+  try {
+    const schedules = await Schedule.todaysSchedules();
+    if(!schedules || schedules.length === 0) return defaultSchedule();
 
-      console.log('Searching for current schedule...');
-      const activeSchedule = schedules.find(s => s.isActive());
-      if(activeSchedule) {
-        console.log('Found next active schedule...');
-        return activeSchedule;
-      }
+    const activeSchedule = schedules.find(s => s.isActive());
+    if(activeSchedule) return activeSchedule;
 
-      console.log('No Active Schedules Found, Returning Default...');
-      return defaultSchedule();
-    });
+    return defaultSchedule();
+  } catch (err) {
+    return defaultSchedule();
+  }
 }
 
 module.exports = {
