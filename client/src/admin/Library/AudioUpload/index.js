@@ -17,7 +17,7 @@ class AudioUpload extends Component {
 
   componentDidMount() {
     const headers = getHeaders();
-    this.dropzone = new Dropzone('div#dropzoneEl', { 
+    this.dropzone = new Dropzone('div#dropzoneEl', {
       url: `${SERVER_URL}/api/library`,
       headers,
       previewTemplate,
@@ -92,7 +92,7 @@ class AudioUpload extends Component {
       <div className={cn(p1)}>
         <h3>Upload Audio</h3>
         <div id="dropzoneEl" className={cn(p1, dropzoneStyles, { flex: hasNoFiles }, { flexCenter: hasNoFiles })}>
-          {(hasNoFiles) && <p className={previewText}>Drop files, or click here</p>}
+          {(hasNoFiles) && <span>Drop files, or click here</span>}
         </div>
         <div className={cn(flex, spaceBetween, alignItemsCenter, p05)}>
           <label

@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import moment from 'moment';
 
 import { p1 } from '../../styles';
 import { getStreamStats } from '../api';
 import StreamControls from './StreamControls';
+
+const DATE_FORMAT = 'YYYY-MM-DD HH:mm:ss';
 
 const StreamPage = () => {
     const [streamStats, setStreamStats] = useState(null);
@@ -10,6 +13,10 @@ const StreamPage = () => {
     useEffect(() => {
       getStreamStats().then(stats => setStreamStats(stats));
     }, [false]);
+
+    const startTime = streamStats ? moment(streamStats.schedule_start_time).format(DATE_FORMAT) : '';
+    const stopTime = streamStats ? moment(streamStats.schedule_stop_time).format(DATE_FORMAT) : '';
+    const playlist = streamStats ? streamStats.schedule_playlist.split(',') : [];
 
     return (
       <div className={p1}>
@@ -28,15 +35,17 @@ const StreamPage = () => {
           </div>
           <div>
             <strong>Start Time: </strong>
-            <span>{streamStats.schedule_start_time}</span>
+            <span>{startTime}</span>
           </div>
           <div>
             <strong>End Time: </strong>
-            <span>{streamStats.schedule_stop_time}</span>
+            <span>{stopTime}</span>
           </div>
           <div>
             <strong>Playlist: </strong>
-            <span>{streamStats.schedule_playlist}</span>
+            <ul>
+                {playlist.map((song, idx) => <li key={`${song}-${idx}`}>{song}</li>)}
+            </ul>
           </div>
 
         </div>}
