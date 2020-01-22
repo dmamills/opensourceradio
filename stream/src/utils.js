@@ -9,7 +9,7 @@ const getConfig = () => require('../config.json');
 const { AUDIO_PATH } = getConfig();
 
 const pad = n => n < 10 ? `0${n}` : n;
-const getNextIndex = (n, arr) => n + 1 >= arr.length ? 0 : n + 1;
+const getNextIndex = (arr, n) => n + 1 >= arr.length ? 0 : n + 1;
 
 const printMetadata = metadata => {
   const { common, format } = metadata;
