@@ -1,29 +1,22 @@
-import React, { useState } from 'react';
-import io from 'socket.io-client';
-import cn from 'classnames';
+import React from 'react';
+import { Switch, Route, BrowserRouter as Router } from "react-router-dom";
 
-import Chat from './Chat';
-import StreamPlayer from './StreamPlayer';
-import Header from './Header';
-import Footer from './Footer';
-import { flex } from './styles';
-import { SERVER_URL } from './api';
+import AdminApp from './admin/App';
+import ClientApp from './ClientApp';
 
 const App = () => {
-  const [socket] = useState(() => {
-    return io.connect(SERVER_URL);
-  });
-
   return (
-    <>
-      <Header socket={socket} />
-      <div className={cn(flex, 'app-container')}>
-        <StreamPlayer />
-        <Chat socket={socket} />
-      </div>
-      <Footer />
-    </>
+    <Router>
+      <Switch>
+        <Route exact path="/">
+          <ClientApp />
+        </Route>
+        <Route path="/admin">
+          <AdminApp />
+        </Route>
+      </Switch>
+    </Router>
   );
-}
+};
 
 export default App;

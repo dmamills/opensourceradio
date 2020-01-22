@@ -5,12 +5,12 @@ const DELAY_IN_MILLI = 3000;
 
 const addFilters = metadata => {
 
-  let complexFilterString = '';  
+  let complexFilterString = '';
   complexFilterString += `[1:a] adelay=${DELAY_IN_MILLI}|${DELAY_IN_MILLI} [delayedaudio]; `;
   complexFilterString += `[delayedaudio][2:a] amix=inputs=2:duration=first:dropout_transition=3 [audiooutput]; `;
   complexFilterString += `[audiooutput] loudnorm [audiooutput]; `;
   complexFilterString += `[0:v] fps=fps=${FRAMES_PER_SECOND}`;
- 
+
   //const overlayTextFilterString = "";
   const overlayTextFilterString = overlayText(metadata);
   if (overlayTextFilterString) {

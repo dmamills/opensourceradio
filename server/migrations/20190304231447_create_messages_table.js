@@ -1,6 +1,5 @@
 
 exports.up = function(knex, done) {
-
   knex.schema.createTable('messages', schema => {
     schema.increments();
     schema.string('name');

@@ -18,7 +18,7 @@ jest.mock('./MediaPlayer', () => {
       start: mockStart,
       play: mockPlay,
       attach: mockAttach,
-    }
+    };
   });
 });
 
@@ -31,7 +31,7 @@ beforeEach(() => {
   mockPlay.mockClear();
   mockStart.mockClear();
   mockAttach.mockClear();
-})
+});
 
 describe('StreamPlayer', () => {
   it('renders without crashing', () => {

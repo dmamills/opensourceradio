@@ -9,7 +9,8 @@ class Schedule {
    * @param {number} length
    * @param {array<string>} playlist
    */
-  constructor(name, startTime, length, playlist) {
+  constructor(name, startTime, length, playlist, id = 'generated_schedule') {
+    this.id = id;
     this.name = name;
     this.startTime = startTime;
     this.length = length;
@@ -31,6 +32,7 @@ class Schedule {
       moment(schedule.start_time, SQL_FORMAT),
       schedule.length,
       schedule.playlist.split(','),
+      schedule.id
     );
   }
 

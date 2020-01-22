@@ -1,11 +1,11 @@
 require('dotenv').config();
-const chalk = require('chalk');
 const fs = require('fs');
+const moment = require('moment');
 const musicMetadata = require('music-metadata');
 
 const stream = require('./src/stream');
 const { findCurrentSchedule } = require('./src/schedule');
-const { printMetadata, printHeader, getNextIndex, printSchedule, getConfig } = require('./src/utils');
+const { TIME_FORMAT, writeToSongLog, getNextIndex, printSchedule, getConfig } = require('./src/utils');
 const { AUDIO_PATH } = getConfig();
 
 let appState = {
@@ -18,73 +18,65 @@ const updateState = (currentSchedule, lastSongPlayed, songCount) => {
   appState.currentSchedule = currentSchedule;
   appState.lastSongPlayed = lastSongPlayed;
   appState.songCount = songCount || appState.songCount;
-}
+};
 
-const playSong = () => {
+const playSong = async () => {
   const { currentSchedule, lastSongPlayed } = appState;
   const currentAudioPath = `${AUDIO_PATH}${currentSchedule.playlist[lastSongPlayed]}`;
+  console.log(`Playing song #${lastSongPlayed} ${currentAudioPath}`);
 
-  console.log(chalk.magenta(`Playing song #${lastSongPlayed} ${currentAudioPath}`));
+  try {
+    if(!fs.existsSync(currentAudioPath)) throw new Error(`${currentAudioPath} not found`);
 
-  if(!fs.existsSync(currentAudioPath)) {
-    return Promise.reject(`Song at path: ${currentAudioPath} not found!`);
+    const metadata = await musicMetadata.parseFile(currentAudioPath, { duration: true });
+    const onCommandExecuted = async (ffmpegCommand) => {
+      await writeToSongLog(currentAudioPath, ffmpegCommand, appState.currentSchedule);
+    };
+
+    return stream(currentAudioPath, metadata, onCommandExecuted);
+  } catch(err) {
+    onSongError(err);
   }
-
-  return musicMetadata.parseFile(currentAudioPath, { duration: true })
-    .then(printMetadata)
-    .then(metadata => stream(currentAudioPath, metadata))
-    .catch(onSongError);
-}
+};
 
 const onSongFinished = msg => {
-  console.log(chalk.magenta(`Song finished ${msg ? msg : ''}`));
+  console.log(`Song finished ${msg ? msg : ''}`);
   updateState(
     appState.currentSchedule,
     appState.lastSongPlayed,
     ++appState.songCount
   );
   radioInterval();
-}
+};
 
 const onSongError = err => {
-  console.log(chalk.red('ffmpeg stream error:'), err);
-  console.log(chalk.red('Exiting process..'));
+  console.log('stream error:', err);
   process.exit(-1);
-}
+};
 
 const onScheduleSet = (schedule, nextSongIndex) => {
   printSchedule(schedule);
-  updateState(
-    schedule,
-    nextSongIndex
-  );
+  updateState(schedule, nextSongIndex);
   playSong().then(onSongFinished, onSongError).catch(onSongError);
-}
+};
 
 const radioInterval = () => {
-  printHeader();
   const { currentSchedule, lastSongPlayed, songCount } = appState;
-  
+  const currentTime = moment().format(TIME_FORMAT);
+  console.log(`opensourceradio stream interval.\ncurrent time: ${currentTime}`);
+
   if(!currentSchedule) {
-    console.log(chalk.magenta('Getting current schedule...'));
-    findCurrentSchedule()
-      .then(schedule => {
-        onScheduleSet(schedule, 0);
-      });
+    console.log('Getting current schedule...');
+    findCurrentSchedule().then(schedule => onScheduleSet(schedule, 0));
   } else if (currentSchedule.isActive()) {
-    console.log(chalk.magenta(`Continuing schedule, song count: ${songCount}`));
-    onScheduleSet(
-      currentSchedule,
-      getNextIndex(currentSchedule.playlist, lastSongPlayed)
-    );
+    console.log(`Continuing schedule, song count: ${songCount}`);
+    const nextSongIndex = getNextIndex(currentSchedule.playlist, lastSongPlayed);
+    onScheduleSet(currentSchedule, nextSongIndex);
   } else {
     console.log('Searching for next schedule, calling onSongFinished');
     updateState(null, 0);
     onSongFinished();
   }
-}
-
-console.log(chalk.magenta(`Welcome to opensource radio. 📻`));
-console.log(chalk.magenta('Starting server...'));
+};
 
 radioInterval();

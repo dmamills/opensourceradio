@@ -1,4 +1,4 @@
-# opensourceradio
+# opensourceradio ![travis-ci](https://api.travis-ci.org/dmamills/opensourceradio.svg?branch=master)
 
 a proof of concept for self hosting streaming radio.
 
@@ -41,13 +41,7 @@ node index.js
 
 ### stream
 
-this is the ffmpeg process, it connects to the sqlite db to configure it's currently playing song and then broadcasts it's stream to the RMTP server.
-
-```
-cd stream
-npm install
-node index.js
-```
+this is the ffmpeg process, it connects to the sqlite db to configure it's currently playing song and then broadcasts it's stream to the RMTP server. it can be started and stopped using the [admin](#admin) app.
 
 ### client
 
@@ -61,10 +55,9 @@ npm start
 
 ### admin
 
-the admin front end of osr. this app allows you to create and update schedules as well as upload files that the stream can play.
+The admin front end of osr. It can be accessed at `/admin`. This app provides a web interface for managing the stream. It allows you to:
 
-```
-cd admin
-npm install
-npm start
-```
+- create schedules
+- start/stop the stream
+- upload and delete songs
+- manage uploaded mp3s metadata

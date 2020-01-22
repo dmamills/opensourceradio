@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useCallback, useState, useEffect, useRef } from 'react';
 import stylish from '@dmamills/stylish';
-import flvjs from 'flv.js';
-import Controls from './Controls';
 import cn from 'classnames';
-import { flex, column, ml1 } from '../styles';
+
+import Controls from './Controls';
 import MediaPlayer from './MediaPlayer';
+import { flex, column, ml1 } from '../styles';
 
 const STREAM_URL = process.env.REACT_APP_STREAM_URL;
 const playerContainer = stylish({ height: '400px' });
@@ -14,14 +14,14 @@ const StreamPlayer = () => {
   const [playing, setPlaying] = useState(false);
   const videoEl = useRef(null);
 
-  const start = () => {
+  const onStart = useCallback(() => {
     if(playing) return;
 
     player.unload();
     player.load();
     player.play();
     setPlaying(true);
-  }
+  }, [player]);
 
   const onStop = () => {
     if(!playing) return;
@@ -41,15 +41,17 @@ const StreamPlayer = () => {
     mediaPlayer.attach(videoEl.current);
     setPlayer(mediaPlayer);
 
-    videoEl.current.addEventListener('ended', () => {
-      setPlaying(true);
-      start();
+    videoEl.current.addEventListener('ended', function() {
+        mediaPlayer.unload();
+        mediaPlayer.load();
+        mediaPlayer.play();
+        setPlaying(true);
     });
 
     return function() {
       mediaPlayer.destroy();
     }
-  }, [false]);
+  }, [STREAM_URL]);
 
   return (
     <div className={cn(ml1, flex, column)}>
@@ -60,7 +62,7 @@ const StreamPlayer = () => {
       </video>
       <Controls
         playing={playing}
-        onPlay={start}
+        onPlay={onStart}
         onStop={onStop}
         onVolumeChange={onVolumeChange}
         onFullScreen={onFullScreen}

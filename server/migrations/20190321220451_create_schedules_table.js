@@ -11,5 +11,5 @@ exports.up = function(knex, done) {
 };
 
 exports.down = function(knex, done) {
-  knex.schema.dropTable('schedules').then(done);  
+  knex.schema.dropTable('schedules').then(done);
 };

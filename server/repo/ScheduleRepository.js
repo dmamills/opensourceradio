@@ -6,7 +6,7 @@ const sortByDate = (s1, s2) => moment(s1.start_time, DATE_FORMAT).diff(moment(s2
 const tableName = 'schedules';
 const fields = ['id', 'name', 'description', 'start_time', 'length', 'playlist', 'created_at', 'updated_at'];
 
-const ts = () => moment().format(DATE_FORMAT); 
+const ts = () => moment().format(DATE_FORMAT);
 
 const createTimestamps = () => ({
   created_at: ts(),
@@ -15,7 +15,7 @@ const createTimestamps = () => ({
 
 const updateTimestamp = () => ({
   updated_at: ts(),
-})
+});
 
 class ScheduleRepository {
   static get(id) {

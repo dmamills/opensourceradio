@@ -27,7 +27,7 @@ const Schedules = ({ schedules = []}) => {
       <div className={cn(p1)}>
         <p>opensourceradio is proudly hosted in Toronto Ontario Canada <span role="img" aria-label="canadian flag">🇨🇦</span></p>
         <p>All times are in Eastern Standard.</p>
-        <ul className={p0}>
+        <ul data-testid="schedule-list" className={p0}>
           {schedules.map(s => <Schedule key={s.id} schedule={s} />)}
         </ul>
       </div>
