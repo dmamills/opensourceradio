@@ -1,3 +1,4 @@
+require('dotenv').config();
 const fs = require('fs');
 const musicMetadata = require('music-metadata');
 const fx = require('mkdir-recursive');
@@ -8,7 +9,7 @@ const ffmetadata = require("ffmetadata");
 const readdir = promisify(fs.readdir);
 const removeFile = promisify(fs.unlink);
 const stat = promisify(fs.stat);
-const ROOT_AUDIO_PATH = `${process.cwd()}/../stream/assets/audio/`;
+const ROOT_AUDIO_PATH = `${process.env.STREAM_WORKING_DIR}/assets/audio/`;
 
 async function getFiles(dir) {
   const subdirs = await readdir(dir);
@@ -113,13 +114,13 @@ function moveFiles(files, folderName) {
 
   return Promise.all(files.map(file => {
     const { path, name } = file;
-    return new Promise(resolve => {    
+    return new Promise(resolve => {
       fs.copyFile(path, `${audioPath}${name}`, err => {
         if(err) {
           console.log(err);
           throw err;
         } else {
-          resolve();  
+          resolve();
         }
       });
     })
