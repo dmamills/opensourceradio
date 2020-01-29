@@ -9,7 +9,7 @@ const ffmetadata = require("ffmetadata");
 const readdir = promisify(fs.readdir);
 const removeFile = promisify(fs.unlink);
 const stat = promisify(fs.stat);
-const ROOT_AUDIO_PATH = `${process.env.STREAM_WORKING_DIR}/assets/audio/`;
+const ROOT_AUDIO_PATH = require(`${process.env.STREAM_WORKING_DIR}/config.json`).AUDIO_PATH;
 
 async function getFiles(dir) {
   const subdirs = await readdir(dir);
