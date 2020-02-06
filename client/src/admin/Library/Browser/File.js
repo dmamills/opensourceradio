@@ -15,6 +15,7 @@ const File = ({ selectFile, selectedFile, file, folder }) => {
   const isSelected = selectedFile === fullFilename;
   return (
     <li
+      data-testid="file-select"
       className={cn(fileStyles, pv1, pl1, (isSelected ? selectedFileStyle : ''))}
       onClick={() => selectFile(fullFilename)}
     >
