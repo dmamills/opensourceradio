@@ -1,6 +1,6 @@
 import React from 'react';
 import stylish from '@dmamills/stylish';
-import { fireEvent, render, act } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import File from './File';
 
 describe('File Component', () => {
