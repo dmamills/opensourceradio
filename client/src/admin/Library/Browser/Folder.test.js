@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent, render, act } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import Folder from './Folder';
 
 describe('Folder Component', () => {
@@ -27,7 +27,7 @@ describe('Folder Component', () => {
     const spyFn = jest.fn();
     const { queryByTestId } = render(<Folder folder={folderName} folderContents={folderContents} actionFn={spyFn} />);
 
-    fireEvent.click(queryByTestId('folder-action'));
+    fireEvent.click(queryByTestId('folder-action').firstChild);
     expect(spyFn).toBeCalled();
     expect(spyFn).toBeCalledWith(folderName);
   });

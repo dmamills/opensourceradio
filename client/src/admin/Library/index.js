@@ -13,9 +13,8 @@ const Library = () => {
 
   const fetchLibrary = () => {
     getLibrary()
-      .then(library => {
-        setLibrary(library);
-      }).catch(err => {
+      .then(setLibrary)
+      .catch(err => {
         console.log('error fetching library: ', err);
       });
   }
