@@ -6,20 +6,14 @@ const { errorHandler, authMiddleware } = require('./middleware');
 
 router.get('/today', (req, res) => {
   ScheduleRepository.todays()
-  .then(schedules => {
-    res.json({
-      schedules
-    });
-  }).catch(errorHandler(res));
+    .then(schedules => res.json({ schedules }))
+    .catch(errorHandler(res));
 });
 
 router.get('/', authMiddleware, (req, res) => {
   ScheduleRepository.getAll()
-    .then(schedules => {
-      res.json({
-        schedules
-      });
-    }).catch(errorHandler(res));
+    .then(schedules => res.json({ schedules }))
+    .catch(errorHandler(res));
 });
 
 router.post('/', (req, res) => {
@@ -27,10 +21,9 @@ router.post('/', (req, res) => {
   ScheduleRepository.create(schedule)
     .then(result => {
       ScheduleRepository.get(result[0])
-        .then(schedule => {
-          res.json({ schedule });
-        });
-    }).catch(errorHandler(res));
+        .then(schedule => res.json({ schedule }));
+    })
+    .catch(errorHandler(res));
 });
 
 router.post('/:id', (req, res) => {
@@ -38,19 +31,14 @@ router.post('/:id', (req, res) => {
   ScheduleRepository.update(id, req.body)
     .then(result => {
       ScheduleRepository.get(id)
-        .then(schedule => {
-          res.json({ schedule });
-        });
+        .then(schedule => res.json({ schedule }));
     }).catch(errorHandler(res));
 });
 
 router.delete('/:id', authMiddleware, (req, res) => {
   ScheduleRepository.remove(req.params.id)
-    .then(result => {
-      res.json({
-        result
-      });
-    }).catch(errorHandler(res));
+    .then(result => res.json({ result }))
+    .catch(errorHandler(res));
 });
 
 module.exports = router;

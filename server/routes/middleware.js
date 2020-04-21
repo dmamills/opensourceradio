@@ -8,14 +8,11 @@ const multipartMiddleware = multipart({
 const authMiddleware = (req, res, next) => {
   const { authorization } = req.headers;
   if(!authorization || authorization !== `Bearer ${RTMP_HTTP_PASS}`) {
-    res.status(401).json({
-      error: 'Invalid API KEY'
-    });
-    return;
+    return res.status(401).json({ error: 'Invalid API KEY' });
   } else {
-    next();
+    return next();
   }
-}
+};
 
 const errorHandler = response => {
   return error => {
@@ -23,11 +20,11 @@ const errorHandler = response => {
     response.status(400).json({
       error
     });
-  }
-}
+  };
+};
 
 module.exports = {
   errorHandler,
   multipartMiddleware,
   authMiddleware
-}
+};
