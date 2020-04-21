@@ -29,3 +29,12 @@ export const libraryReduce = (library) => {
     return acc;
   }, []);
 };
+
+export const durationToHuman = (time) => {
+  var minutes = Math.floor(time / 60);
+  time -= minutes * 60;
+
+  var seconds = parseInt(time % 60, 10);
+  return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2,'0')}`;
+};
+

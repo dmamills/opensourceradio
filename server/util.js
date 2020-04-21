@@ -28,7 +28,8 @@ function getMetadataForSong(filename) {
       return {
         artist: metadata.common.artist,
         album: metadata.common.album,
-        title: metadata.common.title
+        title: metadata.common.title,
+        duration: metadata.format.duration,
       };
     });
 }

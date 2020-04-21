@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ph1 } from '../../../styles';
 
 import { updateMetadata, getMetadata, removeSong } from '../../api';
+import { durationToHuman } from '../../../utils';
 import MetadataActions from './MetadataActions';
 import MetadataInput from './MetadataInput';
 
@@ -9,11 +10,13 @@ const AudioMetadata = ({ selectedFile, fetchLibrary }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [metadata, setMetadata] = useState({ artist: '', title: '', album: ''});
   const { artist, album, title } = metadata;
+  const [duration, setDuration] = useState(0);
 
   useEffect(() => {
     getMetadata(selectedFile)
       .then(metadata => {
         setIsEditing(false);
+        setDuration(metadata.duration);
         setMetadata({
           artist: metadata.artist || '',
           album: metadata.album || '',
@@ -62,10 +65,12 @@ const AudioMetadata = ({ selectedFile, fetchLibrary }) => {
 
   const cancel = () => setIsEditing(false);
 
+
   return (
     <div className={ph1}>
       <h3>Audio Metadata</h3>
-      {selectedFile && <p>Viewing {selectedFile}</p>}
+      {selectedFile && <p><strong>Viewing</strong> {selectedFile}</p>}
+      {selectedFile && <p><strong>Duration</strong> {durationToHuman(duration)}</p>}
       <div>
         <MetadataInput value={artist} id="artist" label="Artist" onChange={onFieldChange('artist')} isEditing={isEditing} />
         <MetadataInput value={album} id="album" label="Album" onChange={onFieldChange('album')} isEditing={isEditing} />
