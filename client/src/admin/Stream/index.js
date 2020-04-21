@@ -4,8 +4,7 @@ import moment from 'moment';
 import { p1 } from '../../styles';
 import { getStreamStats } from '../api';
 import StreamControls from './StreamControls';
-
-const DATE_FORMAT = 'YYYY-MM-DD HH:mm:ss';
+import { DATE_FORMAT } from '../../utils';
 
 const StreamPage = () => {
     const [streamStats, setStreamStats] = useState(null);
