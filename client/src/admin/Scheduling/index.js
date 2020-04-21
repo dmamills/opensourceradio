@@ -1,89 +1,58 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import cn from 'classnames';
 
 import { getSchedules } from '../api';
 import Table from './Table'
 import EditSchedule from './EditSchedule';
+import Buttons from './Buttons';
+import Title from './Title';
 import { p1, flex, spaceBetween, flexCenter } from '../../styles';
 
-class Scheduling extends React.Component {
-  state = {
-    showEdit: false,
-    selectedSchedule: null,
-    schedules: []
-  }
+const Scheduling = () => {
+  const [schedules, setSchedules] = useState([]);
+  const [showEdit, setShowEdit] = useState(false);
+  const [selectedSchedule, setSelectedSchedule] = useState(null);
 
-  componentDidMount() {
-    this.fetchSchedules();
-   }
-
-  fetchSchedules = () => {
+  const fetchSchedules = () => {
     getSchedules()
-    .then(schedules => {
-      this.setState({
-        schedules,
-      });
-    });
+      .then(setSchedules);
   }
 
-  onEdit = (selectedSchedule) => {
-    this.setState({
-      selectedSchedule,
-      showEdit: true,
-    })
+  const onEdit = (chosenSchedule) => {
+    setShowEdit(true);
+    setSelectedSchedule(chosenSchedule);
   }
 
-  back = () => {
-    this.setState({ showEdit: false }, () => {
-      this.fetchSchedules();
-    });
+  const back = () => {
+    setShowEdit(false);
+    fetchSchedules();
   }
 
-  renderButtons = () => {
-    const { showEdit } = this.state;
-    if(showEdit) {
-      return (<>
-        <button onClick={() => this.back()}>Back</button>
-      </>);
-    }
+  useEffect(() => { fetchSchedules() }, [false]);
 
-    return (<>
-     <button onClick={() => this.onEdit()}>Create New Schedule</button>
-     <button onClick={this.fetchSchedules}>Refresh</button>
-    </>);
-  }
-
-  renderTitle = () => {
-    const { showEdit, selectedSchedule } = this.state;
-    if(!showEdit) return 'Scheduling';
-    if(showEdit && !selectedSchedule) return 'Create New Schedule';
-    else return 'Edit Schedule';
-  }
-
-  render() {
-    const { schedules, showEdit, selectedSchedule } = this.state;
-    return (
-      <div className={cn(p1)}>
-        <div className={cn(flex, spaceBetween)}>
-          <h2>{this.renderTitle()}</h2>
-          <div className={cn(flex, flexCenter)}>
-            {this.renderButtons()}
-          </div>
-        </div>
-        <div>
-          {!showEdit && <Table
-            schedules={schedules}
-            onEdit={this.onEdit}
-            refresh={this.fetchSchedules}
-          />}
-          {showEdit && <EditSchedule
-            schedule={selectedSchedule}
-            back={this.back}
-          />}
+  return (
+    <div className={cn(p1)}>
+      <div className={cn(flex, spaceBetween)}>
+        <Title showEdit={showEdit} selectedSchedule={selectedSchedule} />
+        <div className={cn(flex, flexCenter)}>
+          <Buttons showEdit={showEdit} back={back} onEdit={onEdit} fetchSchedules={fetchSchedules} />
         </div>
       </div>
-    );
-  }
+      <div>
+        {showEdit ?
+         <EditSchedule
+           schedule={selectedSchedule}
+           back={back}
+         /> :
+         <Table
+           schedules={schedules}
+           onEdit={onEdit}
+           refresh={fetchSchedules}
+         />
+        }
+      </div>
+    </div>
+  );
 }
 
 export default Scheduling;

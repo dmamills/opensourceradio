@@ -18,11 +18,11 @@ const [folderList, folderStyles] = stylish({
 const Folder = ({ folder, isExpanded, actionFn, folderContents, selectFile, selectedFile }) => {
   return <li className={cn(listStyleNone, folderList)}>
     <div>
-      <div className={folderStyles} onClick={() => actionFn(folder)}>
+      <div data-testid="folder-action" className={folderStyles} onClick={() => actionFn(folder)}>
         <span className={mr05} role="img" aria-label="folder">🗂</span>
         <strong>{folder}</strong>
       </div>
-      {isExpanded && <ul className={p0}>
+      {isExpanded && <ul data-testid="folder-list" className={p0}>
         {folderContents.map(file => <File
           key={file}
           file={file}

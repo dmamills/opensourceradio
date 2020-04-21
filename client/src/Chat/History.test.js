@@ -16,6 +16,8 @@ describe('History Component', () => {
       timestamp: '2019-12-18T18:00:00.001Z'
     };
 
+
+    //TODO fix: getText to be based on timestamp
     const { getByText } = render(<History messages={[testMessage]} renderMessage={m => Message(m)}/>);
     expect(getByText(testMessage.message)).toBeInTheDocument();
     expect(getByText(`<${testMessage.name}>`)).toBeInTheDocument();
