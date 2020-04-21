@@ -1,4 +1,4 @@
-const { 
+const {
   RTMP_PORT,
   RTMP_CHUNK_SIZE,
   RTMP_GOP_CACHE,

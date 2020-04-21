@@ -1,9 +1,11 @@
 require('dotenv').config();
 const fs = require('fs');
-const musicMetadata = require('music-metadata');
-const fx = require('mkdir-recursive');
 const { promisify } = require('util');
 const { resolve } = require('path');
+
+const moment = require('moment');
+const musicMetadata = require('music-metadata');
+const fx = require('mkdir-recursive');
 const ffmetadata = require("ffmetadata");
 
 const readdir = promisify(fs.readdir);
@@ -62,9 +64,9 @@ function loadMetadataforSchedules(schedules) {
       return getMetadataForSongs(playlist).then(songs => {
         schedule.playlist = songs;
         return schedule;
-      })
+      });
     })
-  )
+  );
 }
 
 function loadLibrary() {
@@ -110,7 +112,6 @@ function moveFiles(files, folderName) {
     audioPath = `${audioPath}${folderName}/`;
     fx.mkdirSync(audioPath);
   }
-  console.log(files);
 
   return Promise.all(files.map(file => {
     const { path, name } = file;
@@ -123,9 +124,25 @@ function moveFiles(files, folderName) {
           resolve();
         }
       });
-    })
+    });
   }));
 }
+
+const DATE_FORMAT = 'YYYY-MM-DD HH:mm:ss';
+
+const sortByDate = (s1, s2) => moment(s1.start_time, DATE_FORMAT).diff(moment(s2.start_time, DATE_FORMAT));
+const ts = () => moment().format(DATE_FORMAT);
+
+const createTimestamps = () => ({
+  created_at: ts(),
+  updated_at: ts(),
+});
+
+const updateTimestamp = () => ({
+  updated_at: ts(),
+});
+
+
 
 module.exports = {
   loadMetadataforSchedules,
@@ -134,4 +151,8 @@ module.exports = {
   writeMetadataForSong,
   removeSong,
   moveFiles,
+  createTimestamps,
+  updateTimestamp,
+  sortByDate,
+  DATE_FORMAT,
 };

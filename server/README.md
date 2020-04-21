@@ -22,7 +22,7 @@ TODO
 
 ## rtmp-server
 
-A basic usage case of the [`node-media-server` package](https://github.com/illuspas/Node-Media-Server). It's can be configured by modifying the values in `mediaServerConfig.js`.
+A basic usage case of the [`node-media-server` package](https://github.com/illuspas/Node-Media-Server). It can be configured by modifying the values in `.env`.
 
 It is responsible for the broadcasting stream, which gets published from the osr_stream. It exposes an endpoint that can be consumed by the client app via flv.js.
 
@@ -37,3 +37,4 @@ The websocket chat system is very basic. It responds to a small set of events:
 
 ## osr_stream process
 
+TODO

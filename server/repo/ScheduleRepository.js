@@ -1,21 +1,10 @@
 const knex = require('knex')(require('../knexfile').development);
 const moment = require('moment');
-const DATE_FORMAT = 'YYYY-MM-DD HH:mm:ss';
-const sortByDate = (s1, s2) => moment(s1.start_time, DATE_FORMAT).diff(moment(s2.start_time, DATE_FORMAT));
 
 const tableName = 'schedules';
 const fields = ['id', 'name', 'description', 'start_time', 'length', 'playlist', 'created_at', 'updated_at'];
 
-const ts = () => moment().format(DATE_FORMAT);
-
-const createTimestamps = () => ({
-  created_at: ts(),
-  updated_at: ts(),
-});
-
-const updateTimestamp = () => ({
-  updated_at: ts(),
-});
+const { createTimestamps, updateTimestamp, sortByDate, DATE_FORMAT } = require('../util');
 
 class ScheduleRepository {
   static get(id) {
