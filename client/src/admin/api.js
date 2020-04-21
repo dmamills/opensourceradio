@@ -89,8 +89,8 @@ export const removeSchedule = (id) => {
   return del(`/api/schedules/${id}`);
 };
 
-export const updateSchedule = (id, schedule) => {
-  return post(`/api/schedules/${id}`, schedule)
+export const updateSchedule = (schedule) => {
+  return post(`/api/schedules/${schedule.id}`, schedule)
   .then(({ error, schedule }) => {
     if(error) throw new Error(error);
     return schedule;
