@@ -23,8 +23,14 @@ export const libraryReduce = (library) => {
   const folders = Object.keys(library);
   return folders.reduce((acc, folder) => {
     acc = acc.concat(library[folder].map(f => {
-      if(folder === '/') return `${folder}${f}`;
-      else return `${folder}/${f}`;
+      if(folder === '/') {
+        f.file = `${folder}${f.file}`;
+        return f;
+      }
+      else {
+        f.file = `${folder}/${f.file}`;
+        return f;
+      }
     }));
     return acc;
   }, []);

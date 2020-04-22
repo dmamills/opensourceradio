@@ -5,24 +5,38 @@ import cn from 'classnames';
 import AsyncSelect from 'react-select/lib/Async';
 import "react-datepicker/dist/react-datepicker.css";
 
-import { libraryReduce, makeDefaultSchedule, DATE_FORMAT, DATE_FORMAT_DP } from '../../utils';
+import { durationToHuman, libraryReduce, makeDefaultSchedule, DATE_FORMAT, DATE_FORMAT_DP } from '../../utils';
 import { updateSchedule, createSchedule, getLibrary } from '../api';
 import { flex, spaceBetween, p05, flex2, ml1, justifyEnd } from '../../styles';
 import Label from './Label';
+
+/* const findMetadataForSong = (filename) => {
+ *   return getLibrary().then(lib => {
+ *     if(filename[0] === '/') return lib['/']
+ *     return lib[filename];
+ *   });
+ * } */
 
 const EditSchedule = (props) => {
   const [schedule, setSchedule] = useState(null);
 
   useEffect(() => {
-    let newSchedule;
     if(props.schedule) {
-      newSchedule = props.schedule;
+      let newSchedule = { ...props.schedule };
       newSchedule.playlist = props.schedule.playlist.split(',').map(s => ({label: s, value: s}));
+
+      //TODO: find duration of each playlist song from the library
+      /* Promise.all(newSchedule.playlist.split(',').map(song => {
+       *   return findMetadataForSong(song).then(s => ({ label: s.file, value: s.file, data: s}));
+       * })).then(songs => {
+       *   console.log('promise all', songs);
+       *   newSchedule.playlist = songs;
+       *   setSchedule(newSchedule);
+       * }); */
     } else {
-      newSchedule = { ...makeDefaultSchedule() };
+      setSchedule({...makeDefaultSchedule() });
     }
 
-    setSchedule(newSchedule)
   }, [props.schedule]);
 
   const onChange = (field) => {
@@ -50,8 +64,8 @@ const EditSchedule = (props) => {
   const fetchLibrary = input => {
     return getLibrary()
       .then(libraryReduce)
-      .then(songs => songs.filter(s => s.toLowerCase().includes(input.toLowerCase())))
-      .then(songs => songs.map(s => ({label: s, value: s})))
+      .then(songs => songs.filter(s => s.file.toLowerCase().includes(input.toLowerCase())))
+      .then(songs => songs.map(s => ({label: s.file, value: s.file, data: s})))
       .catch(err => {
         console.log('error fetching library', err);
       })
@@ -69,10 +83,20 @@ const EditSchedule = (props) => {
     setSchedule(updatedSchedule);
   }
 
+  const getPlaylistDuration = () => {
+    return schedule.playlist.reduce((acc, s) => {
+      if(s.data && s.data.metadata.duration) acc += s.data.metadata.duration;
+     return acc;
+    }, 0);
+  }
+
   if(!schedule) return false;
 
   return (
     <div>
+      <Label labelName="Playlist Running Time">
+        <p>{durationToHuman(getPlaylistDuration())}</p>
+      </Label>
       <Label labelName="Name">
         <input
           defaultValue={schedule.name}

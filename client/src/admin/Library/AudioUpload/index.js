@@ -9,6 +9,7 @@ import { dropzoneStyles, folderLabel } from './styles';
 
 const acceptedFiles = '.mp3,audio/*';
 
+// TODO: oh god oh god why oh god
 class AudioUpload extends Component {
   state = {
     fileCount: 0,
@@ -79,6 +80,11 @@ class AudioUpload extends Component {
     this.dropzone.processQueue();
   }
 
+  onClear = () => {
+    this.dropzone.files.forEach(f => this.dropzone.removeFile(f));
+    this.setState({ fileCount: 0 });
+  }
+
   onChange = (e) => {
     this.setState({
       folderName: e.target.value
@@ -91,9 +97,6 @@ class AudioUpload extends Component {
     return (
       <div className={cn(p1)}>
         <h3>Upload Audio</h3>
-        <div id="dropzoneEl" className={cn(p1, dropzoneStyles, { flex: hasNoFiles }, { flexCenter: hasNoFiles })}>
-          {(hasNoFiles) && <span>Drop files, or click here</span>}
-        </div>
         <div className={cn(flex, spaceBetween, alignItemsCenter, p05)}>
           <label
             className={cn(heavyText, folderLabel)}
@@ -111,6 +114,11 @@ class AudioUpload extends Component {
         </div>
         <div className={cn(flex, spaceBetween, alignItemsCenter, p05)}>
           <button onClick={this.onUpload}>Upload</button>
+          <button onClick={this.onClear}>Clear</button>
+        </div>
+
+        <div id="dropzoneEl" className={cn(p1, dropzoneStyles, { flex: hasNoFiles }, { flexCenter: hasNoFiles })}>
+          {(hasNoFiles) && <span>Drop files, or click here</span>}
         </div>
       </div>
     );

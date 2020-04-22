@@ -70,8 +70,8 @@ const writeToSongLog = (audioPath, command, schedule) => {
 };
 
 const timeTillNextBlockInHours = (startTime = moment()) => {
-  const minutes = parseInt(startTime.format('m'), 10);
-  return parseFloat(((60 - minutes) / 60).toFixed(2));
+  const minutes = parseInt(startTime.endOf('m').format('m'), 10);
+  return parseFloat(((59 - minutes) / 60).toFixed(2));
 };
 
 module.exports = {

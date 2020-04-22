@@ -22,8 +22,10 @@ async function getFiles(dir) {
   return files.reduce((a, f) => a.concat(f), []);
 }
 
-function getMetadataForSong(filename) {
-  return musicMetadata.parseFile(`${ROOT_AUDIO_PATH}/${filename}`, { duration: true })
+function getMetadataForSong(filename, addRoot = true) {
+  const filePath = addRoot ? `${ROOT_AUDIO_PATH}/${filename}` : filename;
+
+  return musicMetadata.parseFile(filePath, { duration: true })
     .then(metadata => {
       return {
         artist: metadata.common.artist,
@@ -46,14 +48,7 @@ function writeMetadataForSong(filename, metadata) {
 function getMetadataForSongs(songs) {
   return Promise.all(songs.map(audioPath => {
     audioPath = `${ROOT_AUDIO_PATH}${audioPath}`;
-    return musicMetadata.parseFile(audioPath, { duration: true })
-    .then(metadata => {
-      return {
-        artist: metadata.common.artist,
-        album: metadata.common.album,
-        title: metadata.common.title
-      };
-    });
+    return getMetadataForSong(audioPath);
   })
   );
 }
@@ -70,25 +65,37 @@ function loadMetadataforSchedules(schedules) {
   );
 }
 
+//TODO: tidy up this function
 function loadLibrary() {
   return getFiles(ROOT_AUDIO_PATH).then(files => {
-    return files.reduce((acc, file) => {
-      file = file.replace(`${resolve(ROOT_AUDIO_PATH)}/`, '');
 
-      const idx = file.indexOf('/');
-      if(idx >= 0) {
-        const folder = file.substr(0, idx);
-        file = file.substr(idx+1);
-        if(!acc[folder]) acc[folder] = [];
-        acc[folder].push(file);
-      } else {
-        acc['/'].push(file);
-      }
+    return Promise.all(files.map(f => {
+      return getMetadataForSong(f, false).then(metadata => {
+        return {
+          file: f,
+          metadata
+        };
+      });
+    })).then(files => {
+      return files.reduce((acc, file) => {
+        file.file = file.file.replace(`${resolve(ROOT_AUDIO_PATH)}/`, '');
 
-      return acc;
-    }, { '/': []});
+        const idx = file.file.indexOf('/');
+        if(idx >= 0) {
+          const folder = file.file.substr(0, idx);
+          file.file = file.file.substr(idx+1);
+          if(!acc[folder]) acc[folder] = [];
+          acc[folder].push(file);
+        } else {
+          acc['/'].push(file);
+        }
+
+        return acc;
+      }, { '/': []});
+    });
   });
 }
+
 
 function removeSong(filename) {
   const path = resolve(ROOT_AUDIO_PATH, filename);
@@ -97,9 +104,7 @@ function removeSong(filename) {
   }
 
   return removeFile(path)
-    .then(() => {
-      return true;
-    })
+    .then(() => true)
     .catch(error => {
       console.log('error:', error);
       return false;
@@ -142,8 +147,6 @@ const createTimestamps = () => ({
 const updateTimestamp = () => ({
   updated_at: ts(),
 });
-
-
 
 module.exports = {
   loadMetadataforSchedules,
