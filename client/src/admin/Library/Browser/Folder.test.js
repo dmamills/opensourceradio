@@ -4,7 +4,7 @@ import Folder from './Folder';
 
 describe('Folder Component', () => {
   const folderName = 'mydir';
-  const folderContents = ['blah.mp3', 'blah2.mp3'];
+  const folderContents = [ { file: 'blah.mp3' }, { file: 'blah2.mp3' }];
 
   it('renders without crashing', () => {
     const { getByText } = render(<Folder folder={folderName} folderContents={folderContents} />);
