@@ -25,9 +25,9 @@ describe('Folder Component', () => {
 
   it('should invoke the expand function when button pressed', () => {
     const spyFn = jest.fn();
-    const { queryByTestId } = render(<Folder folder={folderName} folderContents={folderContents} actionFn={spyFn} />);
+    const { queryAllByTestId } = render(<Folder folder={folderName} folderContents={folderContents} actionFn={spyFn} />);
 
-    fireEvent.click(queryByTestId('folder-action').firstChild);
+    fireEvent.click(queryAllByTestId('folder-action')[0]);
     expect(spyFn).toBeCalled();
     expect(spyFn).toBeCalledWith(folderName);
   });
