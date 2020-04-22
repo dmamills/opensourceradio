@@ -44,7 +44,6 @@ export const durationToHuman = (time) => {
   return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2,'0')}`;
 };
 
-
 export const formatDate = timestamp => timestamp ? moment(timestamp).format(DATE_FORMAT) : '';
 
 export const makeDefaultStreamStats = () => ({
@@ -52,3 +51,20 @@ export const makeDefaultStreamStats = () => ({
   schedule_stop_time: null,
   schedule_playlist: '',
 });
+
+export const getPlaylistDuration = (playlist) => {
+  return playlist.reduce((acc, s) => {
+    if(s.data && s.data.metadata.duration) acc += s.data.metadata.duration;
+    return acc;
+  }, 0);
+};
+
+export const calculateLengthFromDuration = (playlist) => {
+  const duration = playlist.reduce((acc, s) => {
+    if(s.data && s.data.metadata.duration) acc += s.data.metadata.duration;
+    return acc;
+  }, 0);
+
+  return parseFloat((duration / 60 / 60).toFixed(2));
+};
+

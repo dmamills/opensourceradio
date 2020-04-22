@@ -5,17 +5,18 @@ import cn from 'classnames';
 import AsyncSelect from 'react-select/lib/Async';
 import "react-datepicker/dist/react-datepicker.css";
 
-import { durationToHuman, libraryReduce, makeDefaultSchedule, DATE_FORMAT, DATE_FORMAT_DP } from '../../utils';
+import { getPlaylistDuration, calculateLengthFromDuration, durationToHuman, libraryReduce, makeDefaultSchedule, DATE_FORMAT, DATE_FORMAT_DP } from '../../utils';
 import { updateSchedule, createSchedule, getLibrary } from '../api';
 import { flex, spaceBetween, p05, flex2, ml1, justifyEnd } from '../../styles';
 import Label from './Label';
 
-/* const findMetadataForSong = (filename) => {
- *   return getLibrary().then(lib => {
- *     if(filename[0] === '/') return lib['/']
- *     return lib[filename];
- *   });
- * } */
+const findMetadataForSong = (filename) => {
+  const parts = filename.split('/');
+  return getLibrary().then(lib => {
+    if(filename[0] === '/') return lib['/'].find(f => f.file === parts[1]);
+    return lib[parts[0]].find(f => f.file === parts[1]);
+  });
+}
 
 const EditSchedule = (props) => {
   const [schedule, setSchedule] = useState(null);
@@ -23,20 +24,15 @@ const EditSchedule = (props) => {
   useEffect(() => {
     if(props.schedule) {
       let newSchedule = { ...props.schedule };
-      newSchedule.playlist = props.schedule.playlist.split(',').map(s => ({label: s, value: s}));
-
-      //TODO: find duration of each playlist song from the library
-      /* Promise.all(newSchedule.playlist.split(',').map(song => {
-       *   return findMetadataForSong(song).then(s => ({ label: s.file, value: s.file, data: s}));
-       * })).then(songs => {
-       *   console.log('promise all', songs);
-       *   newSchedule.playlist = songs;
-       *   setSchedule(newSchedule);
-       * }); */
+      Promise.all(newSchedule.playlist.split(',').map(song => {
+        return findMetadataForSong(song).then(s => ({ label: s.file, value: s.file, data: s}));
+      })).then(songs => {
+        newSchedule.playlist = songs;
+        setSchedule(newSchedule);
+      });
     } else {
       setSchedule({...makeDefaultSchedule() });
     }
-
   }, [props.schedule]);
 
   const onChange = (field) => {
@@ -53,7 +49,6 @@ const EditSchedule = (props) => {
     submitSchedule.playlist = submitSchedule.playlist.map(s => s.label).join(',');
 
     submitRequest = submitSchedule.id ? updateSchedule : createSchedule;
-
     submitRequest(submitSchedule).then(result => {
       props.back();
     }).catch(error => {
@@ -68,12 +63,13 @@ const EditSchedule = (props) => {
       .then(songs => songs.map(s => ({label: s.file, value: s.file, data: s})))
       .catch(err => {
         console.log('error fetching library', err);
-      })
+      });
   }
 
   const onSelectChange = playlist => {
     const updatedSchedule = {...schedule };
     updatedSchedule.playlist = playlist;
+    updatedSchedule.length = calculateLengthFromDuration(playlist);
     setSchedule(updatedSchedule);
   }
 
@@ -83,19 +79,12 @@ const EditSchedule = (props) => {
     setSchedule(updatedSchedule);
   }
 
-  const getPlaylistDuration = () => {
-    return schedule.playlist.reduce((acc, s) => {
-      if(s.data && s.data.metadata.duration) acc += s.data.metadata.duration;
-     return acc;
-    }, 0);
-  }
-
   if(!schedule) return false;
 
   return (
     <div>
       <Label labelName="Playlist Running Time">
-        <p>{durationToHuman(getPlaylistDuration())}</p>
+        <p>{durationToHuman(getPlaylistDuration(schedule.playlist))}</p>
       </Label>
       <Label labelName="Name">
         <input
@@ -127,8 +116,8 @@ const EditSchedule = (props) => {
       </Label>
       <Label labelName="Length">
         <input
-          defaultValue={schedule.length}
-          onChange={onChange('length')}
+          disabled
+          value={schedule.length}
           className={cn(flex2, ml1)} type="text"
         />
       </Label>

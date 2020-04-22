@@ -23,7 +23,7 @@ const printMetadata = metadata => {
   console.log(`\tLength: ${pad(minutes)}:${pad(seconds)}\n`);
 
   return metadata;
-}
+};
 
 const printSchedule = schedule => {
   console.log(`\n\tPlaying Schedule: ${schedule.name}`);
@@ -34,7 +34,7 @@ const printSchedule = schedule => {
   } else {
     console.log(`\tPlaying for: ${schedule.length} hour${schedule.length > 1 ? 's' : ''}`);
   }
-}
+};
 
 function shuffleArray(a) {
   var j, x, i;
