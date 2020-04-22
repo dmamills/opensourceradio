@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
+import StreamStat from './StreamStat';
 import { getStreamStatus, postStartStream, postStopStream } from '../api';
 
 const StreamControls = () => {
@@ -25,10 +26,7 @@ const StreamControls = () => {
   return (
     <>
       <div>
-        <div>
-         <strong>Current Status:</strong>
-         <span>{statusMessage}</span>
-        </div>
+        <StreamStat label="Current Status" value={statusMessage} />
       </div>
       <div>
         <button onClick={onStart}>Start</button>

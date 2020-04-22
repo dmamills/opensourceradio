@@ -38,3 +38,11 @@ export const durationToHuman = (time) => {
   return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2,'0')}`;
 };
 
+
+export const formatDate = timestamp => timestamp ? moment(timestamp).format(DATE_FORMAT) : '';
+
+export const makeDefaultStreamStats = () => ({
+  schedule_start_time: null,
+  schedule_stop_time: null,
+  schedule_playlist: '',
+});

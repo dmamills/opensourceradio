@@ -1,55 +1,58 @@
 import React, { useState, useEffect } from 'react';
-import moment from 'moment';
 
-import { p1 } from '../../styles';
-import { getStreamStats } from '../api';
 import StreamControls from './StreamControls';
-import { DATE_FORMAT } from '../../utils';
+import StreamStat from './StreamStat';
+import { getStreamStats } from '../api';
+import { formatDate, makeDefaultStreamStats } from '../../utils';
+import { p1 } from '../../styles';
 
 const StreamPage = () => {
-    const [streamStats, setStreamStats] = useState(null);
+    const [streamStats, setStreamStats] = useState({ ...makeDefaultStreamStats() });
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-      getStreamStats().then(stats => setStreamStats(stats));
+      const statInterval = setInterval(() => {
+        setLoading(true);
+        loadStats();
+      }, 5000)
+      loadStats();
+
+      return () => {
+        clearInterval(statInterval);
+      }
     }, [false]);
 
-    const startTime = streamStats ? moment(streamStats.schedule_start_time).format(DATE_FORMAT) : '';
-    const stopTime = streamStats ? moment(streamStats.schedule_stop_time).format(DATE_FORMAT) : '';
-    const playlist = streamStats ? streamStats.schedule_playlist.split(',') : [];
+  const loadStats = () => {
+    getStreamStats().then(stats => {
+      setStreamStats(stats);
+      setLoading(false);
+    });
+  }
 
-    return (
-      <div className={p1}>
-        <h1>Stream</h1>
-        <StreamControls />
+  const startTime = formatDate(streamStats.schedule_start_time);
+  const stopTime = formatDate(streamStats.schedule_stop_time);
+  const playlist = streamStats.schedule_playlist.split(',');
 
-        {streamStats &&<div>
-          <h2>Stream State:</h2>
-          <div>
-            <strong>Schedule Id: </strong>
-            <span>{streamStats.schedule_id}</span>
-          </div>
-          <div>
-            <strong>Current Song: </strong>
-            <span>{streamStats.file_name}</span>
-          </div>
-          <div>
-            <strong>Start Time: </strong>
-            <span>{startTime}</span>
-          </div>
-          <div>
-            <strong>End Time: </strong>
-            <span>{stopTime}</span>
-          </div>
-          <div>
-            <strong>Playlist: </strong>
-            <ul>
-                {playlist.map((song, idx) => <li key={`${song}-${idx}`}>{song}</li>)}
-            </ul>
-          </div>
+  return (
+    <div className={p1}>
+      <h1>Stream</h1>
+      <StreamControls />
 
-        </div>}
-      </div>
-    );
+      <h2>Stream State:</h2>
+      { !loading && <div>
+        <StreamStat label="Schedule Id" value={streamStats.schedule_id} />
+        <StreamStat label="Current Song" value={streamStats.file_name} />
+        <StreamStat label="Start Time" value={startTime} />
+        <StreamStat label="End Time" value={stopTime} />
+        <div>
+          <strong>Playlist: </strong>
+          <ul>
+              {playlist.map((song, idx) => <li key={`${song}-${idx}`}>{song}</li>)}
+          </ul>
+        </div>
+      </div>}
+    </div>
+  );
 }
 
 export default StreamPage;
