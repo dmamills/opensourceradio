@@ -24,8 +24,9 @@ const EditSchedule = (props) => {
   useEffect(() => {
     if(props.schedule) {
       let newSchedule = { ...props.schedule };
-      Promise.all(newSchedule.playlist.split(',').map(song => {
-        return findMetadataForSong(song).then(s => ({ label: s.file, value: s.file, data: s}));
+      const splitPlaylist = newSchedule.playlist.split(',');
+      Promise.all(splitPlaylist.map((song, idx) => {
+        return findMetadataForSong(song).then(s => ({ label: splitPlaylist[idx], value: splitPlaylist[idx], data: s}));
       })).then(songs => {
         newSchedule.playlist = songs;
         setSchedule(newSchedule);
@@ -83,9 +84,6 @@ const EditSchedule = (props) => {
 
   return (
     <div>
-      <Label labelName="Playlist Running Time">
-        <p>{durationToHuman(getPlaylistDuration(schedule.playlist))}</p>
-      </Label>
       <Label labelName="Name">
         <input
           defaultValue={schedule.name}
@@ -114,7 +112,8 @@ const EditSchedule = (props) => {
           id="start_time"
         />
       </Label>
-      <Label labelName="Length">
+      <Label labelName="Schedule Length">
+        <span className={cn(flex2, ml1)}>{durationToHuman(getPlaylistDuration(schedule.playlist))}</span>
         <input
           disabled
           value={schedule.length}
