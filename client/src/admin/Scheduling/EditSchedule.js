@@ -5,14 +5,15 @@ import cn from 'classnames';
 import AsyncSelect from 'react-select/lib/Async';
 import "react-datepicker/dist/react-datepicker.css";
 
-import { getPlaylistDuration, calculateLengthFromDuration, durationToHuman, libraryReduce, makeDefaultSchedule, DATE_FORMAT, DATE_FORMAT_DP } from '../../utils';
+import { calculateLengthFromDuration, libraryReduce, makeDefaultSchedule, DATE_FORMAT, DATE_FORMAT_DP } from '../../utils';
 import { updateSchedule, createSchedule, getLibrary } from '../api';
 import { flex, spaceBetween, p05, flex2, ml1, justifyEnd } from '../../styles';
 import Label from './Label';
+import Preview from './Preview';
 
 const findMetadataForSong = (filename) => {
   const parts = filename.split('/');
-  return getLibrary().then(lib => {
+  return getLibrary(true).then(lib => {
     if(filename[0] === '/') return lib['/'].find(f => f.file === parts[1]);
     return lib[parts[0]].find(f => f.file === parts[1]);
   });
@@ -25,11 +26,17 @@ const EditSchedule = (props) => {
     if(props.schedule) {
       let newSchedule = { ...props.schedule };
       const splitPlaylist = newSchedule.playlist.split(',');
-      Promise.all(splitPlaylist.map((song, idx) => {
-        return findMetadataForSong(song).then(s => ({ label: splitPlaylist[idx], value: splitPlaylist[idx], data: s}));
-      })).then(songs => {
-        newSchedule.playlist = songs;
-        setSchedule(newSchedule);
+
+      getLibrary().then(() => {
+        Promise.all(splitPlaylist.map((song, idx) => {
+          return findMetadataForSong(song).then(s => ({ label: splitPlaylist[idx], value: splitPlaylist[idx], data: s}));
+        })).then(songs => {
+          newSchedule.playlist = songs;
+          setSchedule(newSchedule);
+        }).catch(err => {
+          alert('Something is wrong with this schedule. Aborting!');
+          props.back();
+        });
       });
     } else {
       setSchedule({...makeDefaultSchedule() });
@@ -84,6 +91,9 @@ const EditSchedule = (props) => {
 
   return (
     <div>
+      <div>
+        <Preview schedule={schedule} />
+      </div>
       <Label labelName="Name">
         <input
           defaultValue={schedule.name}
@@ -110,14 +120,6 @@ const EditSchedule = (props) => {
           timeCaption="time"
           className={cn(flex2, ml1)}
           id="start_time"
-        />
-      </Label>
-      <Label labelName="Schedule Length">
-        <span className={cn(flex2, ml1)}>{durationToHuman(getPlaylistDuration(schedule.playlist))}</span>
-        <input
-          disabled
-          value={schedule.length}
-          className={cn(flex2, ml1)} type="text"
         />
       </Label>
       <Label labelName="Playlist">
