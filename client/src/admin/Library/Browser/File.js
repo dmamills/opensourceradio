@@ -10,8 +10,9 @@ const  [fileStyles, selectedFileStyle] = stylish({
   backgroundColor: '#bac6d3',
 });
 
-const File = ({ selectFile, selectedFile, file }) => {
+const File = ({ selectFile, selectedFile, file, folder }) => {
   const isSelected = selectedFile === file;
+  file.fullFilename = `${folder === '/' ? '': `${folder}/`}${file.file}`;
   return (
     <li
       data-testid="file-select"

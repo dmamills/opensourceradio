@@ -1,8 +1,8 @@
 import moment from 'moment';
+import { getLibrary } from './admin/api';
 
 export const DATE_FORMAT = 'YYYY-MM-DD HH:mm:ss';
 export const DATE_FORMAT_DP = 'yyyy-MM-dd HH:mm:ss';
-
 export const pad = n => n < 10 ? `0${n}` : n;
 
 export const makeDefaultSchedule = () => ({
@@ -68,3 +68,17 @@ export const calculateLengthFromDuration = (playlist) => {
   return parseFloat((duration / 60 / 60).toFixed(2));
 };
 
+export const findMetadataForSong = (filename) => {
+  const parts = filename.split('/');
+  return getLibrary(true).then(lib => {
+    if(filename[0] === '/') return lib['/'].find(f => f.file === parts[1]);
+    return lib[parts[0]].find(f => f.file === parts[1]);
+  });
+};
+
+export const canSubmitSchedule = (schedule) => {
+  if(schedule.playlist.length === 0) return false;
+  if(schedule.name === '') return false;
+  if(schedule.description === '') return false;
+  return true;
+};

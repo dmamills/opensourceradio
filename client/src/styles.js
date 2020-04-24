@@ -23,11 +23,11 @@ stylish.raw(`
   }
 `);
 
-export const containerBox = stylish({
+export const [ containerBox, textAreaHeight] = stylish({
     display: 'flex',
     flexFlow: 'column',
     height: '100%'
-});
+}, { height: '6rem' });
 
 export const [ table, tableHeader, tableBody ] = stylish({
     borderCollapse: 'collapse',

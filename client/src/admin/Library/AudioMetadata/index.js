@@ -43,7 +43,7 @@ const AudioMetadata = ({ selectedFile, fetchLibrary }) => {
   };
 
   const onDelete = () => {
-    removeSong(selectedFile.file)
+    removeSong(selectedFile.fullFilename)
       .then(() => {
         fetchLibrary();
         setIsEditing(false);

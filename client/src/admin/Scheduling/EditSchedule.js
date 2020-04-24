@@ -5,19 +5,12 @@ import cn from 'classnames';
 import AsyncSelect from 'react-select/lib/Async';
 import "react-datepicker/dist/react-datepicker.css";
 
-import { calculateLengthFromDuration, libraryReduce, makeDefaultSchedule, DATE_FORMAT, DATE_FORMAT_DP } from '../../utils';
+import { findMetadataForSong, canSubmitSchedule, calculateLengthFromDuration, libraryReduce, makeDefaultSchedule, DATE_FORMAT, DATE_FORMAT_DP } from '../../utils';
 import { updateSchedule, createSchedule, getLibrary } from '../api';
-import { flex, spaceBetween, p05, flex2, ml1, justifyEnd } from '../../styles';
+import { flex, spaceBetween, p05, flex2, ml1, justifyEnd, textAreaHeight } from '../../styles';
 import Label from './Label';
 import Preview from './Preview';
 
-const findMetadataForSong = (filename) => {
-  const parts = filename.split('/');
-  return getLibrary(true).then(lib => {
-    if(filename[0] === '/') return lib['/'].find(f => f.file === parts[1]);
-    return lib[parts[0]].find(f => f.file === parts[1]);
-  });
-}
 
 const EditSchedule = (props) => {
   const [schedule, setSchedule] = useState(null);
@@ -52,6 +45,8 @@ const EditSchedule = (props) => {
   }
 
   const onSubmit = () => {
+    if(!canSubmitSchedule(schedule)) return;
+
     let submitRequest;
     const submitSchedule = { ...schedule };
     submitSchedule.playlist = submitSchedule.playlist.map(s => s.label).join(',');
@@ -90,53 +85,54 @@ const EditSchedule = (props) => {
   if(!schedule) return false;
 
   return (
-    <div>
+    <div className={cn(flex)}>
       <div>
         <Preview schedule={schedule} />
       </div>
-      <Label labelName="Name">
-        <input
-          defaultValue={schedule.name}
-          onChange={onChange('name')}
-          className={cn(flex2, ml1)} type="text"
-        />
-      </Label>
-      <Label labelName="Description">
-        <textarea
-          defaultValue={schedule.description}
-          onChange={onChange('description')}
-          className={cn(flex2, ml1)}
-          type="text"
-        ></textarea>
-      </Label>
-      <Label labelName="Start Time">
-        <DatePicker
-          selected={moment(schedule.start_time, DATE_FORMAT).toDate()}
-          onChange={onDateChange}
-          showTimeSelect
-          timeFormat="HH:mm"
-          timeIntervals={30}
-          dateFormat={DATE_FORMAT_DP}
-          timeCaption="time"
-          className={cn(flex2, ml1)}
-          id="start_time"
-        />
-      </Label>
-      <Label labelName="Playlist">
-        <AsyncSelect
-          isMulti
-          defaultValue={schedule.playlist}
-          cacheOptions
-          id="playlist"
-          defaultOptions
-          loadOptions={fetchLibrary}
-          onChange={onSelectChange}
-          className={cn(flex2 , ml1)}
-        />
-      </Label>
-
-      <div className={cn(flex, spaceBetween, justifyEnd, p05)}>
-        <button onClick={onSubmit}>Submit</button>
+      <div className={cn(ml1, flex2)}>
+        <Label labelName="Name">
+          <input
+            defaultValue={schedule.name}
+            onChange={onChange('name')}
+            className={cn(flex2, ml1)} type="text"
+          />
+        </Label>
+        <Label labelName="Description">
+          <textarea
+            defaultValue={schedule.description}
+            onChange={onChange('description')}
+            className={cn(flex2, ml1, textAreaHeight)}
+            type="text"
+          ></textarea>
+        </Label>
+        <Label labelName="Start Time">
+          <DatePicker
+            selected={moment(schedule.start_time, DATE_FORMAT).toDate()}
+            onChange={onDateChange}
+            showTimeSelect
+            timeFormat="HH:mm"
+            timeIntervals={30}
+            dateFormat={DATE_FORMAT_DP}
+            timeCaption="time"
+            className={cn(flex2, ml1)}
+            id="start_time"
+          />
+        </Label>
+        <Label labelName="Playlist">
+          <AsyncSelect
+            isMulti
+            defaultValue={schedule.playlist}
+            cacheOptions
+            id="playlist"
+            defaultOptions
+            loadOptions={fetchLibrary}
+            onChange={onSelectChange}
+            className={cn(flex2 , ml1)}
+          />
+        </Label>
+        <div className={cn(flex, spaceBetween, justifyEnd, p05)}>
+          <button disabled={!canSubmitSchedule(schedule)} onClick={onSubmit}>Submit</button>
+        </div>
       </div>
     </div>
   );
