@@ -10,17 +10,16 @@ const  [fileStyles, selectedFileStyle] = stylish({
   backgroundColor: '#bac6d3',
 });
 
-const File = ({ selectFile, selectedFile, file, folder }) => {
-  const fullFilename = `${folder === '/' ? '': `${folder}/`}${file}`;
-  const isSelected = selectedFile === fullFilename;
+const File = ({ selectFile, selectedFile, file }) => {
+  const isSelected = selectedFile === file;
   return (
     <li
       data-testid="file-select"
       className={cn(fileStyles, pv1, pl1, (isSelected ? selectedFileStyle : ''))}
-      onClick={() => selectFile(fullFilename)}
+      onClick={() => selectFile(file)}
     >
       <span className={mr05} role="img" aria-label="song">🎵</span>
-      <strong>{file}</strong>
+      <strong>{file.file}</strong>
     </li>
   );
 }

@@ -3,28 +3,38 @@ import { getByText, render, wait, act, fireEvent } from '@testing-library/react'
 import Login from './Login';
 import api from './api';
 
-jest.mock('./api');
-
 beforeEach(() => {
     jest.clearAllMocks();
 });
 
 describe('Login Component', () => {
     xit('renders without crashing', () => {
-        api.authTest.mockResolvedValue(true);
-        expect(getByText('opensourceradio admin')).toBeInTheDocument();
+      jest.mock('./api', () => {
+        return {
+          authTest: () => true,
+        }
+      });
+      const { getByText } = render(<Login onAuthChange={() => {}} />);
+      expect(getByText('opensourceradio admin')).toBeInTheDocument();
     });
 
     xit('should show invalid key when api test fails', async () => {
-        api.authTest.mockResolvedValue(false);
+      jest.mock('./api', () => {
+        return {
+          authTest: () => false,
+        }
+      });
 
-        await act(async () => {
-            const { container, queryByTestId } = await render(<Login onAuthChange={() => {}} />);
-            await fireEvent.change(queryByTestId('login'), { target: { value: 'testpassword' }});
-            await fireEvent.click(container.querySelector('button'));
-        });
+      let wcontainer;
+      await act(async () => {
+          let { queryByTestId, container } = await render(<Login onAuthChange={() => {}} />);
+          await fireEvent.change(queryByTestId('login'), { target: { value: 'testpassword' }});
+          await fireEvent.click(container.querySelector('button'));
+          wcontainer = container;
+      });
 
-        expect(getByText('Invalid Key.')).toBeInTheDocument();
+      const errorValue = wcontainer.querySelector('strong').innerHTML;
+      expect(errorValue).toBe('error');
     });
 
     xit('should call the onAuthChange property', async () => {

@@ -9,8 +9,10 @@ import { dropzoneStyles, folderLabel } from './styles';
 
 const acceptedFiles = '.mp3,audio/*';
 
+// TODO: oh god oh god why oh god
 class AudioUpload extends Component {
   state = {
+    isUploading: false,
     fileCount: 0,
     folderName: '',
   }
@@ -49,17 +51,13 @@ class AudioUpload extends Component {
   onRemove = () => {
     let { fileCount } = this.state;
     fileCount--;
-    this.setState({
-      fileCount
-    });
+    this.setState({ fileCount });
   }
 
   onAdd = () => {
     let { fileCount } = this.state;
     fileCount++;
-    this.setState({
-      fileCount
-    });
+    this.setState({ fileCount });
   }
 
   onSuccess = files => {
@@ -68,6 +66,7 @@ class AudioUpload extends Component {
       this.dropzone.processQueue();
     } else {
       this.props.fetchLibrary();
+      this.setState({ isUploading: false });
     }
   }
 
@@ -77,23 +76,24 @@ class AudioUpload extends Component {
 
   onUpload = () => {
     this.dropzone.processQueue();
+    this.setState({ isUploading: true });
+  }
+
+  onClear = () => {
+    this.dropzone.files.forEach(f => this.dropzone.removeFile(f));
+    this.setState({ fileCount: 0 });
   }
 
   onChange = (e) => {
-    this.setState({
-      folderName: e.target.value
-    });
+    this.setState({ folderName: e.target.value });
   }
 
   render() {
-    const { fileCount, folderName } = this.state;
+    const { isUploading, fileCount, folderName } = this.state;
     const hasNoFiles = fileCount === 0;
     return (
       <div className={cn(p1)}>
         <h3>Upload Audio</h3>
-        <div id="dropzoneEl" className={cn(p1, dropzoneStyles, { flex: hasNoFiles }, { flexCenter: hasNoFiles })}>
-          {(hasNoFiles) && <span>Drop files, or click here</span>}
-        </div>
         <div className={cn(flex, spaceBetween, alignItemsCenter, p05)}>
           <label
             className={cn(heavyText, folderLabel)}
@@ -110,7 +110,13 @@ class AudioUpload extends Component {
           />
         </div>
         <div className={cn(flex, spaceBetween, alignItemsCenter, p05)}>
-          <button onClick={this.onUpload}>Upload</button>
+          <button disabled={isUploading} onClick={this.onUpload}>Upload</button>
+          <button disabled={isUploading} onClick={this.onClear}>Clear</button>
+        </div>
+
+        {isUploading && <div>CURRENTLY UPLOADING</div>}
+        <div id="dropzoneEl" className={cn(p1, dropzoneStyles, { flex: hasNoFiles }, { flexCenter: hasNoFiles })}>
+          {(hasNoFiles) && <span>Drop files, or click here</span>}
         </div>
       </div>
     );

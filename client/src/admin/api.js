@@ -53,10 +53,16 @@ export const authTest = key => {
   .then(({ library }) => !!library);
 };
 
-export const getLibrary = () => {
+let libraryCache = null;
+export const getLibrary = (useCache = false) => {
+  if(useCache && libraryCache) {
+    return Promise.resolve(libraryCache);
+  }
+
   return get('/api/library')
     .then(({ error, library}) => {
       if(error) throw new Error(error);
+      libraryCache = library;
       return library;
     });
 };

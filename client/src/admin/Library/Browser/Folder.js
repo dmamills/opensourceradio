@@ -24,7 +24,7 @@ const Folder = ({ folder, isExpanded, actionFn, folderContents, selectFile, sele
       </div>
       {isExpanded && <ul data-testid="folder-list" className={p0}>
         {folderContents.map(file => <File
-          key={file}
+          key={file.file}
           file={file}
           selectFile={selectFile}
           selectedFile={selectedFile}

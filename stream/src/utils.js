@@ -23,7 +23,7 @@ const printMetadata = metadata => {
   console.log(`\tLength: ${pad(minutes)}:${pad(seconds)}\n`);
 
   return metadata;
-}
+};
 
 const printSchedule = schedule => {
   console.log(`\n\tPlaying Schedule: ${schedule.name}`);
@@ -34,7 +34,7 @@ const printSchedule = schedule => {
   } else {
     console.log(`\tPlaying for: ${schedule.length} hour${schedule.length > 1 ? 's' : ''}`);
   }
-}
+};
 
 function shuffleArray(a) {
   var j, x, i;
@@ -70,8 +70,8 @@ const writeToSongLog = (audioPath, command, schedule) => {
 };
 
 const timeTillNextBlockInHours = (startTime = moment()) => {
-  const minutes = parseInt(startTime.format('m'), 10);
-  return parseFloat(((60 - minutes) / 60).toFixed(2));
+  const minutes = parseInt(startTime.endOf('m').format('m'), 10);
+  return parseFloat(((59 - minutes) / 60).toFixed(2));
 };
 
 module.exports = {

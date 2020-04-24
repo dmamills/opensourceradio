@@ -12,6 +12,16 @@ const Header = ({ socket }) => {
   const [schedules, setSchedules] = useState([]);
   const [users, setUsers] = useState([]);
 
+  useEffect(() => {
+    socket.on('user-joined', onUsersChange);
+    socket.on('user-left', onUsersChange);
+
+    return function() {
+      socket.off('user-joined', onUsersChange);
+      socket.off('user-left', onUsersChange);
+    }
+  }, [socket])
+
   const onUsersChange = ({ users }) => setUsers(users);
   const hideUsers = () =>  setShowUsers(false);
   const hideSchedules = () => setShowSchedules(false);
@@ -28,16 +38,6 @@ const Header = ({ socket }) => {
       getSchedules().then(s => setSchedules(s));
     }
   }
-
-  useEffect(() => {
-    socket.on('user-joined', onUsersChange);
-    socket.on('user-left', onUsersChange);
-
-    return function() {
-      socket.off('user-joined', onUsersChange);
-      socket.off('user-left', onUsersChange);
-    }
-  }, [socket])
 
   return (
     <header className={cn(flex, p1, spaceBetween)}>

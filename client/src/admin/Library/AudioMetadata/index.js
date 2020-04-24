@@ -1,30 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { ph1 } from '../../../styles';
 
-import { updateMetadata, getMetadata, removeSong } from '../../api';
+import { updateMetadata, removeSong } from '../../api';
 import { durationToHuman } from '../../../utils';
 import MetadataActions from './MetadataActions';
 import MetadataInput from './MetadataInput';
 
 const AudioMetadata = ({ selectedFile, fetchLibrary }) => {
+  if(!selectedFile) return false;
+
   const [isEditing, setIsEditing] = useState(false);
   const [metadata, setMetadata] = useState({ artist: '', title: '', album: ''});
   const { artist, album, title } = metadata;
   const [duration, setDuration] = useState(0);
 
   useEffect(() => {
-    getMetadata(selectedFile)
-      .then(metadata => {
-        setIsEditing(false);
-        setDuration(metadata.duration);
-        setMetadata({
-          artist: metadata.artist || '',
-          album: metadata.album || '',
-          title: metadata.title || '',
-        })
-      }).catch(error => {
-        console.log(error);
-      });
+    setIsEditing(false);
+    setDuration(selectedFile.metadata.duration);
+    setMetadata({
+      artist: selectedFile.metadata.artist || '',
+      album: selectedFile.metadata.album || '',
+      title: selectedFile.metadata.title || '',
+    })
   }, [selectedFile]);
 
 
@@ -38,7 +35,7 @@ const AudioMetadata = ({ selectedFile, fetchLibrary }) => {
   }
 
   const onSave = () => {
-    updateMetadata(selectedFile, metadata)
+    updateMetadata(selectedFile.file, metadata)
       .then(() => setIsEditing(false))
       .catch(error => {
         console.log(error);
@@ -46,7 +43,7 @@ const AudioMetadata = ({ selectedFile, fetchLibrary }) => {
   };
 
   const onDelete = () => {
-    removeSong(selectedFile)
+    removeSong(selectedFile.file)
       .then(() => {
         fetchLibrary();
         setIsEditing(false);
@@ -65,19 +62,18 @@ const AudioMetadata = ({ selectedFile, fetchLibrary }) => {
 
   const cancel = () => setIsEditing(false);
 
-
   return (
     <div className={ph1}>
       <h3>Audio Metadata</h3>
-      {selectedFile && <p><strong>Viewing</strong> {selectedFile}</p>}
-      {selectedFile && <p><strong>Duration</strong> {durationToHuman(duration)}</p>}
+      <p><strong>Viewing</strong> {selectedFile.file}</p>
+      <p><strong>Duration</strong> {durationToHuman(duration)}</p>
       <div>
         <MetadataInput value={artist} id="artist" label="Artist" onChange={onFieldChange('artist')} isEditing={isEditing} />
         <MetadataInput value={album} id="album" label="Album" onChange={onFieldChange('album')} isEditing={isEditing} />
         <MetadataInput value={title} id="title" label="Title" onChange={onFieldChange('title')} isEditing={isEditing} />
         <MetadataActions
           isEditing={isEditing}
-          selectedFile={selectedFile}
+          selectedFile={selectedFile.file}
           save={onSave}
           deleteFile={onDelete}
           edit={edit}

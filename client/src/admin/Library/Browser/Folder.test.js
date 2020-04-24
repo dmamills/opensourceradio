@@ -4,7 +4,7 @@ import Folder from './Folder';
 
 describe('Folder Component', () => {
   const folderName = 'mydir';
-  const folderContents = ['blah.mp3', 'blah2.mp3'];
+  const folderContents = [ { file: 'blah.mp3' }, { file: 'blah2.mp3' }];
 
   it('renders without crashing', () => {
     const { getByText } = render(<Folder folder={folderName} folderContents={folderContents} />);
@@ -25,9 +25,9 @@ describe('Folder Component', () => {
 
   it('should invoke the expand function when button pressed', () => {
     const spyFn = jest.fn();
-    const { queryByTestId } = render(<Folder folder={folderName} folderContents={folderContents} actionFn={spyFn} />);
+    const { queryAllByTestId } = render(<Folder folder={folderName} folderContents={folderContents} actionFn={spyFn} />);
 
-    fireEvent.click(queryByTestId('folder-action').firstChild);
+    fireEvent.click(queryAllByTestId('folder-action')[0]);
     expect(spyFn).toBeCalled();
     expect(spyFn).toBeCalledWith(folderName);
   });
