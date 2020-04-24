@@ -5,34 +5,29 @@ import cn from 'classnames';
 import AsyncSelect from 'react-select/lib/Async';
 import "react-datepicker/dist/react-datepicker.css";
 
-import { findMetadataForSong, canSubmitSchedule, calculateLengthFromDuration, libraryReduce, makeDefaultSchedule, DATE_FORMAT, DATE_FORMAT_DP } from '../../utils';
-import { updateSchedule, createSchedule, getLibrary } from '../api';
+import { formatDate, libraryReduce, DATE_FORMAT, DATE_FORMAT_DP } from '../../utils';
+import { getLibrary } from '../api';
 import { flex, spaceBetween, p05, flex2, ml1, justifyEnd, textAreaHeight } from '../../styles';
 import Label from './Label';
 import Preview from './Preview';
-
+import Schedule from './Schedule';
 
 const EditSchedule = (props) => {
   const [schedule, setSchedule] = useState(null);
 
   useEffect(() => {
     if(props.schedule) {
-      let newSchedule = { ...props.schedule };
-      const splitPlaylist = newSchedule.playlist.split(',');
-
-      getLibrary().then(() => {
-        Promise.all(splitPlaylist.map((song, idx) => {
-          return findMetadataForSong(song).then(s => ({ label: splitPlaylist[idx], value: splitPlaylist[idx], data: s}));
-        })).then(songs => {
-          newSchedule.playlist = songs;
-          setSchedule(newSchedule);
-        }).catch(err => {
-          alert('Something is wrong with this schedule. Aborting!');
-          props.back();
-        });
+      let scheduleModel = new Schedule({...props.schedule});
+      scheduleModel.toDropdown().then(songs => {
+        scheduleModel.dropdown = songs;
+        setSchedule(scheduleModel);
+      })
+      .catch(err => {
+        alert('Something is wrong with this schedule. Aborting!');
+        props.back();
       });
     } else {
-      setSchedule({...makeDefaultSchedule() });
+      setSchedule(Schedule.defaultSchedule());
     }
   }, [props.schedule]);
 
@@ -40,19 +35,13 @@ const EditSchedule = (props) => {
     return (e) => {
       const updatedSchedule = { ...schedule };
       updatedSchedule[field] = e.target.value;
-      setSchedule(updatedSchedule);
+      setSchedule(new Schedule(updatedSchedule));
     }
   }
 
   const onSubmit = () => {
-    if(!canSubmitSchedule(schedule)) return;
-
-    let submitRequest;
-    const submitSchedule = { ...schedule };
-    submitSchedule.playlist = submitSchedule.playlist.map(s => s.label).join(',');
-
-    submitRequest = submitSchedule.id ? updateSchedule : createSchedule;
-    submitRequest(submitSchedule).then(result => {
+    if(!schedule.isValid()) return;
+    schedule.submit().then(result => {
       props.back();
     }).catch(error => {
       console.log('error', error);
@@ -71,15 +60,15 @@ const EditSchedule = (props) => {
 
   const onSelectChange = playlist => {
     const updatedSchedule = {...schedule };
-    updatedSchedule.playlist = playlist;
-    updatedSchedule.length = calculateLengthFromDuration(playlist);
-    setSchedule(updatedSchedule);
+    updatedSchedule.dropdown = playlist;
+    updatedSchedule.length = schedule.duration();
+    setSchedule(new Schedule(updatedSchedule));
   }
 
   const onDateChange = date => {
-    const updatedSchedule = {...schedule };
-    updatedSchedule.start_time = moment(date).format(DATE_FORMAT);
-    setSchedule(updatedSchedule);
+    const updatedSchedule = { ...schedule };
+    updatedSchedule.start_time = formatDate(date);
+    setSchedule(new Schedule(updatedSchedule));
   }
 
   if(!schedule) return false;
@@ -121,7 +110,7 @@ const EditSchedule = (props) => {
         <Label labelName="Playlist">
           <AsyncSelect
             isMulti
-            defaultValue={schedule.playlist}
+            defaultValue={schedule.dropdown}
             cacheOptions
             id="playlist"
             defaultOptions
@@ -131,7 +120,7 @@ const EditSchedule = (props) => {
           />
         </Label>
         <div className={cn(flex, spaceBetween, justifyEnd, p05)}>
-          <button disabled={!canSubmitSchedule(schedule)} onClick={onSubmit}>Submit</button>
+          <button disabled={!schedule.isValid()} onClick={onSubmit}>Submit</button>
         </div>
       </div>
     </div>

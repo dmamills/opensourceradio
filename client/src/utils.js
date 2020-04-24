@@ -5,13 +5,6 @@ export const DATE_FORMAT = 'YYYY-MM-DD HH:mm:ss';
 export const DATE_FORMAT_DP = 'yyyy-MM-dd HH:mm:ss';
 export const pad = n => n < 10 ? `0${n}` : n;
 
-export const makeDefaultSchedule = () => ({
-  name: '',
-  description: '',
-  start_time: moment().startOf('h').add('1', 'h').format(DATE_FORMAT),
-  playlist: []
-});
-
 export const parseTime = (timestamp) => {
   const d = new Date(timestamp);
   let hour = pad(d.getHours() % 12);
@@ -76,9 +69,3 @@ export const findMetadataForSong = (filename) => {
   });
 };
 
-export const canSubmitSchedule = (schedule) => {
-  if(schedule.playlist.length === 0) return false;
-  if(schedule.name === '') return false;
-  if(schedule.description === '') return false;
-  return true;
-};
