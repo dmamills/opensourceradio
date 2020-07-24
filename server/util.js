@@ -111,6 +111,10 @@ function removeSong(filename) {
     });
 }
 
+function sanitizeFilename(filename) {
+  return filename.replace(/,/g, ' ');
+}
+
 function moveFiles(files, folderName) {
   let audioPath = ROOT_AUDIO_PATH;
   if(folderName) {
@@ -122,7 +126,7 @@ function moveFiles(files, folderName) {
   return Promise.all(files.map(file => {
     const { path, name } = file;
     return new Promise(resolve => {
-      fs.copyFile(path, `${audioPath}${name}`, err => {
+      fs.copyFile(path, `${audioPath}${sanitizeFilename(name)}`, err => {
         if(err) {
           console.log(err);
           throw err;
