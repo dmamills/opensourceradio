@@ -9,15 +9,7 @@ import { getSchedules } from '../api';
 import { DATE_FORMAT } from '../../utils';
 import { p1, flex, column, spaceBetween, flexCenter, flexWrap } from '../../styles';
 
-const emptyBlocks = [
-  { day: 'Sunday', blocks: [] },
-  { day: 'Monday', blocks: [] },
-  { day: 'Tuesday', blocks: [] },
-  { day: 'Wednesday', blocks: [] },
-  { day: 'Thursday', blocks: [] },
-  { day: 'Friday', blocks: [] },
-  { day: 'Saturday', blocks: [] },
-];
+const dow = ['Sunday','Monday',"Tuesday", 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
 const schedulesToDaysOfWeek = () => {
   return getSchedules()
@@ -37,7 +29,7 @@ const schedulesToDaysOfWeek = () => {
         blocks: s[day]
     })))
   .then(s => {
-    const blocks = emptyBlocks.map(b => {
+    const blocks = dow.map(day => ({ day, blocks: [] })).map(b => {
       let sb = s.find(x => x.day === b.day);
       if(sb) b.blocks = sb.blocks;
       return b;
@@ -66,6 +58,7 @@ const Scheduling = () => {
         <h1>Scheduling</h1>
           <div>
             <button onClick={() => { setShowEdit(!showEdit)}}>{showEdit ? 'Back': 'Create New Schedule'}</button>
+            <button onClick={() => { fetchSchedules(); }}>Refresh</button>
           </div>
         </div>
         {showEdit ?   <EditSchedule
