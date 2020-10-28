@@ -21,11 +21,16 @@ class ScheduleRepository {
   }
 
   static todays() {
+    const currentDOW = moment().format('dddd');
     return knex(fields)
     .from(tableName)
-    .where('start_time', '>=', moment().startOf('day').format(DATE_FORMAT))
-    .where('start_time', '<=', moment().endOf('day').format(DATE_FORMAT))
     .where('deleted_at', null)
+    .then(schedules => {
+      return schedules.filter(schedule => {
+        const sDOW = moment(schedule.start_time).format('dddd');
+        return sDOW === currentDOW;
+      })
+    })
     .then(schedules => schedules.sort(sortByDate));
   }
 
