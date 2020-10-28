@@ -4,6 +4,7 @@ import cn from 'classnames';
 import LoginPage from './Login';
 import Tabs from './Tabs';
 import Scheduling from './Scheduling';
+import Scheduling2 from './Scheduling2';
 import Library from './Library';
 import StreamPage from './Stream';
 import { fetchKey } from './api';
@@ -18,6 +19,7 @@ const getKeyIndex = key => {
 
 const defaultTabs = [
   { key: 'scheduling', component: Scheduling, name: 'Scheduling' },
+  { key: 'scheduling2', component: Scheduling2, name: 'Scheduling2' },
   { key: 'library', component: Library, name: 'Library' },
   { key: 'stream', component: StreamPage, name: 'Stream'},
 ];

@@ -82,6 +82,7 @@ const EditSchedule = (props) => {
         <Label labelName="Name">
           <input
             defaultValue={schedule.name}
+            placeholder="name"
             onChange={onChange('name')}
             className={cn(flex2, ml1)} type="text"
           />
@@ -91,6 +92,7 @@ const EditSchedule = (props) => {
             defaultValue={schedule.description}
             onChange={onChange('description')}
             className={cn(flex2, ml1, textAreaHeight)}
+            placeholder="Description"
             type="text"
           ></textarea>
         </Label>
@@ -119,6 +121,7 @@ const EditSchedule = (props) => {
             className={cn(flex2 , ml1)}
           />
         </Label>
+
         <div className={cn(flex, spaceBetween, justifyEnd, p05)}>
           <button disabled={!schedule.isValid()} onClick={onSubmit}>Submit</button>
         </div>

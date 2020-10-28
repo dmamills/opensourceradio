@@ -2,6 +2,7 @@ import flvjs from 'flv.js';
 
 class MediaPlayer {
   constructor(streamUrl) {
+    console.log('stream url', streamUrl)
     this.flvPlayer = flvjs.createPlayer({ // eslint-disable-line no-undef
       type: 'flv',
       url: streamUrl,
