@@ -22,7 +22,8 @@ const EditSchedule = (props) => {
         scheduleModel.dropdown = songs;
         setSchedule(scheduleModel);
       })
-      .catch(() => {
+      .catch((err) => {
+        console.log(err);
         alert('Something is wrong with this schedule. Aborting!');
         props.back();
       });

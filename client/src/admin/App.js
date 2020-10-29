@@ -4,7 +4,6 @@ import cn from 'classnames';
 import LoginPage from './Login';
 import Tabs from './Tabs';
 import Scheduling from './Scheduling';
-import Scheduling2 from './Scheduling2';
 import Library from './Library';
 import StreamPage from './Stream';
 import { fetchKey } from './api';
