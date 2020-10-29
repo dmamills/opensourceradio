@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 
-import {  getPlaylistDuration, durationToHuman } from '../../utils';
+import { getPlaylistDuration, durationToHuman } from '../../utils';
 const Runtime = ({ playlist, isPast = false }) => <p>It {isPast ? 'ran' : 'will run'} for {durationToHuman(getPlaylistDuration(playlist))} playing {playlist.length} songs.</p>
 
 const HasRun = ({ schedule }) => {
