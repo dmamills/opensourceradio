@@ -19,7 +19,6 @@ const getKeyIndex = key => {
 
 const defaultTabs = [
   { key: 'scheduling', component: Scheduling, name: 'Scheduling' },
-  { key: 'scheduling2', component: Scheduling2, name: 'Scheduling2' },
   { key: 'library', component: Library, name: 'Library' },
   { key: 'stream', component: StreamPage, name: 'Stream'},
 ];
