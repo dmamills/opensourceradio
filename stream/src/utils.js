@@ -1,7 +1,6 @@
 const fs = require('fs');
 const moment = require('moment');
 const knex = require('knex')(require('../knexfile').development);
-const Schedule = require('./schedule/schedule');
 
 const TIME_FORMAT = 'MMM DD YYYY HH:mma';
 
@@ -69,9 +68,9 @@ const writeToSongLog = (audioPath, command, schedule) => {
   });
 };
 
+//TODO: fix generation of default playlist
 const timeTillNextBlockInHours = (startTime = moment()) => {
-  const minutes = parseInt(startTime.endOf('m').format('m'), 10);
-  return parseFloat(((59 - minutes) / 60).toFixed(2));
+  return 0;
 };
 
 module.exports = {

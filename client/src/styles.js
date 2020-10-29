@@ -23,11 +23,11 @@ stylish.raw(`
   }
 `);
 
-export const [ containerBox, textAreaHeight] = stylish({
+export const [ containerBox, textAreaHeight, width50px] = stylish({
     display: 'flex',
     flexFlow: 'column',
     height: '100%'
-}, { height: '6rem' });
+}, { height: '6rem' }, { width: '50px' });
 
 export const [ table, tableHeader, tableBody ] = stylish({
     borderCollapse: 'collapse',
@@ -81,6 +81,7 @@ export const [
   flex2,
   flexAuto,
   alignSelfCenter,
+  flexWrap,
 ] = stylish(
   { display: 'flex' },
   { alignItems: 'flex-start' },
@@ -97,6 +98,7 @@ export const [
   { flex: '2' },
   { flex: '1 1 auto'},
   { alignSelf: 'center' },
+  { flexWrap: 'wrap' },
 );
 
 export const [
@@ -109,6 +111,7 @@ export const [
   heavyText,
   textDecorationNone,
   debugBox,
+  uppercase,
  ] = stylish(
   { color: 'white' },
   { color: 'black' },
@@ -119,6 +122,7 @@ export const [
   { fontWeight: '800' },
   { textDecoration: 'none' },
   { border: '1px solid black' },
+  { textTransform: 'uppercase'},
 );
 
 export const [
@@ -168,6 +172,19 @@ export const [
   { paddingLeft: '1rem' },
   { paddingLeft: '2rem' },
 );
+
+export const [
+  pt0,
+  pt05,
+  pt1,
+  pt2
+] = stylish(
+  { paddingTop: '0' },
+  { paddingTop: '0.5rem' },
+  { paddingTop: '1rem' },
+  { paddingTop: '2rem' },
+);
+
 
 export const [
   mr0,

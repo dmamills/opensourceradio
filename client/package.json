@@ -16,6 +16,7 @@
     "react-router-dom": "^5.1.2",
     "react-scripts": "2.1.5",
     "react-select": "^2.4.2",
+    "react-sortable-hoc": "^1.9.1",
     "socket.io": "^2.2.0",
     "socket.io-client": "^2.2.0"
   },
