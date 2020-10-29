@@ -7,10 +7,12 @@ a proof of concept for self hosting streaming radio.
 ## examples
 
 This is the user facing stream interface. It's a front end that can play the stream has volume controls. It also provides an overlay that can display what is scheduled on the stream for today. Finally it has a simple websocket chat, along with a active user list.
+
 ![example stream](example.png)
 
 
 The admin app provides a library to upload music files to. It contains a MP3 metadata editor, so you can control the artist/album/song fields of your music. Note: Files uploaded to the root directory will be used for the random unscheduled playlists. Files place in a folder are only accessible for schedules.
+
 ![admin library](admin-library.png)
 
 
