@@ -1,75 +1,55 @@
 import React, { useState, useEffect } from 'react';
 import cn from 'classnames';
-import moment from 'moment';
-
-import DayOfWeek from './DayOfWeek';
-import EditSchedule from './EditSchedule';
 
 import { getSchedules } from '../api';
-import { DATE_FORMAT } from '../../utils';
-import { p1, flex, column, spaceBetween, flexCenter, flexWrap } from '../../styles';
-
-const DAYS_OF_WEEK = ['Sunday','Monday','Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-
-const reduceByKey = (key) => {
-  return (acc, item) => {
-     if(acc[item[key]]) acc[item[key]].push(item);
-    else acc[item[key]] = [item];
-    return acc;
-  }
-}
-
-const schedulesToDaysOfWeek = async () => {
-  const schedules = await getSchedules();
-  const schedulesByBlock = schedules.map(schedule => {
-    const dow = moment(schedule.start_time, DATE_FORMAT).format('dddd');
-    schedule.dow = dow;
-    return schedule;
-  }).reduce(reduceByKey('dow'), {});
-
-  const keyedByDay = Object.keys(schedulesByBlock).map(day => ({
-    day,
-    blocks: schedulesByBlock[day]
-  }));
-
-  const blocks = DAYS_OF_WEEK.map(day => ({ day, blocks: [] })).map(b => {
-    let sb = keyedByDay.find(x => x.day === b.day);
-    if(sb) b.blocks = sb.blocks;
-    return b;
-  });
-  return blocks;
-}
+import Table from './Table'
+import EditSchedule from './EditSchedule';
+import Buttons from './Buttons';
+import Title from './Title';
+import { p1, flex, spaceBetween, flexCenter } from '../../styles';
 
 const Scheduling = () => {
-  const [showEdit, setShowEdit] = useState(false);
   const [schedules, setSchedules] = useState([]);
+  const [showEdit, setShowEdit] = useState(false);
   const [selectedSchedule, setSelectedSchedule] = useState(null);
-  const fetchSchedules = () => { schedulesToDaysOfWeek().then(setSchedules); }
-  const back = () => { setShowEdit(false); }
+
+  const fetchSchedules = () => {
+    getSchedules()
+      .then(setSchedules);
+  }
+
   const onEdit = (chosenSchedule) => {
     setShowEdit(true);
     setSelectedSchedule(chosenSchedule);
+  }
+
+  const back = () => {
+    setShowEdit(false);
+    fetchSchedules();
   }
 
   useEffect(() => { fetchSchedules() }, [false]);
 
   return (
     <div className={cn(p1)}>
-      <div className={cn(flex, column)}>
-        <div className={cn(flex, spaceBetween, flexCenter)}>
-        <h1>Scheduling</h1>
-          <div>
-            <button onClick={() => { setShowEdit(!showEdit)}}>{showEdit ? 'Back': 'Create New Schedule'}</button>
-            <button onClick={() => { fetchSchedules(); }}>Refresh</button>
-          </div>
+      <div className={cn(flex, spaceBetween)}>
+        <Title showEdit={showEdit} selectedSchedule={selectedSchedule} />
+        <div className={cn(flex, flexCenter)}>
+          <Buttons showEdit={showEdit} back={back} onEdit={onEdit} fetchSchedules={fetchSchedules} />
         </div>
-        {showEdit ? <EditSchedule
-            schedule={selectedSchedule}
+      </div>
+      <div>
+        {showEdit ?
+         <EditSchedule
+           schedule={selectedSchedule}
            back={back}
-         />:
-        <div className={cn(flex, flexWrap)}>
-          {schedules.map(dayOfWeek => <DayOfWeek onEdit={onEdit} dayOfWeek={dayOfWeek} key={dayOfWeek.day} />)}
-        </div>}
+         /> :
+         <Table
+           schedules={schedules}
+           onEdit={onEdit}
+           refresh={fetchSchedules}
+         />
+        }
       </div>
     </div>
   );

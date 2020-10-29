@@ -22,7 +22,7 @@ const EditSchedule = (props) => {
         scheduleModel.dropdown = songs;
         setSchedule(scheduleModel);
       })
-      .catch(() => {
+      .catch(err => {
         alert('Something is wrong with this schedule. Aborting!');
         props.back();
       });
@@ -41,7 +41,7 @@ const EditSchedule = (props) => {
 
   const onSubmit = () => {
     if(!schedule.isValid()) return;
-    schedule.submit().then(() => {
+    schedule.submit().then(result => {
       props.back();
     }).catch(error => {
       console.log('error', error);
