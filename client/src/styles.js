@@ -174,6 +174,19 @@ export const [
 );
 
 export const [
+  pt0,
+  pt05,
+  pt1,
+  pt2
+] = stylish(
+  { paddingTop: '0' },
+  { paddingTop: '0.5rem' },
+  { paddingTop: '1rem' },
+  { paddingTop: '2rem' },
+);
+
+
+export const [
   mr0,
   mr05,
   mr1,

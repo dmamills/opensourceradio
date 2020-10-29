@@ -3,6 +3,8 @@ import cn from 'classnames';
 import moment from 'moment';
 import stylish from '@dmamills/stylish';
 
+import { pv05 } from '../../styles';
+
 const blockStyles = stylish({
   height: '50px',
   alignItems: 'center',
@@ -19,8 +21,8 @@ const SingleBlock = ({ schedule, onEdit }) => {
   const end = moment(schedule.start_time).add(schedule.length, 'h').format('hh:mm a');
   return (
     <div className={blockStyles}>
-      <strong>{schedule.name}</strong>
-      <span>{start} - {end}</span>
+      <strong >{schedule.name}</strong>
+      <span className={pv05}>{start} - {end}</span>
       <button onClick={() => onEdit(schedule)}>Edit</button>
     </div>
   );
