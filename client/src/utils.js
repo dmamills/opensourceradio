@@ -1,9 +1,11 @@
 import moment from 'moment';
 import { getLibrary } from './admin/api';
 
+export const DAYS_OF_WEEK = ['Sunday','Monday','Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 export const DATE_FORMAT = 'YYYY-MM-DD HH:mm:ss';
 export const DATE_FORMAT_DP = 'yyyy-MM-dd HH:mm:ss';
 export const pad = n => n < 10 ? `0${n}` : n;
+export const compose = (a, b) => c => a(b(c))
 
 export const parseTime = (timestamp) => {
   const d = new Date(timestamp);
@@ -52,6 +54,8 @@ export const getPlaylistDuration = (playlist) => {
   }, 0);
 };
 
+export const humanDurationOfPlaylist = compose(durationToHuman,getPlaylistDuration);
+
 export const calculateLengthFromDuration = (playlist) => {
   const duration = playlist.reduce((acc, s) => {
     if(s.data && s.data.metadata.duration) acc += s.data.metadata.duration;
@@ -69,3 +73,10 @@ export const findMetadataForSong = (filename) => {
   });
 };
 
+export const reduceByKey = (key) => {
+  return (acc, item) => {
+     if(acc[item[key]]) acc[item[key]].push(item);
+    else acc[item[key]] = [item];
+    return acc;
+  }
+}

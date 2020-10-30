@@ -6,16 +6,19 @@ import { getStreamStatus, postStartStream, postStopStream } from '../api';
 const StreamControls = () => {
   const [streamStatus, setStreamStatus] = useState(null);
   const [statusMessage, setStatusMessage ] = useState('stopped');
-  const onStart = () => {
-    postStartStream().then(status => setStreamStatus(status));
+  const onStart = async () => {
+    const status = await postStartStream();
+    setStreamStatus(status);
   };
 
-  const onStop = () => {
-    postStopStream().then(status => setStreamStatus(status));
+  const onStop = async () => {
+    const status = await postStopStream();
+    setStreamStatus(status);
   };
 
-  useEffect(() => {
-    getStreamStatus().then(status => setStreamStatus(status));
+  useEffect( async () => {
+    const status = await getStreamStatus()
+    setStreamStatus(status);
   }, [false]);
 
 
