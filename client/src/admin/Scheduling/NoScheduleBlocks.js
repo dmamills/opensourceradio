@@ -14,7 +14,6 @@ const blockStyles = stylish({
   flexDirection: 'column',
 });
 
-
 const NoScheduleBlocks = () => {
   return (
     <div>

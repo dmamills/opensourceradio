@@ -6,18 +6,8 @@ import DayOfWeek from './DayOfWeek';
 import EditSchedule from './EditSchedule';
 
 import { getSchedules } from '../api';
-import { DATE_FORMAT } from '../../utils';
+import { reduceByKey, DATE_FORMAT, DAYS_OF_WEEK } from '../../utils';
 import { p1, flex, column, spaceBetween, flexCenter, flexWrap } from '../../styles';
-
-const DAYS_OF_WEEK = ['Sunday','Monday','Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-
-const reduceByKey = (key) => {
-  return (acc, item) => {
-     if(acc[item[key]]) acc[item[key]].push(item);
-    else acc[item[key]] = [item];
-    return acc;
-  }
-}
 
 const schedulesToDaysOfWeek = async () => {
   const schedules = await getSchedules();
