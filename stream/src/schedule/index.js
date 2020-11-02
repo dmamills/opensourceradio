@@ -10,7 +10,7 @@ const defaultSchedule = () => {
         'opensourceradio default playlist',
         startTime,
         timeTillNextBlockInHours(startTime),
-        shuffleArray(songs),
+        shuffleArray(songs).slice(songs.length - 2),
       );
     });
 }
