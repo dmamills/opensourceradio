@@ -13,13 +13,12 @@ class Schedule {
     this.start_time = start_time;
   }
 
-  toDropdown() {
-    return getLibrary().then(() => {
-      return Promise.all(this.playlist.map((song, idx) => {
+  async toDropdown() {
+    await getLibrary()
+    return  Promise.all(this.playlist.map(async (song, idx) => {
         return findMetadataForSong(song)
           .then(s => ({ label: this.playlist[idx], value: this.playlist[idx], data: s}));
       }));
-    });
   }
 
   isValid() {
@@ -48,7 +47,6 @@ class Schedule {
       description: this.description,
       length: this.length,
       playlist: this.dropdown.map(s => s.label).join(','),
-      name: this.name,
     };
   }
 

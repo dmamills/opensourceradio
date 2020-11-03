@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import cn from 'classnames';
+import React from 'react';
 import moment from 'moment';
 import stylish from '@dmamills/stylish';
 
