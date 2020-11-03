@@ -16,9 +16,12 @@ const StreamControls = () => {
     setStreamStatus(status);
   };
 
-  useEffect( async () => {
-    const status = await getStreamStatus()
-    setStreamStatus(status);
+  useEffect(() => {
+    const fn = async () => {
+      const status = await getStreamStatus()
+      setStreamStatus(status);
+    }
+    fn();
   }, [false]);
 
 
