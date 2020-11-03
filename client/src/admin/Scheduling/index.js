@@ -5,7 +5,7 @@ import moment from 'moment';
 import DayOfWeek from './DayOfWeek';
 import EditSchedule from './EditSchedule';
 
-import { getSchedules } from '../api';
+import { getSchedules, removeSchedule } from '../api';
 import { reduceByKey, DATE_FORMAT, DAYS_OF_WEEK } from '../../utils';
 import { p1, flex, column, spaceBetween, flexCenter, flexWrap } from '../../styles';
 
@@ -41,6 +41,17 @@ const Scheduling = () => {
     setSelectedSchedule(chosenSchedule);
   }
 
+  const onDelete =  async (chosenSchedule) => {
+    if(!window.confirm(`Delete schedule ${chosenSchedule.name}?`)) return;
+
+    try {
+      await removeSchedule(chosenSchedule.id)
+      fetchSchedules()
+    } catch(e) {
+      alert('Unable to remove schedule');
+    }
+  }
+
   useEffect(() => { fetchSchedules() }, [false]);
 
   return (
@@ -58,7 +69,7 @@ const Scheduling = () => {
            back={back}
          />:
         <div className={cn(flex, flexWrap)}>
-          {schedules.map(dayOfWeek => <DayOfWeek onEdit={onEdit} dayOfWeek={dayOfWeek} key={dayOfWeek.day} />)}
+          {schedules.map(dayOfWeek => <DayOfWeek onEdit={onEdit} onDelete={onDelete} dayOfWeek={dayOfWeek} key={dayOfWeek.day} />)}
         </div>}
       </div>
     </div>

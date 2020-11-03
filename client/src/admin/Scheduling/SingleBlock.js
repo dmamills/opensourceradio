@@ -15,14 +15,17 @@ const blockStyles = stylish({
   flexDirection: 'column',
 });
 
-const SingleBlock = ({ schedule, onEdit }) => {
+const SingleBlock = ({ schedule, onEdit, onDelete }) => {
   const start = moment(schedule.start_time).format('hh:mm a');
   const end = moment(schedule.start_time).add(schedule.length, 'h').format('hh:mm a');
   return (
     <div className={blockStyles}>
       <strong >{schedule.name}</strong>
       <span className={pv05}>{start} - {end}</span>
-      <button onClick={() => onEdit(schedule)}>Edit</button>
+      <div>
+        <button onClick={() => onEdit(schedule)}>Edit</button>
+        <button onClick={() => { onDelete(schedule)}}>Delete</button>
+      </div>
     </div>
   );
 }
