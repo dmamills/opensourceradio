@@ -21,7 +21,7 @@ app.disable('etag');
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(cors());
-app.use('/api', api);
+app.use('/', api);
 
 const connectedUsers = {};
 
