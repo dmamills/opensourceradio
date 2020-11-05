@@ -14,13 +14,13 @@ export function setName(name) {
 }
 
 export function getHistory() {
-  return fetch(`${SERVER_URL}/api/history`)
+  return fetch(`${SERVER_URL}/history`)
   .then(res => res.json())
   .then(res => res.history);
 }
 
 export function getSchedules() {
-  return fetch(`${SERVER_URL}/api/schedules/today`)
+  return fetch(`${SERVER_URL}/schedules/today`)
   .then(res => res.json())
   .then(res => res.schedules);
 }

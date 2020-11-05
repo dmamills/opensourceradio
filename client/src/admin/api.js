@@ -44,7 +44,7 @@ const del = url => {
 };
 
 export const authTest = key => {
-  return fetch(`${SERVER_URL}/api/library`, {
+  return fetch(`${SERVER_URL}/library`, {
     headers: {
       Authorization: `Bearer ${key}`
     }
@@ -59,7 +59,7 @@ export const getLibrary = (useCache = false) => {
     return Promise.resolve(libraryCache);
   }
 
-  return get('/api/library')
+  return get('/library')
     .then(({ error, library}) => {
       if(error) throw new Error(error);
       libraryCache = library;
@@ -68,7 +68,7 @@ export const getLibrary = (useCache = false) => {
 };
 
 export const getMetadata = filename => {
-  return get(`/api/library/metadata?file=${filename}`)
+  return get(`/library/metadata?file=${filename}`)
     .then(({ error, metadata }) => {
       if(error) throw new Error(error);
       return metadata;
@@ -76,7 +76,7 @@ export const getMetadata = filename => {
 };
 
 export const updateMetadata = (filename, metadata) => {
-  return post('/api/library/metadata', { filename, metadata })
+  return post('/library/metadata', { filename, metadata })
     .then(({ error }) => {
       if(error) throw new Error(error);
       return true;
@@ -84,7 +84,7 @@ export const updateMetadata = (filename, metadata) => {
 };
 
 export const getSchedules = () => {
-  return get('/api/schedules')
+  return get('/schedules')
   .then(({ error, schedules }) => {
     if(error) throw new Error(error);
     return schedules;
@@ -92,11 +92,11 @@ export const getSchedules = () => {
 };
 
 export const removeSchedule = (id) => {
-  return del(`/api/schedules/${id}`);
+  return del(`/schedules/${id}`);
 };
 
 export const updateSchedule = (schedule) => {
-  return post(`/api/schedules/${schedule.id}`, schedule)
+  return post(`/schedules/${schedule.id}`, schedule)
   .then(({ error, schedule }) => {
     if(error) throw new Error(error);
     return schedule;
@@ -104,11 +104,11 @@ export const updateSchedule = (schedule) => {
 };
 
 export const removeSong = (filename) => {
-  return del(`/api/library?filename=${filename}`);
+  return del(`/library?filename=${filename}`);
 };
 
 export const createSchedule = (schedule) => {
-  return post(`/api/schedules`, schedule)
+  return post(`/schedules`, schedule)
   .then(({ error, schedule }) => {
     if(error) throw new Error(error);
     return schedule;
@@ -116,19 +116,17 @@ export const createSchedule = (schedule) => {
 };
 
 export const getStreamStatus = () => {
-  return get('/api/stream/status').then(res => res.description);
+  return get('/stream/status').then(res => res.description);
 };
 
 export const postStartStream = () => {
-  return post('/api/stream/start').then(res => res.description);
+  return post('/stream/start').then(res => res.description);
 };
 
 export const postStopStream = () => {
-  return post('/api/stream/stop').then(() => getStreamStatus());
+  return post('/stream/stop').then(() => getStreamStatus());
 };
 
 export const getStreamStats = () => {
-  return get('/api/stream/log').then(res => res.currentLog);
+  return get('/stream/log').then(res => res.currentLog);
 };
-
-

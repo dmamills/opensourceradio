@@ -20,7 +20,7 @@ class AudioUpload extends Component {
   componentDidMount() {
     const headers = getHeaders();
     this.dropzone = new Dropzone('div#dropzoneEl', {
-      url: `${SERVER_URL}/api/library`,
+      url: `${SERVER_URL}/library`,
       headers,
       previewTemplate,
       acceptedFiles,
