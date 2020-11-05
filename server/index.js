@@ -15,7 +15,7 @@ const { MessageRepository } = require('./repo');
 const { SERVER_PORT } = process.env;
 
 const server = http.createServer(app);
-const io = socketio(server);
+const io = socketio(server, { path: '/api'});
 
 app.disable('etag');
 app.use(morgan('dev'));

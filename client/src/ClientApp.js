@@ -11,7 +11,7 @@ import { SERVER_URL } from './api';
 
 const ClientApp = () => {
   const [socket] = useState(() => {
-    return io.connect(SERVER_URL);
+    return io.connect(SERVER_URL, { path: '/api/api' });
   });
 
   return (
