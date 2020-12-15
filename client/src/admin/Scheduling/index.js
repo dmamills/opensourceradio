@@ -36,6 +36,7 @@ const Scheduling = () => {
   const [selectedSchedule, setSelectedSchedule] = useState(null);
   const fetchSchedules = () => { schedulesToDaysOfWeek().then(setSchedules); }
   const back = () => { setShowEdit(false); }
+
   const onEdit = (chosenSchedule) => {
     setShowEdit(true);
     setSelectedSchedule(chosenSchedule);
@@ -60,7 +61,7 @@ const Scheduling = () => {
         <div className={cn(flex, spaceBetween, flexCenter)}>
         <h1>Scheduling</h1>
           <div>
-            <button onClick={() => { setShowEdit(!showEdit)}}>{showEdit ? 'Back': 'Create New Schedule'}</button>
+            <button onClick={() => { if(!showEdit) { onEdit(null);} else { setShowEdit(false);} }}>{showEdit ? 'Back': 'Create New Schedule'}</button>
             <button onClick={() => { fetchSchedules(); }}>Refresh</button>
           </div>
         </div>

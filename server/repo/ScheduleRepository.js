@@ -2,7 +2,7 @@ const knex = require('knex')(require('../knexfile').development);
 const moment = require('moment');
 
 const tableName = 'schedules';
-const fields = ['id', 'name', 'description', 'start_time', 'length', 'playlist', 'created_at', 'updated_at'];
+const fields = ['id', 'name', 'description', 'start_time', 'length', 'playlist', 'shuffle', 'created_at', 'updated_at'];
 
 const { createTimestamps, updateTimestamp, sortByDate, DATE_FORMAT } = require('../util');
 

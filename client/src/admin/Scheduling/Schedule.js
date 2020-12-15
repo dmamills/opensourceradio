@@ -3,7 +3,7 @@ import { findMetadataForSong, calculateLengthFromDuration, DATE_FORMAT } from '.
 import { updateSchedule, createSchedule, getLibrary } from '../api';
 
 class Schedule {
-  constructor({ id, name, description, playlist, start_time, length, dropdown }) {
+  constructor({ id, name, description, playlist, start_time, length, dropdown, shuffle }) {
     this.id = id;
     this.name = name;
     this.description = description;
@@ -11,10 +11,17 @@ class Schedule {
     this.length = length;
     this.dropdown = dropdown;
     this.start_time = start_time;
+    this.shuffle = !!shuffle;
   }
 
   async toDropdown() {
     await getLibrary()
+
+    if(this.playlist.length === 1 && this.playlist[0] === '') {
+      this.playlist = [];
+      return Promise.resolve([]);  
+    }
+    
     return  Promise.all(this.playlist.map(async (song, idx) => {
         return findMetadataForSong(song)
           .then(s => ({ label: this.playlist[idx], value: this.playlist[idx], data: s}));
@@ -22,6 +29,7 @@ class Schedule {
   }
 
   isValid() {
+    console.log('isValid',this);
     if(this.playlist.length === 0) return false;
     if(this.name === '') return false;
     if(this.description === '') return false;
@@ -36,6 +44,7 @@ class Schedule {
       playlist: '',
       dropdown: [],
       length: 0,
+      shuffle: false,
     });
   }
 
@@ -46,6 +55,7 @@ class Schedule {
       start_time: this.start_time,
       description: this.description,
       length: this.length,
+      shuffle: this.shuffle,
       playlist: this.dropdown.map(s => s.label).join(','),
     };
   }
