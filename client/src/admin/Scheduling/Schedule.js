@@ -3,7 +3,7 @@ import { findMetadataForSong, calculateLengthFromDuration, DATE_FORMAT } from '.
 import { updateSchedule, createSchedule, getLibrary } from '../api';
 
 class Schedule {
-  constructor({ id, name, description, playlist, start_time, length, dropdown }) {
+  constructor({ id, name, description, playlist, start_time, length, dropdown, shuffle }) {
     this.id = id;
     this.name = name;
     this.description = description;
@@ -11,6 +11,7 @@ class Schedule {
     this.length = length;
     this.dropdown = dropdown;
     this.start_time = start_time;
+    this.shuffle = !!shuffle;
   }
 
   async toDropdown() {
@@ -36,6 +37,7 @@ class Schedule {
       playlist: '',
       dropdown: [],
       length: 0,
+      shuffle: false,
     });
   }
 
@@ -46,6 +48,7 @@ class Schedule {
       start_time: this.start_time,
       description: this.description,
       length: this.length,
+      shuffle: this.shuffle,
       playlist: this.dropdown.map(s => s.label).join(','),
     };
   }

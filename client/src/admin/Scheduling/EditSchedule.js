@@ -85,7 +85,8 @@ const EditSchedule = (props) => {
             defaultValue={schedule.name}
             placeholder="name"
             onChange={onChange('name')}
-            className={cn(flex2, ml1)} type="text"
+            className={cn(flex2, ml1)}
+            type="text"
           />
         </Label>
         <Label labelName="Description">
@@ -120,6 +121,16 @@ const EditSchedule = (props) => {
             loadOptions={fetchLibrary}
             onChange={onSelectChange}
             className={cn(flex2 , ml1)}
+          />
+        </Label>
+
+        <Label labelName="Shuffle Playlist" spaceBetween={false}>
+          <input
+            type="checkbox"
+            defaultChecked={schedule.shuffle}
+            placeholder="shuffle"
+            onChange={onChange('shuffle')}
+            className={cn(ml1)}
           />
         </Label>
 
