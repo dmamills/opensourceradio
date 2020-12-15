@@ -2,6 +2,6 @@ import React from 'react';
 
 import { humanDurationOfPlaylist } from '../../../utils';
 
-const Runtime = ({ playlist, isPast = false }) => <p>It {isPast ? 'ran' : 'will run'} for {humanDurationOfPlaylist(playlist)} playing {playlist.length} songs.</p>
+const Runtime = ({ playlist, isShuffle = false }) => <p>It will run for <strong>{humanDurationOfPlaylist(playlist)}</strong> {isShuffle? 'shuffling' : 'playing'} <strong>{playlist.length}</strong> songs.</p>
 
 export default Runtime;
