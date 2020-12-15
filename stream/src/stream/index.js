@@ -37,12 +37,8 @@ const runStream = (audioPath, metadata, commandFn) => {
 
     command
       .on('start', commandFn)
-      .on('end', () => {
-        resolve();
-      })
-      .on('error', (err, stdout, stderr) => {
-        reject(err);
-      });
+      .on('end', resolve)
+      .on('error', reject);
 
       command.save(STREAM_URL);
   });

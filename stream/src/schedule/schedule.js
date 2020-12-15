@@ -10,12 +10,13 @@ class Schedule {
    * @param {number} length
    * @param {array<string>} playlist
    */
-  constructor(name, startTime, length, playlist, id = 'generated_schedule') {
+  constructor(name, startTime, length, playlist, shuffle, id = 'generated_schedule') {
     this.id = id;
     this.name = name;
     this.startTime = startTime;
     this.length = length;
     this.playlist = playlist;
+    this.shuffle = shuffle;
   }
 
   isActive() {
@@ -33,13 +34,14 @@ class Schedule {
       moment(schedule.start_time, SQL_FORMAT),
       schedule.length,
       schedule.playlist.split(','),
+      schedule.shuffle,
       schedule.id
     );
   }
 
   static todaysSchedules() {
     const currentDOW = moment().format('dddd');
-    return knex(['id','name', 'length', 'start_time', 'playlist'])
+    return knex(['id','name', 'length', 'start_time', 'playlist', 'shuffle'])
     .from('schedules')
     .where('deleted_at', null)
     .then(schedules => {
