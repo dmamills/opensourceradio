@@ -16,6 +16,12 @@ class Schedule {
 
   async toDropdown() {
     await getLibrary()
+
+    if(this.playlist.length === 1 && this.playlist[0] === '') {
+      this.playlist = [];
+      return Promise.resolve([]);  
+    }
+    
     return  Promise.all(this.playlist.map(async (song, idx) => {
         return findMetadataForSong(song)
           .then(s => ({ label: this.playlist[idx], value: this.playlist[idx], data: s}));
@@ -23,6 +29,7 @@ class Schedule {
   }
 
   isValid() {
+    console.log('isValid',this);
     if(this.playlist.length === 0) return false;
     if(this.name === '') return false;
     if(this.description === '') return false;

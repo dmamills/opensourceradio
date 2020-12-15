@@ -40,6 +40,11 @@ const EditSchedule = (props) => {
     }
   }
 
+  const onShuffleChange = () => {
+    const updatedSchedule = { ...schedule, shuffle: !schedule.shuffle };
+      setSchedule(new Schedule(updatedSchedule));
+  }
+
   const onSubmit = () => {
     if(!schedule.isValid()) return;
     schedule.submit().then(() => {
@@ -129,7 +134,7 @@ const EditSchedule = (props) => {
             type="checkbox"
             defaultChecked={schedule.shuffle}
             placeholder="shuffle"
-            onChange={onChange('shuffle')}
+            onChange={onShuffleChange}
             className={cn(ml1)}
           />
         </Label>
