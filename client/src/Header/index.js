@@ -1,33 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import cn from 'classnames';
 
-import { p1, flex, spaceBetween, m0, whiteText, link, alignSelfCenter, mr1, mainTheme, ph1 } from '../styles';
+import { p1, flex, spaceBetween, m0, whiteText, link, alignSelfCenter, mr1 } from '../styles';
 import { getSchedules } from '../api';
 import Schedules from './Schedules';
 import UserList from './UserList';
-
-import stylish from '@dmamills/stylish';
-
-const modalContainer = stylish({
-  position: 'absolute',
-  top: '50px',
-  right: '0',
-  height: '600px',
-  width: '600px',
-  overflowY: 'scroll',
-  padding: '1rem',
-});
-
-const NewsList = () => ( <div className={cn(modalContainer, mainTheme, whiteText)}>
-<div className={cn(flex, spaceBetween, ph1)}>
-  <h1 className={m0}>opensourceradio news!</h1>
-</div>
-<div className={cn(p1)}>
-  <p>hello world</p>
-
-</div>
-</div>)
-
+import NewsList from './NewsList';
 
 const Header = ({ socket }) => {
   const [showUsers, setShowUsers] = useState(false);
@@ -56,8 +34,6 @@ const Header = ({ socket }) => {
     setShowNews(false);
   }
 
-
-
   const onUserlistClick = () => {
     unsetTabs()
     setShowUsers(true);
@@ -77,35 +53,44 @@ const Header = ({ socket }) => {
     setShowNews(true);
   }
 
+  const headerItems = [
+    {
+      testid: 'userlist',
+      className: cn(link, mr1),
+      onClick: showUsers ? hideUsers : onUserlistClick,
+      href: '#userlist',
+      content: `${showUsers ? 'Hide' : 'Show'} userlist`
+    },
+    {
+      testid: 'schedules',
+      className: cn(link, mr1),
+      onClick: showSchedules ? hideSchedules : onSchedulesClick,
+      href: '#schedules',
+      content: `${showSchedules ? 'Hide' : 'Show'} schedules`
+    },
+    {
+      testid: 'news',
+      className: cn(link, mr1),
+      onClick: showNews ? hideNews : onNewsClick,
+      href: '#news',
+      content: `${showNews ? 'Hide' : 'Show'} news`
+    },
+  ]
+
   return (
     <header className={cn(flex, p1, spaceBetween)}>
       <h1 className={cn(alignSelfCenter, m0, whiteText)}>opensourceradio</h1>
       <div>
-        <a
-          data-testid="userlist"
-          className={cn(link, mr1)}
-          onClick={(showUsers ? hideUsers : onUserlistClick)}
-          href="#userlist"
-        >
-          {showUsers ? 'Hide' : 'Show'} userlist
-        </a>
-        <a
-          data-testid="schedules"
-          className={cn(link, mr1)}
-          onClick={(showSchedules ? hideSchedules : onSchedulesClick)}
-          href="#schedules"
-        >
-          {showSchedules ? 'Hide' : 'Show'} schedule
-        </a>
-        <a
-          data-testid="news"
-          className={link}
-          onClick={(showNews ? hideNews : onNewsClick)}
-          href="#news"
-        >
-          {showNews ? 'Hide' : 'Show'} news
-        </a>
-
+        {headerItems.map(({testid, className, onClick, href, content}) => {
+          return (<a
+            data-testid={testid}
+            className={className}
+            onClick={onClick}
+            href={href}
+          >
+            {content}
+          </a>
+        )})}
       </div>
       { showSchedules && <Schedules schedules={schedules} /> }
       { showUsers && <UserList users={users} /> }
