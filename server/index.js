@@ -10,7 +10,7 @@ const bodyParser = require('body-parser');
 const { NodeMediaServer } = require('node-media-server');
 const mediaServerConfig = require('./mediaServerConfig');
 const api = require('./routes/api');
-const { MessageRepository } = require('./repo');
+const { MessageRepository, SongLogRepository } = require('./repo');
 
 const { SERVER_PORT } = process.env;
 
@@ -52,13 +52,19 @@ io.on('connection', function(socket) {
   });
 
   socket.on('message', msg => {
-    if(msg.name)
-      MessageRepository.create(msg)
-        .then(result => {
+    if(!msg.name) { return; }
+
+    SongLogRepository.latestSong()
+      .then(songName => {
+        MessageRepository.create(msg, songName)
+        .then(() => {
           io.emit('message', msg);
         }).catch(err => {
           socket.emit('message-error', err);
         });
+      })
+
+
   });
 
   socket.on('disconnect', () => {
