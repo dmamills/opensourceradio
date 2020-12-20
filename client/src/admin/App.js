@@ -5,6 +5,7 @@ import LoginPage from './Login';
 import Tabs from './Tabs';
 import Scheduling from './Scheduling';
 import Library from './Library';
+import News from './News';
 import StreamPage from './Stream';
 import { fetchKey } from './api';
 
@@ -20,6 +21,7 @@ const defaultTabs = [
   { key: 'scheduling', component: Scheduling, name: 'Scheduling' },
   { key: 'library', component: Library, name: 'Library' },
   { key: 'stream', component: StreamPage, name: 'Stream'},
+  { key: 'news', component: News, name: 'News' },
 ];
 
 const App = () => {
