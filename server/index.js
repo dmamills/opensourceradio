@@ -51,20 +51,16 @@ io.on('connection', function(socket) {
     emitUsers('user-left');
   });
 
-  socket.on('message', msg => {
+  socket.on('message', async (msg) => {
     if(!msg.name) { return; }
 
-    SongLogRepository.latestSong()
-      .then(songName => {
-        MessageRepository.create(msg, songName)
-        .then(() => {
-          io.emit('message', msg);
-        }).catch(err => {
-          socket.emit('message-error', err);
-        });
-      })
-
-
+    try {
+      const active_song = await SongLogRepository.latestSong();
+      await MessageRepository.create(msg, active_song);
+      io.emit('message', {...msg, active_song });
+    } catch(e) {
+      socket.emit('message-error', err);
+    }
   });
 
   socket.on('disconnect', () => {
