@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "migrate:latest": "./node_modules/.bin/knex migrate:latest",
+    "migrate:down": "./node_modules/.bin/knex migrate:down",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
