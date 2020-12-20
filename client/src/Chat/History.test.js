@@ -1,11 +1,10 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import History from './History';
-import Message from './Message';
 
 describe('History Component', () => {
   it('renders without crashing', () => {
-    const { getByText } = render(<History messages={[]} renderMessage={m => Message(m)}/>);
+    const { getByText } = render(<History messages={[]} />);
     expect(getByText('No Messages Yet!')).toBeInTheDocument();
   });
 
@@ -18,7 +17,7 @@ describe('History Component', () => {
 
 
     //TODO fix: getText to be based on timestamp
-    const { getByText } = render(<History messages={[testMessage]} renderMessage={m => Message(m)}/>);
+    const { getByText } = render(<History messages={[testMessage]} />);
     expect(getByText(testMessage.message)).toBeInTheDocument();
     expect(getByText(`<${testMessage.name}>`)).toBeInTheDocument();
     expect(getByText(`[01:00]`)).toBeInTheDocument();

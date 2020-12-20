@@ -23,11 +23,11 @@ stylish.raw(`
   }
 `);
 
-export const [ containerBox, textAreaHeight, width50px] = stylish({
+export const [ containerBox, textAreaHeight, width50px, inlineBlock] = stylish({
     display: 'flex',
     flexFlow: 'column',
     height: '100%'
-}, { height: '6rem' }, { width: '50px' });
+}, { height: '6rem' }, { width: '50px' }, {display: 'inline-block'});
 
 export const [ table, tableHeader, tableBody ] = stylish({
     borderCollapse: 'collapse',
@@ -112,6 +112,7 @@ export const [
   textDecorationNone,
   debugBox,
   uppercase,
+  cursorPointer,
  ] = stylish(
   { color: 'white' },
   { color: 'black' },
@@ -123,6 +124,7 @@ export const [
   { textDecoration: 'none' },
   { border: '1px solid black' },
   { textTransform: 'uppercase'},
+  { cursor: 'pointer' },
 );
 
 export const [

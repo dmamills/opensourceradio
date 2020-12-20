@@ -3,7 +3,6 @@ import cn from 'classnames';
 
 import ChatInput from './ChatInput';
 import History from './History';
-import Message from './Message';
 import { flex, column, flex2, ph1 } from '../styles';
 import { getName, setName as setStorageName, getHistory } from '../api';
 
@@ -66,7 +65,6 @@ const Chat = ({ socket }) => {
     <div className={cn(flex, flex2, column, ph1)}>
       <History
         messages={messages}
-        renderMessage={m => Message(m)}
       />
       <ChatInput
         name={name}

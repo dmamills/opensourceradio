@@ -1,6 +1,8 @@
 import React, { useRef, useEffect } from 'react';
 import cn from 'classnames';
 import stylish from '@dmamills/stylish';
+
+import Message from './Message';
 import { p0, m0, flex, justifyEnd, column } from '../styles';
 
 const chatBox = stylish({
@@ -8,7 +10,7 @@ const chatBox = stylish({
   overflowY: 'scroll',
 });
 
-const History = ({ messages, renderMessage }) => {
+const History = ({ messages }) => {
   const messagesEl = useRef(null);
 
   useEffect(() => {
@@ -21,8 +23,8 @@ const History = ({ messages, renderMessage }) => {
       ref={messagesEl}
     >
       <ul className={cn(flex, column, justifyEnd, m0, p0)}>
-        { messages.length ? messages.map(renderMessage) :
-          renderMessage({ message: 'No Messages Yet!', name: 'Admin', timestamp: Date() })
+        { messages && messages.length ? messages.map(m => <Message key={`${m.message}${m.name}${m.timestamp}`} message={m} />) :
+          <Message message={{name: 'Admin', message:'No Messages Yet!', timestamp: Date() }} />
         }
       </ul>
     </div>

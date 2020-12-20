@@ -10,7 +10,7 @@ const bodyParser = require('body-parser');
 const { NodeMediaServer } = require('node-media-server');
 const mediaServerConfig = require('./mediaServerConfig');
 const api = require('./routes/api');
-const { MessageRepository } = require('./repo');
+const { MessageRepository, SongLogRepository } = require('./repo');
 
 const { SERVER_PORT } = process.env;
 
@@ -51,14 +51,16 @@ io.on('connection', function(socket) {
     emitUsers('user-left');
   });
 
-  socket.on('message', msg => {
-    if(msg.name)
-      MessageRepository.create(msg)
-        .then(result => {
-          io.emit('message', msg);
-        }).catch(err => {
-          socket.emit('message-error', err);
-        });
+  socket.on('message', async (msg) => {
+    if(!msg.name) { return; }
+
+    try {
+      const active_song = await SongLogRepository.latestSong();
+      await MessageRepository.create(msg, active_song);
+      io.emit('message', {...msg, active_song });
+    } catch(e) {
+      socket.emit('message-error', err);
+    }
   });
 
   socket.on('disconnect', () => {
