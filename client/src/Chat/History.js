@@ -23,8 +23,8 @@ const History = ({ messages }) => {
       ref={messagesEl}
     >
       <ul className={cn(flex, column, justifyEnd, m0, p0)}>
-        { messages.length ? messages.map(m => <Message key={`${m.message}${m.name}${m.timestamp}`} message={m} />) :
-          <Message message={'No Messages Yet!'} name='Admin' timestamp={Date()} />
+        { messages && messages.length ? messages.map(m => <Message key={`${m.message}${m.name}${m.timestamp}`} message={m} />) :
+          <Message message={{name: 'Admin', message:'No Messages Yet!', timestamp: Date() }} />
         }
       </ul>
     </div>
