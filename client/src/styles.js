@@ -89,6 +89,7 @@ export const [
   flex2,
   flexAuto,
   alignSelfCenter,
+  alignSelfStart,
   flexWrap,
 ] = stylish(
   { display: 'flex' },
@@ -106,6 +107,7 @@ export const [
   { flex: '2' },
   { flex: '1 1 auto'},
   { alignSelf: 'center' },
+  { alignSelf: 'flex-start' },
   { flexWrap: 'wrap' },
 );
 
