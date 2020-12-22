@@ -9,7 +9,6 @@ import NewsBox from './NewsBox';
 const [editBox, height400] = stylish({ width: '600px' }, { height: '400px'});
 
 const News = () => {
-  const [isEditing, setEditing] = useState(true);
   const [content, setContent] = useState('');
   const [title, setTitle] = useState('');
   const [news, setNews] = useState([]);
@@ -68,7 +67,6 @@ const News = () => {
               id="title"
               className={cn(flex2, ml1)}
               type="text"
-              disabled={!isEditing}
               onChange={onChangeTitle}
             />
           </div>
@@ -80,7 +78,6 @@ const News = () => {
                 id="content"
                 className={cn(flex,flex1, ml1, height400)}
                 type="text"
-                disabled={!isEditing}
                 onChange={onChangeContent}
               />
             </div>
