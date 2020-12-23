@@ -7,9 +7,12 @@ import { parseTime } from '../utils';
 import SongLogBox from './SongLogBox';
 
 const msgStyles = stylish({
-  position: 'fixed',
-  zIndex:2,
-  boxShadow: '10px 10px 5px 0px rgba(0,0,0,0.10)',
+  ':nth-child(odd)': {
+    backgroundColor: 'rgba(211,211,211, 0.2)'
+  },
+  ":nth-child(even)": {
+    backgroundColor: 'rgba(169,169,169, 0.2)'
+  }
 });
 
 const Message = ({ message }) => {
