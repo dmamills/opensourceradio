@@ -24,3 +24,9 @@ export function getSchedules() {
   .then(res => res.json())
   .then(res => res.schedules);
 }
+
+export function getNews() {
+  return fetch(`${SERVER_URL}/news`)
+  .then(res => res.json())
+  .then(res => res.news);
+}

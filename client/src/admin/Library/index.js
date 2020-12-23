@@ -27,6 +27,7 @@ const Library = () => {
 
   return (
     <div className={cn(p1)}>
+      <h1>Library</h1>
       <div className={cn(flex, spacedEvenly)}>
         <Browser
           library={library}

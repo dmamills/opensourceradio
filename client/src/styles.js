@@ -23,11 +23,19 @@ stylish.raw(`
   }
 `);
 
-export const [ containerBox, textAreaHeight, width50px, inlineBlock] = stylish({
+export const [ containerBox, textAreaHeight, width50px, inlineBlock, modalContainer] = stylish({
     display: 'flex',
     flexFlow: 'column',
     height: '100%'
-}, { height: '6rem' }, { width: '50px' }, {display: 'inline-block'});
+}, { height: '6rem' }, { width: '50px' }, {display: 'inline-block'}, {
+  position: 'absolute',
+  top: '50px',
+  right: '0',
+  height: '600px',
+  width: '600px',
+  overflowY: 'scroll',
+  padding: '1rem',
+});
 
 export const [ table, tableHeader, tableBody ] = stylish({
     borderCollapse: 'collapse',
@@ -81,6 +89,7 @@ export const [
   flex2,
   flexAuto,
   alignSelfCenter,
+  alignSelfStart,
   flexWrap,
 ] = stylish(
   { display: 'flex' },
@@ -98,6 +107,7 @@ export const [
   { flex: '2' },
   { flex: '1 1 auto'},
   { alignSelf: 'center' },
+  { alignSelf: 'flex-start' },
   { flexWrap: 'wrap' },
 );
 

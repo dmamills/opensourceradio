@@ -130,3 +130,15 @@ export const postStopStream = () => {
 export const getStreamStats = () => {
   return get('/stream/log').then(res => res.currentLog);
 };
+
+export const getNews = () => {
+  return get('/news').then(res => res.news);
+}
+
+export const postNews = (news) => {
+  return post('/news', news).then(res => res.news);
+}
+
+export const deleteNews = (id) => {
+  return del(`/news/${id}`);
+}
