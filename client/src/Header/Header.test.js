@@ -14,7 +14,8 @@ describe('Header Component', () => {
     expect(onSpy).toBeCalledTimes(2);
     expect(getByText('opensourceradio')).toBeInTheDocument();
     expect(getByText('Show userlist')).toBeInTheDocument();
-    expect(getByText('Show schedule')).toBeInTheDocument();
+    expect(getByText('Show schedules')).toBeInTheDocument();
+    expect(getByText('Show news')).toBeInTheDocument();
   });
 
   it('should disconnect from websocket channels on unmount', () => {

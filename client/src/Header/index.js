@@ -83,6 +83,7 @@ const Header = ({ socket }) => {
       <div>
         {headerItems.map(({testid, className, onClick, href, content}) => {
           return (<a
+            key={testid}
             data-testid={testid}
             className={className}
             onClick={onClick}
