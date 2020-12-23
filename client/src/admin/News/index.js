@@ -3,7 +3,7 @@ import cn from 'classnames';
 import stylish from '@dmamills/stylish';
 
 import { flex, flex1,  p1, ph1, alignSelfStart, column, spaceBetween, heavyText,alignItemsCenter, p05, flex2, ml1, pt05 } from '../../styles';
-import { getNews, postNews } from '../api';
+import { deleteNews, getNews, postNews } from '../api';
 import NewsBox from './NewsBox';
 
 const [editBox, height400] = stylish({ width: '600px' }, { height: '400px'});
@@ -39,6 +39,18 @@ const News = () => {
     }
   }
 
+  const onDelete = async (id) => {
+    if(!window.confirm('Are you sure you want to delete?')) return;
+
+    try {
+      await deleteNews(id)
+      const updatedNews = await getNews();
+      setNews(updatedNews);
+    } catch(e) {
+
+    }
+  }
+
   const onClear = () => {
     setContent('');
     setTitle('');
@@ -50,7 +62,7 @@ const News = () => {
       <div className={cn(flex, ph1, spaceBetween)}>
         <div class={cn(editBox)}>
           <h2>Current News</h2>
-          {news.map(n => <NewsBox key={n.id} news={n} />)}
+          {news.map(n => <NewsBox key={n.id} news={n} onDelete={onDelete} />)}
         </div>
         <div className={cn(flex2)}>
           <div className={cn(flex, spaceBetween, alignItemsCenter)}>

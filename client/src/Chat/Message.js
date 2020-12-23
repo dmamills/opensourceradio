@@ -41,8 +41,7 @@ const Message = ({ message }) => {
       key={`${name}-${timestamp}`}
     >
       <div>
-
-        <strong onMouseOver={onEnter} onMouseLeave={onLeave} className={cn(whiteText, cursorPointer)}>[{parseTime(timestamp)}]</strong>
+        <strong onMouseEnter={onEnter} onMouseOut={onLeave} className={cn(whiteText, cursorPointer)}>[{parseTime(timestamp)}]</strong>
         <strong className={whiteText}>{` <${name}> `}</strong>
         <span className={whiteText}>{message.message}</span>
         {showSong && <SongLogBox song={active_song} position={songLogPosition} />}

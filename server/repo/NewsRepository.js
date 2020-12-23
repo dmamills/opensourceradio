@@ -1,9 +1,10 @@
 const knex = require('knex')(require('../knexfile').development);
+const moment = require('moment');
 
 const tableName = 'news';
 const fields = ['id', 'title', 'content', 'created_at', 'updated_at'];
 
-const { sortByDate, createTimestamps } = require('../util');
+const { sortByDate, createTimestamps, DATE_FORMAT } = require('../util');
 
 class NewsRepository {
   static get(id) {

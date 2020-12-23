@@ -138,3 +138,7 @@ export const getNews = () => {
 export const postNews = (news) => {
   return post('/news', news).then(res => res.news);
 }
+
+export const deleteNews = (id) => {
+  return del(`/news/${id}`);
+}

@@ -24,4 +24,11 @@ router.post('/', (req, res) => {
     })
     .catch(errorHandler(res));
 });
+
+router.delete('/:id', (req, res) => {
+  NewsRepository.remove(req.params.id)
+  .then(result => res.json({ result }))
+  .catch(errorHandler(res));
+})
+
 module.exports = router;
