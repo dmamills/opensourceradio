@@ -33,7 +33,7 @@ const runStream = (audioPath, metadata, commandFn) => {
       `-f flv`
     ]);
 
-    command = command.complexFilter(addFilters(metadata));
+    command = command.complexFilter(addFilters(metadata, audioPath));
 
     command
       .on('start', commandFn)
