@@ -3,7 +3,7 @@ const overlayText = require('./overlay');
 const FRAMES_PER_SECOND = '24';
 const DELAY_IN_MILLI = 3000;
 
-const addFilters = metadata => {
+const addFilters = (metadata, audioPath) => {
 
   let complexFilterString = '';
   complexFilterString += `[1:a] adelay=${DELAY_IN_MILLI}|${DELAY_IN_MILLI} [delayedaudio]; `;
@@ -12,7 +12,7 @@ const addFilters = metadata => {
   complexFilterString += `[0:v] fps=fps=${FRAMES_PER_SECOND}`;
 
   //const overlayTextFilterString = "";
-  const overlayTextFilterString = overlayText(metadata);
+  const overlayTextFilterString = overlayText(metadata, audioPath);
   if (overlayTextFilterString) {
     if (complexFilterString.length > 0) {
       complexFilterString += `, `;

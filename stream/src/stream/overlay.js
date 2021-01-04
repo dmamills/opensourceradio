@@ -4,7 +4,8 @@ const {
   FONT_SIZE,
   FONT_COLOR,
   FONT_BORDER,
-  OVERLAY_TITLE
+  OVERLAY_TITLE,
+  AUDIO_PATH,
 } = getConfig();
 
 const FONT_PATH = `${process.cwd()}/assets/font/scp.ttf`;
@@ -28,7 +29,7 @@ const createOverlayText = (text, x, y) => {
       `:x=(w * ${(x / 100).toFixed(2)})`;
 }
 
-const addOverlay = metadata => {
+const addOverlay = (metadata, audioPath) => {
   const { common } = metadata;
   let overlayString = '';
   const overlayTextItems = [];
@@ -48,6 +49,11 @@ const addOverlay = metadata => {
 
   if(common.title) {
     overlayTextItems.push(createOverlayText(common.title, X_POSITION, yPosition));
+  }
+
+  if(!common.artist && !common.title && !common.album) {
+    const songName = audioPath.replace(AUDIO_PATH, '');
+    overlayTextItems.push(createOverlayText(songName, X_POSITION, yPosition));
   }
 
   overlayTextItems.forEach((item, index) => {
