@@ -40,7 +40,6 @@ const del = url => {
     method: 'DELETE'
   })
   .then(res => res.json());
-
 };
 
 export const authTest = key => {
@@ -130,6 +129,10 @@ export const postStopStream = () => {
 export const getStreamStats = () => {
   return get('/stream/log').then(res => res.currentLog);
 };
+
+export const removeSongLogs = () => {
+  return post('/stream/removeSongLog', {}).then(res => res.ok)
+}
 
 export const getNews = () => {
   return get('/news').then(res => res.news);

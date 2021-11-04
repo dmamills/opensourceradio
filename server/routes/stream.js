@@ -39,13 +39,27 @@ router.get('/status', authMiddleware, (req, res) => {
   pm2.describe(processInfo.name, onStatus(res));
 });
 
-router.get('/log', authMiddleware, (req, res) => {
-  SongLogRepository.latest()
-    .then(logs => {
-      const currentLog = logs[0];
-      delete currentLog.ffmpeg_command;
-      res.json({ currentLog });
-    });
+router.post('/removeSongLog', authMiddleware, async (req, res) => {
+  try {
+    await SongLogRepository.removeAll();
+    await SongLogRepository.vaccum();
+    return res.json({ ok: true });
+  } catch {
+    return res.json({ ok: false });
+  }
+})
+
+router.get('/log', authMiddleware, async (req, res) => {
+  const logs = await SongLogRepository.latest()
+  const total = await SongLogRepository.count()
+
+  const currentLog = logs[0];
+  delete currentLog.ffmpeg_command;
+
+  res.json({
+    currentLog,
+    total
+  })
 });
 
 module.exports = router;

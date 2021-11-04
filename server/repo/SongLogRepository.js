@@ -3,13 +3,28 @@ const tableName = 'song_log';
 
 const { ROOT_AUDIO_PATH, getFiles, filesToFolders, sanitizeFilename } = require('../util');
 
-
 class SongLogRepository {
   static latest() {
     return knex.select('*')
       .from(tableName)
       .orderBy('created_at', 'DESC')
       .limit(1);
+  }
+
+  static count() {
+    //TODO: how can I alias this?
+    return knex.count('id')
+      .from(tableName)
+      .first()
+      .then(res => res['count(`id`)'])
+  }
+
+  static removeAll() {
+    return knex(tableName).truncate();
+  }
+
+  static vaccum() {
+    return knex.schema.raw("VACUUM");
   }
 
   static latestSong() {

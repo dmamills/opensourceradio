@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import StreamControls from './StreamControls';
 import StreamStat from './StreamStat';
-import { getStreamStats } from '../api';
+import { getStreamStats, removeSongLogs } from '../api';
 import { formatDate, makeDefaultStreamStats } from '../../utils';
 import { p1 } from '../../styles';
 
@@ -33,11 +33,18 @@ const StreamPage = () => {
   const stopTime = formatDate(streamStats.schedule_stop_time);
   const playlist = streamStats.schedule_playlist.split(',');
 
+  const clearSongLogs = () => {
+    removeSongLogs().then(result => {
+      console.log('clear song log: ', result)
+    });
+  }
+
   return (
     <div className={p1}>
       <h1>Stream</h1>
       <StreamControls />
-
+      <h2>Utility</h2>
+      <button onClick={clearSongLogs}>Clear Song Logs</button>
       <h2>Stream State:</h2>
       { !loading && <div>
         <StreamStat label="Schedule Id" value={streamStats.schedule_id} />
