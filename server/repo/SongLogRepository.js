@@ -1,7 +1,7 @@
 const knex = require('knex')(require('../knexfile').development);
 const tableName = 'song_log';
 
-const { ROOT_AUDIO_PATH, getFiles, filesToFolders, sanitizeFilename } = require('../util');
+const { ROOT_AUDIO_PATH } = require('../util');
 
 class SongLogRepository {
   static latest() {
@@ -12,7 +12,6 @@ class SongLogRepository {
   }
 
   static count() {
-    //TODO: how can I alias this?
     return knex.count('id')
       .from(tableName)
       .first()

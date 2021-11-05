@@ -6,7 +6,8 @@ class MessageRepository {
     return knex.select('name', 'message', knex.raw('created_at as timestamp'), 'active_song')
     .from(tableName)
     .orderBy('created_at', 'DESC')
-    .limit(50);
+    .limit(50)
+    .then(h => h.reverse());
   }
 
   static create(message, songName = '') {

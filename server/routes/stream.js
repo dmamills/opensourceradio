@@ -2,9 +2,9 @@ require('dotenv').config();
 const express = require('express');
 const router = express.Router();
 const pm2 = require('pm2');
-const { SongLogRepository } = require('../repo');
 
-const { errorHandler, authMiddleware } = require('./middleware');
+const { SongLogRepository } = require('../repo');
+const { authMiddleware } = require('./middleware');
 
 const processInfo = {
   name: process.env.STREAM_NAME,
