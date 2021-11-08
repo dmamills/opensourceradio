@@ -12,16 +12,15 @@ router.use('/schedules', schedulesRouter);
 router.use('/stream', streamRouter);
 router.use('/news', newsRouter);
 
-router.get('/history', (req, res) => {
-  MessageRepository.latest()
-  .then((history) => {
-    history = history.reverse();
+router.get('/history', async (req, res) => {
+  try {
+    const history = await MessageRepository.latest()
     res.json({
       history
     });
-  }).catch(error => {
+  } catch(err) {
     res.json({ history: [] });
-  });
+  }
 });
 
 module.exports = router;

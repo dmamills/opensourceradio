@@ -1,8 +1,7 @@
 const knex = require('knex')(require('../knexfile').development);
 const tableName = 'song_log';
 
-const { ROOT_AUDIO_PATH, getFiles, filesToFolders, sanitizeFilename } = require('../util');
-
+const { ROOT_AUDIO_PATH } = require('../util');
 
 class SongLogRepository {
   static latest() {
@@ -10,6 +9,21 @@ class SongLogRepository {
       .from(tableName)
       .orderBy('created_at', 'DESC')
       .limit(1);
+  }
+
+  static count() {
+    return knex.count('id')
+      .from(tableName)
+      .first()
+      .then(res => res['count(`id`)'])
+  }
+
+  static removeAll() {
+    return knex(tableName).truncate();
+  }
+
+  static vaccum() {
+    return knex.schema.raw("VACUUM");
   }
 
   static latestSong() {

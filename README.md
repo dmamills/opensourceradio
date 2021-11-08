@@ -1,4 +1,4 @@
-# opensourceradio ![travis-ci](https://api.travis-ci.org/dmamills/opensourceradio.svg?branch=master)
+# opensourceradio ![travis-ci](https://api.travis-ci.org/dmamills/opensourceradio.svg?branch=master) 
 
 a proof of concept for self hosting streaming radio.
 
