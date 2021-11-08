@@ -50,16 +50,25 @@ router.post('/removeSongLog', authMiddleware, async (req, res) => {
 })
 
 router.get('/log', authMiddleware, async (req, res) => {
-  const logs = await SongLogRepository.latest()
-  const total = await SongLogRepository.count()
 
-  const currentLog = logs[0];
-  delete currentLog.ffmpeg_command;
+  try {
+    const logs = await SongLogRepository.latest()
+    const total = await SongLogRepository.count()
 
-  res.json({
-    currentLog,
-    total
-  })
+    const currentLog = logs[0];
+    delete currentLog.ffmpeg_command;
+
+    res.json({
+      currentLog,
+      total
+    })
+  } catch(err) {
+    console.log('CAUGHT ERROR IN LOG', err.message)
+    return res.status(400).json({
+      currentLog: null,
+      total: 0
+    })
+  }
 });
 
 module.exports = router;

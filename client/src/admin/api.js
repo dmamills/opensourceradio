@@ -9,7 +9,6 @@ export const fetchKey = () => {
 
 export const storeKey = key => {
   if(!key) return localStorage.removeItem(OSR_KEY);
-
   return localStorage.setItem(OSR_KEY, key);
 };
 
@@ -20,7 +19,11 @@ const get = url => {
   return fetch(`${SERVER_URL}${url}`, {
     headers
   })
-  .then(res => res.json());
+  .then(response => {
+    if(response.status >= 400) return Promise.reject(response.json())
+    return response
+  })
+  .then(res => res.json())
 };
 
 const post = (url, data) => {
@@ -127,7 +130,7 @@ export const postStopStream = () => {
 };
 
 export const getStreamStats = () => {
-  return get('/stream/log').then(res => res.currentLog);
+  return get('/stream/log').then(res => ({ currentLog: res.currentLog, total: res.total}));
 };
 
 export const removeSongLogs = () => {
