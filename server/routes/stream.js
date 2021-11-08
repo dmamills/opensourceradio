@@ -2,9 +2,9 @@ require('dotenv').config();
 const express = require('express');
 const router = express.Router();
 const pm2 = require('pm2');
-const { SongLogRepository } = require('../repo');
 
-const { errorHandler, authMiddleware } = require('./middleware');
+const { SongLogRepository } = require('../repo');
+const { authMiddleware } = require('./middleware');
 
 const processInfo = {
   name: process.env.STREAM_NAME,
@@ -39,13 +39,36 @@ router.get('/status', authMiddleware, (req, res) => {
   pm2.describe(processInfo.name, onStatus(res));
 });
 
-router.get('/log', authMiddleware, (req, res) => {
-  SongLogRepository.latest()
-    .then(logs => {
-      const currentLog = logs[0];
-      delete currentLog.ffmpeg_command;
-      res.json({ currentLog });
-    });
+router.post('/removeSongLog', authMiddleware, async (req, res) => {
+  try {
+    await SongLogRepository.removeAll();
+    await SongLogRepository.vaccum();
+    return res.json({ ok: true });
+  } catch {
+    return res.json({ ok: false });
+  }
+})
+
+router.get('/log', authMiddleware, async (req, res) => {
+
+  try {
+    const logs = await SongLogRepository.latest()
+    const total = await SongLogRepository.count()
+
+    const currentLog = logs[0];
+    delete currentLog.ffmpeg_command;
+
+    res.json({
+      currentLog,
+      total
+    })
+  } catch(err) {
+    console.log('CAUGHT ERROR IN LOG', err.message)
+    return res.status(400).json({
+      currentLog: null,
+      total: 0
+    })
+  }
 });
 
 module.exports = router;
