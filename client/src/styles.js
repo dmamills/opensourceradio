@@ -123,6 +123,7 @@ export const [
   debugBox,
   uppercase,
   cursorPointer,
+  cursorNotAllowed
  ] = stylish(
   { color: 'white' },
   { color: 'black' },
@@ -135,6 +136,7 @@ export const [
   { border: '1px solid black' },
   { textTransform: 'uppercase'},
   { cursor: 'pointer' },
+  { cursor: 'not-allowed' },
 );
 
 export const [

@@ -11,6 +11,7 @@ import { flex, spaceBetween, p05, flex2, ml1, justifyEnd, textAreaHeight } from 
 import Label from './Label';
 import Preview from './Preview';
 import Schedule from './Schedule';
+import Button from '../components/Button';
 
 const EditSchedule = (props) => {
   const [schedule, setSchedule] = useState(null);
@@ -146,7 +147,11 @@ const EditSchedule = (props) => {
         </Label>
 
         <div className={cn(flex, spaceBetween, justifyEnd, p05)}>
-          <button disabled={!schedule.isValid()} onClick={onSubmit}>Submit</button>
+          <Button
+            disabled={!schedule.isValid()}
+            onClick={onSubmit}
+            text="Submit"
+          />
         </div>
       </div>
     </div>

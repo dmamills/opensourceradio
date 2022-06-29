@@ -4,6 +4,7 @@ import stylish from '@dmamills/stylish';
 import cn from 'classnames';
 
 import { p05, pv05, flex, column, ml1, cursorPointer } from '../../styles';
+import Button from '../components/Button';
 
 const blockStyles = stylish({
   border: '1px solid black',
@@ -21,8 +22,16 @@ const SingleBlock = ({ schedule, onEdit, onDelete }) => {
         <span className={pv05}>{start} - {end}</span>
       </div>
       <div>
-        <button className={cn(cursorPointer, p05)} onClick={() => onEdit(schedule)}>Edit</button>
-        <button className={cn(ml1, p05, cursorPointer)} onClick={() => { onDelete(schedule)}}>Delete</button>
+        <Button
+          className={cn(cursorPointer, p05)}
+          onClick={() => onEdit(schedule)}
+          text="Edit"
+        />
+        <Button
+          className={cn(ml1, p05, cursorPointer)}
+          onClick={() => { onDelete(schedule)}}
+          text="Delete"
+        />
       </div>
     </div>
   );
