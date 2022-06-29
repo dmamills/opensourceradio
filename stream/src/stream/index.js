@@ -1,18 +1,18 @@
 const ffmpeg = require('fluent-ffmpeg');
 
-const { getConfig } = require('../utils');
+const { getConfig, osrLog } = require('../utils');
 const addOptions = require('./options');
 const addFilters = require('./filters');
 
 const { FFMPEG_PATH, VIDEO_PATH, STREAM_URL } = getConfig();
 
 if(FFMPEG_PATH && FFMPEG_PATH !== "") {
-  console.log('Setting custom ffmpeg path: ', FFMPEG_PATH);
+  osrLog('Setting ffmpeg Path: ', FFMPEG_PATH);
   ffmpeg.setFfmpegPath(FFMPEG_PATH);
 }
 
 const runStream = (audioPath, metadata, commandFn) => {
-  console.log(`Starting ffmpeg process.\nStreaming to ${STREAM_URL}`);
+  osrLog(`ffmpeg process start: ${STREAM_URL}`);
 
   return new Promise((resolve, reject) => {
     let command = ffmpeg();
