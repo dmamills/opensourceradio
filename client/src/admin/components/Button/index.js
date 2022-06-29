@@ -3,16 +3,16 @@ import stylish from '@dmamills/stylish';
 import cn from 'classnames';
 import { cursorPointer, cursorNotAllowed } from '../../../styles';
 
-const buttonStyles = stylish({
+const buttonStyles = stylish(({ brandBlue, brandBlue08 }) => ({
   padding: '1rem',
   border: 'none',
   fontSize: '0.8rem',
   color: 'white',
-  backgroundColor: 'rgba(107,127,149)',
+  backgroundColor: brandBlue,
   ':hover': {
-    backgroundColor: 'rgba(107,127,149, 0.8)',
+    backgroundColor: brandBlue08,
   }
-})
+}))
 
 const Button = ({ onClick, text, className, disabled=false }) => {
   return <button

@@ -15,6 +15,7 @@ class AudioUpload extends Component {
     isUploading: false,
     fileCount: 0,
     folderName: '',
+    error: null,
   }
 
   componentDidMount() {
@@ -71,12 +72,13 @@ class AudioUpload extends Component {
   }
 
   onError = error => {
-    console.log('error', error);
+    const message = JSON.parse(error.xhr.response).error
+    this.setState({ isUploading: false, error: message });
   }
 
   onUpload = () => {
     this.dropzone.processQueue();
-    this.setState({ isUploading: true });
+    this.setState({ isUploading: true, error: null });
   }
 
   onClear = () => {
@@ -89,7 +91,7 @@ class AudioUpload extends Component {
   }
 
   render() {
-    const { isUploading, fileCount, folderName } = this.state;
+    const { isUploading, fileCount, folderName, error } = this.state;
     const hasNoFiles = fileCount === 0;
     return (
       <div className={cn(p1)}>
@@ -115,6 +117,7 @@ class AudioUpload extends Component {
         </div>
 
         {isUploading && <div>CURRENTLY UPLOADING</div>}
+        {error && <div>Error: {error}</div>}
         <div id="dropzoneEl" className={cn(p1, dropzoneStyles, { flex: hasNoFiles }, { flexCenter: hasNoFiles })}>
           {(hasNoFiles) && <span>Drop files, or click here</span>}
         </div>

@@ -243,3 +243,9 @@ export const [ mainTheme, mainTheme08, mainThemeBg, mainTheme08Bg, whiteBg ] = s
   { backgroundColor: 'rgba(107,127,149, 0.8)' },
   { backgroundColor: 'rgba(255, 255, 255, 1)' },
 );
+
+
+stylish.createTheme({
+  brandBlue: 'rgb(107,127,149)',
+  brandBlue08: 'rgba(107,127,149, 0.8)'
+});
