@@ -24,6 +24,7 @@ class LibraryService {
       fx.mkdirSync(audioPath);
     }
 
+    if(!files || files.length === 0) return Promise.reject('No files found');
     return Promise.all(files.map(file => {
       const { path, name } = file;
       return copyFile(path, `${audioPath}${sanitizeFilename(name)}`);

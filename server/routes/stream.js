@@ -61,13 +61,12 @@ router.get('/log', authMiddleware, async (req, res) => {
     res.json({
       currentLog,
       total
-    })
+    });
   } catch(err) {
-    console.log('CAUGHT ERROR IN LOG', err.message)
     return res.status(400).json({
       currentLog: null,
       total: 0
-    })
+    });
   }
 });
 
