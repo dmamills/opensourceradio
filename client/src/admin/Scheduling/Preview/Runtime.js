@@ -2,6 +2,13 @@ import React from 'react';
 
 import { humanDurationOfPlaylist } from '../../../utils';
 
-const Runtime = ({ playlist, isShuffle = false }) => <p>It will run for <strong>{humanDurationOfPlaylist(playlist)}</strong> {isShuffle? 'shuffling' : 'playing'} <strong>{playlist.length}</strong> songs.</p>
+const Runtime = ({ playlist, isShuffle = false }) => {
+  return (
+    <>
+      <p>Duration: <strong>{humanDurationOfPlaylist(playlist)}</strong> {isShuffle? 'shuffling' : 'playing'} </p>
+      <p>Length: <strong>{playlist.length}</strong> song{playlist.length > 1 ? 's':''}</p>
+    </>
+  );
+}
 
 export default Runtime;

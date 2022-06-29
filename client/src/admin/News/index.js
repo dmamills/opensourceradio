@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import cn from 'classnames';
 import stylish from '@dmamills/stylish';
 
-import { flex, flex1,  p1, ph1, alignSelfStart, column, spaceBetween, heavyText,alignItemsCenter, p05, flex2, ml1, pt05 } from '../../styles';
+import { flex, flex1,  p1, ph1, alignSelfStart, column, spaceBetween, heavyText,alignItemsCenter, p05, flex2, ml1 } from '../../styles';
 import { deleteNews, getNews, postNews } from '../api';
 import NewsBox from './NewsBox';
 

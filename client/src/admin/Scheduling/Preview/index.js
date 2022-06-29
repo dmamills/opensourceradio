@@ -11,9 +11,9 @@ const Preview = ({ schedule }) => {
 
   return (
     <div>
-      <p>This schedule is scheduled to run every <strong>{dayOfWeek}</strong></p>
-      <p>Starting <strong>{startTime.format('dddd MMMM Do')}</strong></p>
-      <p>It will play from <strong>{startTime.format('hh:mm a')}</strong> until <strong>{endTime.format('hh:mm a')}</strong></p>
+      <p>This schedule will run every <strong>{dayOfWeek}</strong></p>
+      <p>Starting <strong>{startTime.format('MMMM Do')}</strong></p>
+      <p>Running from: <strong>{startTime.format('hh:mm a')}</strong> until <strong>{endTime.format('hh:mm a')}</strong></p>
       <Runtime playlist={schedule.dropdown} isShuffle={schedule.shuffle} />
     </div>
   );

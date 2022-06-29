@@ -7,7 +7,7 @@ import EditSchedule from './EditSchedule';
 
 import { getSchedules, removeSchedule } from '../api';
 import { reduceByKey, DATE_FORMAT, DAYS_OF_WEEK } from '../../utils';
-import { p1, flex, column, spaceBetween, flexCenter, flexWrap } from '../../styles';
+import { ml1, p1, flex, column, spaceBetween, flexCenter, flexWrap } from '../../styles';
 
 const schedulesToDaysOfWeek = async () => {
   const schedules = await getSchedules();
@@ -62,7 +62,7 @@ const Scheduling = () => {
         <h1>Scheduling</h1>
           <div>
             <button onClick={() => { if(!showEdit) { onEdit(null);} else { setShowEdit(false);} }}>{showEdit ? 'Back': 'Create New Schedule'}</button>
-            <button onClick={() => { fetchSchedules(); }}>Refresh</button>
+            <button className={ml1} onClick={() => { fetchSchedules(); }}>Refresh</button>
           </div>
         </div>
         {showEdit ? <EditSchedule
