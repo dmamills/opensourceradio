@@ -2,37 +2,19 @@ const fs = require('fs');
 const moment = require('moment');
 const knex = require('knex')(require('../knexfile').development);
 
-const TIME_FORMAT = 'MMM DD YYYY HH:mma';
+const SHORT_FORMAT = 'HH:mma';
+const TIME_FORMAT = `MMM DD YYYY ${SHORT_FORMAT}`;
 
 const getConfig = () => require('../config.json');
 const { AUDIO_PATH } = getConfig();
+const osrLog = msg => console.log(`[osr stream] ${msg}`);
 
-const pad = n => n < 10 ? `0${n}` : n;
 const getNextIndex = (arr, n) => n + 1 >= arr.length ? 0 : n + 1;
 
-const printMetadata = metadata => {
-  const { common, format } = metadata;
-  const length = Math.floor(format.duration);
-  const minutes = Math.floor(length / 60);
-  const seconds = length % 60;
-
-  console.log(`\n\tArtist: ${common.artist}`);
-  console.log(`\tAlbum: ${common.album}`);
-  console.log(`\tTitle: ${common.title}`);
-  console.log(`\tLength: ${pad(minutes)}:${pad(seconds)}\n`);
-
-  return metadata;
-};
-
 const printSchedule = schedule => {
-  console.log(`\n\tPlaying Schedule: ${schedule.name}`);
-  console.log(`\tStart Time: ${schedule.startTime.format(TIME_FORMAT)}`);
-  console.log(`\tEnd Time: ${schedule.endTime().format(TIME_FORMAT)}`);
-  if(schedule.length <= 1) {
-    console.log(`\tPlaying for: ${Math.ceil(schedule.length * 60)} minutes`);
-  } else {
-    console.log(`\tPlaying for: ${schedule.length} hour${schedule.length > 1 ? 's' : ''}`);
-  }
+  osrLog(`Schedule: ${schedule.name} Start: ${schedule.startTime.format(SHORT_FORMAT)} End: ${schedule.endTime().format(SHORT_FORMAT)}`);
+  const duration = schedule.length <= 1 ? `${Math.ceil(schedule.length * 60)} minutes` : `${schedule.length} hour${schedule.length > 1 ? 's' : ''}`;
+  osrLog(`Duration: ${duration}`);
 };
 
 function shuffleArray(a) {
@@ -74,7 +56,7 @@ const timeTillNextBlockInHours = (startTime = moment()) => {
 };
 
 module.exports = {
-  printMetadata,
+  osrLog,
   printSchedule,
   getNextIndex,
   shuffleArray,

@@ -11,25 +11,31 @@ import { flex, spaceBetween, p05, flex2, ml1, justifyEnd, textAreaHeight } from 
 import Label from './Label';
 import Preview from './Preview';
 import Schedule from './Schedule';
+import Button from '../components/Button';
 
 const EditSchedule = (props) => {
   const [schedule, setSchedule] = useState(null);
 
   useEffect(() => {
-    if(props.schedule) {
-      let scheduleModel = new Schedule({...props.schedule});
-      scheduleModel.toDropdown().then(songs => {
-        scheduleModel.dropdown = songs;
-        setSchedule(scheduleModel);
-      })
-      .catch((err) => {
-        console.log(err);
-        alert('Something is wrong with this schedule. Aborting!');
-        props.back();
-      });
-    } else {
-      setSchedule(Schedule.defaultSchedule());
+    const fetchSchedule = async () => {
+      if(props.schedule) {
+        let scheduleModel = new Schedule({...props.schedule});
+        try {
+        const songs = await scheduleModel.toDropdown();
+          scheduleModel.dropdown = songs;
+          setSchedule(scheduleModel);
+
+        } catch(err) {
+          console.log(err);
+          alert('Something is wrong with this schedule. Aborting!');
+          props.back();
+        }
+      } else {
+        setSchedule(Schedule.defaultSchedule());
+      }
     }
+
+    fetchSchedule();
   }, [props.schedule]);
 
   const onChange = (field) => {
@@ -45,13 +51,14 @@ const EditSchedule = (props) => {
       setSchedule(new Schedule(updatedSchedule));
   }
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     if(!schedule.isValid()) return;
-    schedule.submit().then(() => {
+    try {
+      await schedule.submit();
       props.back();
-    }).catch(error => {
-      console.log('error', error);
-    });
+    } catch (err) {
+      console.log('error', err);
+    }
   }
 
   const fetchLibrary = input => {
@@ -140,7 +147,11 @@ const EditSchedule = (props) => {
         </Label>
 
         <div className={cn(flex, spaceBetween, justifyEnd, p05)}>
-          <button disabled={!schedule.isValid()} onClick={onSubmit}>Submit</button>
+          <Button
+            disabled={!schedule.isValid()}
+            onClick={onSubmit}
+            text="Submit"
+          />
         </div>
       </div>
     </div>

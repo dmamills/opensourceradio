@@ -4,6 +4,7 @@ import StreamControls from './StreamControls';
 import StreamStat from './StreamStat';
 import { getStreamStats, removeSongLogs } from '../api';
 import { formatDate, makeDefaultStreamStats } from '../../utils';
+import Button from '../components/Button';
 import { p1 } from '../../styles';
 
 const StreamPage = () => {
@@ -49,7 +50,10 @@ const StreamPage = () => {
       <h1>Stream</h1>
       <StreamControls />
       <h2>Utility</h2>
-      <button onClick={clearSongLogs}>Clear Song Logs</button>
+      <Button
+        text="Clear Song Logs"
+        onClick={clearSongLogs}
+      />
       <h2>Stream State:</h2>
       { !loading && <div>
         <StreamStat label="Song Log Count" value={songLogTotal} />

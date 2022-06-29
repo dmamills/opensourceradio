@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@dmamills/stylish": "^1.2.2",
+    "@dmamills/stylish": "^1.4.2",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.4.0",
     "classnames": "^2.2.6",

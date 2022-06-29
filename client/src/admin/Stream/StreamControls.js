@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 
 import StreamStat from './StreamStat';
+import Button from '../components/Button';
 import { getStreamStatus, postStartStream, postStopStream } from '../api';
+import { ml1 } from '../../styles';
 
 const StreamControls = () => {
   const [streamStatus, setStreamStatus] = useState(null);
@@ -35,8 +37,8 @@ const StreamControls = () => {
         <StreamStat label="Current Status" value={statusMessage} />
       </div>
       <div>
-        <button onClick={onStart}>Start</button>
-        <button onClick={onStop}>Stop</button>
+        <Button onClick={onStart} text="Start" />
+        <Button className={ml1} onClick={onStop} text="Stop" />
       </div>
     </>
   );

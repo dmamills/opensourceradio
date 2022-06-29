@@ -5,7 +5,7 @@ const musicMetadata = require('music-metadata');
 
 const stream = require('./src/stream');
 const { findCurrentSchedule } = require('./src/schedule');
-const { TIME_FORMAT, writeToSongLog, getNextIndex, printSchedule, getConfig } = require('./src/utils');
+const { osrLog, TIME_FORMAT, writeToSongLog, getNextIndex, printSchedule, getConfig } = require('./src/utils');
 const { AUDIO_PATH } = getConfig();
 
 let appState = {
@@ -23,7 +23,7 @@ const updateState = (currentSchedule, lastSongPlayed, songCount) => {
 const playSong = async () => {
   const { currentSchedule, lastSongPlayed } = appState;
   const currentAudioPath = `${AUDIO_PATH}${currentSchedule.playlist[lastSongPlayed]}`;
-  console.log(`Playing song #${lastSongPlayed} ${currentAudioPath}`);
+  osrLog(`playing song #${lastSongPlayed} ${currentAudioPath}`);
 
   try {
     if(!fs.existsSync(currentAudioPath)) throw new Error(`${currentAudioPath} not found`);
@@ -40,7 +40,7 @@ const playSong = async () => {
 };
 
 const onSongFinished = msg => {
-  console.log(`Song finished ${msg ? msg : ''}`);
+  osrLog(`ffmpeg finished ${msg ? msg : ''}`);
   updateState(
     appState.currentSchedule,
     appState.lastSongPlayed,
@@ -50,30 +50,37 @@ const onSongFinished = msg => {
 };
 
 const onSongError = err => {
-  console.log('stream error:', err);
+  osrLog('stream error:', err);
   process.exit(-1);
 };
 
-const onScheduleSet = (schedule, nextSongIndex) => {
+const onScheduleSet = async (schedule, nextSongIndex) => {
   printSchedule(schedule);
   updateState(schedule, nextSongIndex);
-  playSong().then(onSongFinished, onSongError).catch(onSongError);
+  try {
+    const message = await playSong();
+    onSongFinished(message);
+  } catch(err) {
+    onSongError(err)
+  }
 };
 
-const radioInterval = () => {
+const radioInterval = async () => {
   const { currentSchedule, lastSongPlayed, songCount } = appState;
   const currentTime = moment().format(TIME_FORMAT);
-  console.log(`opensourceradio stream interval.\ncurrent time: ${currentTime}`);
+
+  osrLog(`stream interval ${currentTime}`);
 
   if(!currentSchedule) {
-    console.log('Getting current schedule...');
-    findCurrentSchedule().then(schedule => onScheduleSet(schedule, 0));
+    osrLog('Getting current schedule...');
+    const schedule = await findCurrentSchedule();
+    onScheduleSet(schedule, 0);
   } else if (currentSchedule.isActive()) {
-    console.log(`Continuing schedule, song count: ${songCount}`);
+    osrLog(`Continuing schedule, song count: ${songCount}`);
     const nextSongIndex = getNextIndex(currentSchedule.playlist, lastSongPlayed);
     onScheduleSet(currentSchedule, nextSongIndex);
   } else {
-    console.log('Searching for next schedule, calling onSongFinished');
+    osrLog('Searching for next schedule, calling onSongFinished');
     updateState(null, 0);
     onSongFinished();
   }

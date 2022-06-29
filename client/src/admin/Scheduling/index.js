@@ -4,10 +4,11 @@ import moment from 'moment';
 
 import DayOfWeek from './DayOfWeek';
 import EditSchedule from './EditSchedule';
+import Button from '../components/Button';
 
 import { getSchedules, removeSchedule } from '../api';
 import { reduceByKey, DATE_FORMAT, DAYS_OF_WEEK } from '../../utils';
-import { p1, flex, column, spaceBetween, flexCenter, flexWrap } from '../../styles';
+import { ml1, p1, flex, column, spaceBetween, flexCenter, flexWrap } from '../../styles';
 
 const schedulesToDaysOfWeek = async () => {
   const schedules = await getSchedules();
@@ -55,14 +56,29 @@ const Scheduling = () => {
 
   useEffect(() => { fetchSchedules() }, [false]);
 
+  const editHandler = () => {
+    if(!showEdit) {
+      onEdit(null);
+    } else {
+      setShowEdit(false);
+    }
+  }
+
   return (
     <div className={cn(p1)}>
       <div className={cn(flex, column)}>
         <div className={cn(flex, spaceBetween, flexCenter)}>
         <h1>Scheduling</h1>
           <div>
-            <button onClick={() => { if(!showEdit) { onEdit(null);} else { setShowEdit(false);} }}>{showEdit ? 'Back': 'Create New Schedule'}</button>
-            <button onClick={() => { fetchSchedules(); }}>Refresh</button>
+            <Button
+              onClick={editHandler}
+              text={showEdit ? 'Back': 'Create New Schedule'}
+            />
+            <Button
+              onClick={() => { fetchSchedules(); }}
+              text="Refresh"
+              className={ml1}
+            />
           </div>
         </div>
         {showEdit ? <EditSchedule
