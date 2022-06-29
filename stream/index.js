@@ -61,12 +61,9 @@ const onScheduleSet = async (schedule, nextSongIndex) => {
     const message = await playSong();
     onSongFinished(message);
   } catch(err) {
-    onSongError(error)
+    onSongError(err)
   }
-
 };
-
-
 
 const radioInterval = async () => {
   const { currentSchedule, lastSongPlayed, songCount } = appState;
