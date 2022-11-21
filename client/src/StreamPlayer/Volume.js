@@ -27,7 +27,7 @@ const Volume = ({ onVolumeChange }) => {
         max="1"
         step="0.05"
         value={volume}
-        onChange={onChange}
+        onInput={onChange}
       />
       <span className={volumeLabel}>{volumeValue}%</span>
     </div>
