@@ -17,12 +17,8 @@ let videoFiles = null;
 const getRandomVideoFilePath = async () => {
   if(!videoFiles) {
     const files = await fs.readdir(VIDEO_PATH);
-    videoFiles = files.filter((name) => {
-      return name.endsWith('.mp4')
-    });
+    videoFiles = files.filter((name) => name.endsWith('.mp4'));
   }
-
-  console.log(videoFiles)
 
   return `${VIDEO_PATH}${videoFiles[Math.floor(Math.random() * videoFiles.length)]}`;
 }
