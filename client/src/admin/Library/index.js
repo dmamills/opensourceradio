@@ -11,12 +11,13 @@ const Library = () => {
   const [library, setLibrary] = useState({});
   const [selectedFile, setSelectedFile] = useState(null);
 
-  const fetchLibrary = () => {
-    getLibrary()
-      .then(setLibrary)
-      .catch(err => {
-        console.log('error fetching library: ', err);
-      });
+  const fetchLibrary =  async () => {
+    try {
+      const fetchedLibrary = await getLibrary()
+      setLibrary(fetchedLibrary);
+    } catch(err) {
+      console.log('error fetching library: ', err);
+    }
   }
 
   const selectFile = (file) => setSelectedFile(file);

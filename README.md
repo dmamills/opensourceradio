@@ -1,4 +1,4 @@
-# opensourceradio ![travis-ci](https://api.travis-ci.org/dmamills/opensourceradio.svg?branch=master) 
+# opensourceradio ![travis-ci](https://api.travis-ci.org/dmamills/opensourceradio.svg?branch=master)
 
 a proof of concept for self hosting streaming radio.
 
@@ -39,6 +39,10 @@ in the client, server, admin, and stream directories, you'll find `.env.example`
 #### audio files
 
 to populate your radio stream, `mkdir stream/assets/audio` and fill the directory with mp3 files of your choosing.
+
+### video files
+
+the `VIDEO_PATH` directory is where you can store `mp4` files that will be used as the video portion of the stream. each song will randomly select one video file in this directory for it's duration.
 
 ### backend
 

@@ -1,3 +1,4 @@
+const fs = require('fs/promises');
 const ffmpeg = require('fluent-ffmpeg');
 
 const { getConfig, osrLog } = require('../utils');
@@ -11,13 +12,26 @@ if(FFMPEG_PATH && FFMPEG_PATH !== "") {
   ffmpeg.setFfmpegPath(FFMPEG_PATH);
 }
 
-const runStream = (audioPath, metadata, commandFn) => {
+let videoFiles = null;
+
+const getRandomVideoFilePath = async () => {
+  if(!videoFiles) {
+    const files = await fs.readdir(VIDEO_PATH);
+    videoFiles = files.filter((name) => name.endsWith('.mp4'));
+  }
+
+  return `${VIDEO_PATH}${videoFiles[Math.floor(Math.random() * videoFiles.length)]}`;
+}
+
+const runStream = async (audioPath, metadata, commandFn) => {
   osrLog(`ffmpeg process start: ${STREAM_URL}`);
 
-  return new Promise((resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
     let command = ffmpeg();
 
-    command = command.input(VIDEO_PATH).inputOptions([ '-stream_loop -1' ]);
+    const videoFilePath = await getRandomVideoFilePath();
+    console.log('Starting stream with video file:', videoFilePath);
+    command = command.input(videoFilePath).inputOptions([ '-stream_loop -1' ]);
     command = command.input(audioPath).audioCodec('copy');
 
     command = command
