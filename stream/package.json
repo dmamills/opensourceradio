@@ -8,7 +8,7 @@
   "dependencies": {
     "dotenv": "^7.0.0",
     "fluent-ffmpeg": "^2.1.2",
-    "knex": "^0.21.8",
+    "knex": "^2.4.0",
     "moment": "^2.24.0",
     "music-metadata": "^3.5.3",
     "sqlite3": "^4.0.9"
