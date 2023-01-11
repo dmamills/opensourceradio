@@ -19,7 +19,7 @@
     "express": "^4.16.4",
     "ffmetadata": "^1.5.0",
     "joi": "^14.3.1",
-    "knex": "^0.19.5",
+    "knex": "^2.4.0",
     "mkdir-recursive": "^0.4.0",
     "moment": "^2.24.0",
     "morgan": "^1.9.1",
