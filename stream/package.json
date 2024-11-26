@@ -9,7 +9,7 @@
     "dotenv": "^7.0.0",
     "fluent-ffmpeg": "^2.1.2",
     "knex": "^0.21.8",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "music-metadata": "^3.5.3",
     "sqlite3": "^4.0.9"
   }
